@@ -2,7 +2,6 @@ package raft
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 //
@@ -79,34 +78,40 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	// Your code here (2A, 2B).
 	rf.Lock()
 	defer rf.Unlock()
-	if DEBUG {
-		fmt.Printf("server %d recieved RequestVote %s with current state %s\n", rf.me, args, rf.String())
-	}
+	DPrintf("server %d recieved RequestVote %s with current state %s\n", rf.me, args, rf.String())
 
 	if args.Term < rf.currentTerm {
 		//if the server requesting vote falls behind,reject
 		reply.VoteGranted = false
 		reply.Term = rf.currentTerm
-		if DEBUG {
-			fmt.Printf("server %d respond RequestVote %s with %s,with current state %s\n", rf.me, args, reply, rf.String())
-		}
+		DPrintf("server %d respond RequestVote %s with %s,with current state %s\n", rf.me, args, reply, rf.String())
 		return
 	} else if args.Term > rf.currentTerm {
 		//if we find that we have fallen behind
-		rf.currentTerm = args.Term
-		rf.votedFor = -1
-		if rf.state != FOLLOWER {
-			if DEBUG {
-				fmt.Printf("server %d  switch to follower,current state %s\n", rf.me, rf.String())
-			}
-			rf.state = FOLLOWER
-			go rf.ticker()
-		}
+		rf.switchToFollowerOfnewTerm(args.Term)
 		reply.Term = rf.currentTerm
 
 	}
+	/*check whether they are  more up-to-date
+	If the logs have last entries with different terms, then
+	the log with the later term is more up-to-date. If the logs
+	end with the same term, then whichever log is longer is
+	more up-to-date*/
+
+	moreUpToDate := true //whether they are more up-to-date
+	lastLogTerm := -1
+	if len(rf.log) != 0 {
+		lastLogTerm = rf.log[len(rf.log)-1].Term
+	}
+	if args.LastLogTerm < lastLogTerm {
+		moreUpToDate = false
+	} else if args.LastLogTerm == lastLogTerm {
+		if args.LastLogIndex < len(rf.log)-1 {
+			moreUpToDate = false
+		}
+	}
 	//check whether i have voted for another peer
-	if rf.votedFor == -1 {
+	if rf.votedFor == -1 && moreUpToDate {
 		//haven't yet
 		rf.votedFor = args.CandidateID
 		reply.VoteGranted = true
@@ -116,9 +121,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 		reply.VoteGranted = false
 		reply.Term = rf.currentTerm
 	}
-	if DEBUG {
-		fmt.Printf("server %d respond RequestVote %s with %s,with current state %s\n", rf.me, args, reply, rf.String())
-	}
+	DPrintf("server %d respond RequestVote %s with %s,with current state %s\n", rf.me, args, reply, rf.String())
 	return
 
 }
