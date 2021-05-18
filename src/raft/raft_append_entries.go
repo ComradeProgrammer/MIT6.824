@@ -49,7 +49,9 @@ func (rf *Raft) sendAppendEntries(server int, args *AppendEntriesArgs, reply *Ap
 	return ok
 }
 
-//handler of AppendRntries RPC
+/**
+	@brief handler of AppendRntries RPC
+*/
 func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
 	//Code of AppendRntries RPC
 	rf.Lock()
@@ -77,10 +79,12 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	if args.PrevLogIndex != -1 {
 		//not trying to overwrite the first log
 		if args.PrevLogIndex >= len(rf.log) {
-			//reject
+			//reject if our log is too short
 			reply.Success = false
 		} else if rf.log[args.PrevLogIndex].Term != args.PrevLogTerm {
 			//reject and set XTerm and XIndex
+			//XTerm is the term of conflicting entry
+			//XIndex is the first entry of the conflicting term in follower
 			reply.XTerm= rf.log[args.PrevLogIndex].Term
 			index:=args.PrevLogIndex
 			for ;index>=0&&rf.log[index].Term==rf.log[args.PrevLogIndex].Term;index--{}
@@ -108,6 +112,16 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 
 }
 
+/**
+	@brief leader will call this function to send  AppendEntries 
+	@detail this function may be called in leaderAppendEntriesTicker, if leader detect that a follower has fallen behind in log for current term
+	this function may also be called in leaderTicker to send a heartbeat message.
+	even we send a heartbeat message with no entries attached, we also need to fill all fields correctly according to nextIndex array,
+	for follower cannot distinguish wherther this is a heartbeat or not.
+
+	if the message is a heartbeat, the entries will be nil, and the PrevLogIndex and PrevLogTerm will be set according to the last log we contain
+	when handle the reply, we use faster rollback mentioned in class
+*/
 func (rf *Raft) leaderAppendEntries(server int) {
 	arg := AppendEntriesArgs{
 		Term:         rf.currentTerm,

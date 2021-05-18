@@ -76,7 +76,7 @@ type Raft struct {
 	// Your data here (2A, 2B, 2C).
 	// Look at the paper's Figure 2 for a description of what
 	// state a Raft server must maintain.
-	applyCh chan ApplyMsg
+	applyCh chan ApplyMsg //channel for upper level protocol to accept logs
 
 	//data structure in figure 2
 	currentTerm int
@@ -86,16 +86,21 @@ type Raft struct {
 	lastApplied int
 	nextIndex   []int //for leader only, initialized when become leader
 	matchIndex  []int //for leader only
+
 	//synchronization and other control messages
 
-	//if we receive any that we should reset timer, set this variable to false immediately
+	//if we receive any message that we should reset timer, set this variable to false immediately
 	timerExpired bool
 	//used to count how many votes we get in an election
-	votesGoted        int
+	votesGoted int
+	//leaderAppendEntries depend on this cond variable to be woken up
 	appendEntriesCond *sync.Cond
 }
 
-//should be used when lock have been retrived
+/**
+@brief convert the state of current raft module into string
+@attention requires lock before being called
+*/
 func (rf *Raft) String() string {
 	var state string
 	switch rf.state {
@@ -246,8 +251,13 @@ func (rf *Raft) killed() bool {
 	return z == 1
 }
 
-// The ticker go routine starts a new election if this peer hasn't received
-// heartsbeats recently.
+/**
+@brief goroutine for follower to check heartbeat periodically
+@detail check whether we have received heartbeat in last ELECTIONINTERVAL period.
+If not, start a election
+if we win the election, this goroutine will be terminated
+
+*/
 func (rf *Raft) ticker() {
 
 	rf.Lock()
@@ -274,6 +284,12 @@ func (rf *Raft) ticker() {
 	}
 
 }
+
+/**
+@brief gorouine for leader to check whether there is any AppendEntriesRPC needs to be sent.
+@detail scan the nextIndex for all server to find one that need to be send  AppendEntriesRPC request
+if no such items is found, wait on rf.appendEntriesCond
+*/
 func (rf *Raft) leaderAppendEntriesTicker(term int) {
 	pos := 0
 	for !rf.killed() {
@@ -320,12 +336,14 @@ func (rf *Raft) leaderAppendEntriesTicker(term int) {
 
 }
 
-
+/**
+@brief goroutine for leader to send out heartbeat message
+*/
 func (rf *Raft) leaderTicker(term int) {
 	for rf.killed() == false {
 		rf.Lock()
 		//send out heartbeat
-		if rf.state != LEADER||rf.currentTerm!=term {
+		if rf.state != LEADER || rf.currentTerm != term {
 			rf.Unlock()
 			//non-leader nolonger need this tick
 			return
@@ -335,9 +353,9 @@ func (rf *Raft) leaderTicker(term int) {
 			if i == rf.me {
 				continue
 			}
-			go func(server int){
+			go func(server int) {
 				rf.Lock()
-				if rf.state != LEADER||rf.currentTerm!=term {
+				if rf.state != LEADER || rf.currentTerm != term {
 					rf.Unlock()
 					return
 				}
@@ -352,8 +370,11 @@ func (rf *Raft) leaderTicker(term int) {
 
 }
 
-//lock should be retrived before call this function
-//lock should be retrived when return from this function
+/**
+@brief start a election.
+@return whether we win the election
+@attention require lock before being called
+*/
 func (rf *Raft) startElection() bool {
 	for {
 		//step0 convert to candidate
@@ -426,7 +447,10 @@ func (rf *Raft) startElection() bool {
 
 }
 
-//dependency: require lock
+/**
+@brief apply Log to upper level protocol
+@attention require lock before being called
+*/
 func (rf *Raft) applyLog(index int) {
 
 	applyMsg := ApplyMsg{

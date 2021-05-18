@@ -1,6 +1,11 @@
 package raft
 
-//dependence: require lock first
+/**
+	@brief change to the follower state and new term
+	@attention require lock before being called 
+	@param term new term number
+	@detail will change to new term, follower state, wipe out data that only belong to leader,and start follower ticker
+*/
 func (rf *Raft) switchToFollowerOfnewTerm(term int) {
 	rf.currentTerm = term
 	rf.votedFor = -1
@@ -13,6 +18,11 @@ func (rf *Raft) switchToFollowerOfnewTerm(term int) {
 	}
 }
 
+/**
+	@brief change to the leader state 
+	@attention require lock before being called 
+	@detail will change to leader state , reconstruct leader data structure and start leaderTicker,leaderAppendEntriesTicker
+*/
 func (rf *Raft) switchToLeader() {
 	if rf.state != LEADER {
 		rf.state = LEADER
@@ -30,8 +40,12 @@ func (rf *Raft) switchToLeader() {
 
 }
 
-//dependence: require lock first
-//No.1 rule for all servers in Figure 2
+
+/**
+	@brief change commitIndex and maintain related rules
+	@attention require lock before being called 
+	@see No.1 rule for all servers in Figure 2
+*/
 func (rf *Raft) updateCommitIndex(commitIndex int) {
 	DPrintf("server %d set commitIndex as %d and try to apply all the logs before it with state%s\n", rf.me, commitIndex, rf.String())
 	rf.commitIndex = commitIndex
@@ -44,8 +58,13 @@ func (rf *Raft) updateCommitIndex(commitIndex int) {
 
 }
 
-//dependence: require lock first
-//No.4 rule for all servers in Figure 2
+/**
+	@brief change MatchIndex for a certain server and maintain related rules
+	@attention require lock before being called 
+	@param server index of server
+	@param new value for rf.matchIndex[server]
+	@see No.1 rule for all servers in Figure 2
+*/
 func (rf *Raft) updateMatchIndex(server, value int) {
 	rf.matchIndex[server] = value
 	DPrintf("server %d setMatchIndex[%d] as %d\n", rf.me, server, value)
