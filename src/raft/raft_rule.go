@@ -24,7 +24,7 @@ func (rf *Raft) switchToLeader() {
 			rf.nextIndex[i] = len(rf.log)
 			rf.matchIndex[i] = -1
 		}
-		go rf.leaderTicker()
+		go rf.leaderTicker(rf.currentTerm)
 		go rf.leaderAppendEntriesTicker(rf.currentTerm)
 	}
 

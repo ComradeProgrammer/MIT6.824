@@ -274,26 +274,76 @@ func (rf *Raft) ticker() {
 	}
 
 }
+func (rf *Raft) leaderAppendEntriesTicker(term int) {
+	pos := 0
+	for !rf.killed() {
+		rf.Lock()
+		var server int
 
-func (rf *Raft) leaderTicker() {
+		//loop protecting the cond.Wait
+		for {
+			if rf.state != LEADER || rf.currentTerm != term {
+				//stop at once if server is nolonger leader or switched to a new term
+				rf.Unlock()
+				return
+			}
+			// check whether it's time to append entries
+			hasNext := false
+			pos = pos % len(rf.peers)
+			for ; pos < len(rf.peers); pos++ {
+				if pos == rf.me {
+					//don't check server itself
+					continue
+				}
+				next := rf.nextIndex[pos]
+				//new log has be found
+				if len(rf.log) > next {
+					hasNext = true
+					server = pos
+					break
+				}
+			}
+			if !hasNext {
+				rf.appendEntriesCond.Wait()
+			} else {
+				break //go to append entries for server found
+			}
+		}
+		//send appendentries for server found
+		//this we won't use another goroutine and won't release lock until the reply is properly handled
+		DPrintf("server %d find log should be appended for server %d with current state %s\n", rf.me, server, rf.String())
+		pos++
+		rf.leaderAppendEntries(server)
+
+		rf.Unlock()
+	}
+
+}
+
+
+func (rf *Raft) leaderTicker(term int) {
 	for rf.killed() == false {
 		rf.Lock()
 		//send out heartbeat
-		if rf.state != LEADER {
+		if rf.state != LEADER||rf.currentTerm!=term {
 			rf.Unlock()
 			//non-leader nolonger need this tick
 			return
 		}
 		for i := 0; i < len(rf.peers); i++ {
-			if rf.state != LEADER {
-				rf.Unlock()
-				//non-leader nolonger need this tick
-				return
-			}
+
 			if i == rf.me {
 				continue
 			}
-			rf.leaderAppendEntries(i)
+			go func(server int){
+				rf.Lock()
+				if rf.state != LEADER||rf.currentTerm!=term {
+					rf.Unlock()
+					return
+				}
+				rf.leaderAppendEntries(server)
+				rf.Unlock()
+			}(i)
 		}
 		//release the lock and sleep
 		rf.Unlock()

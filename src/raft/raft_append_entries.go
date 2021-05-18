@@ -33,6 +33,10 @@ func (r AppendEntriesArgs) String() string {
 type AppendEntriesReply struct {
 	Term    int
 	Success bool
+	//for faster rollback
+	XTerm int
+	XIndex int
+	XLen int
 }
 
 func (r AppendEntriesReply) String() string {
@@ -66,13 +70,21 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	reply.Term = rf.currentTerm
 	//check whether there is a log matches the prevLogIndex
 	reply.Success = true
+	reply.XLen=len(rf.log)
+	reply.XTerm=-1
+	reply.XIndex=-1
+	//if args.PrevLogIndex is -1, that means the whole log needs to be replaced,so just accept all, no need to check the inconsistency
 	if args.PrevLogIndex != -1 {
-		//trying to overwrite the first log
+		//not trying to overwrite the first log
 		if args.PrevLogIndex >= len(rf.log) {
 			//reject
 			reply.Success = false
 		} else if rf.log[args.PrevLogIndex].Term != args.PrevLogTerm {
-			//reject
+			//reject and set XTerm and XIndex
+			reply.XTerm= rf.log[args.PrevLogIndex].Term
+			index:=args.PrevLogIndex
+			for ;index>=0&&rf.log[index].Term==rf.log[args.PrevLogIndex].Term;index--{}
+			reply.XIndex=index+1	
 			reply.Success = false
 		}
 
@@ -122,11 +134,21 @@ func (rf *Raft) leaderAppendEntries(server int) {
 		finishChan <- rf.sendAppendEntries(server, &arg, &reply)
 
 	}()
-
+	term:=rf.currentTerm
+	rf.Unlock()
 	select {
 	case <-expireChan:
+		rf.Lock()
+		if rf.state!=LEADER|| rf.currentTerm!=term{
+			rf.switchToFollowerOfnewTerm(rf.currentTerm)
+		}
 		DPrintf("server %d sendAppendEntries to %d failed for time out, current pos\n", rf.me, server)
 	case ok := <-finishChan:
+		rf.Lock()
+		if rf.state!=LEADER|| rf.currentTerm!=term{
+			rf.switchToFollowerOfnewTerm(rf.currentTerm)
+			return
+		}
 		if !ok {
 			DPrintf("server %d sendAppendEntries to %d failed for return false, current pos\n", rf.me, server)
 		} else {
@@ -137,57 +159,30 @@ func (rf *Raft) leaderAppendEntries(server int) {
 			} else if reply.Term > rf.currentTerm {
 				//switch to follower
 				rf.switchToFollowerOfnewTerm(reply.Term)
-			} else {
-				rf.nextIndex[server]--
-			}
-		}
-
-	}
-
-}
-
-func (rf *Raft) leaderAppendEntriesTicker(term int) {
-	pos := 0
-	for !rf.killed() {
-		rf.Lock()
-		var server int
-
-		//loop protecting the cond.Wait
-		for {
-			if rf.state != LEADER || rf.currentTerm != term {
-				//stop at once if server is nolonger leader or switched to a new term
-				rf.Unlock()
 				return
-			}
-			// check whether it's time to append entries
-			hasNext := false
-			pos = pos % len(rf.peers)
-			for ; pos < len(rf.peers); pos++ {
-				if pos == rf.me {
-					//don't check server itself
-					continue
-				}
-				next := rf.nextIndex[pos]
-				//new log has be found
-				if len(rf.log) > next {
-					hasNext = true
-					server = pos
-					break
-				}
-			}
-			if !hasNext {
-				rf.appendEntriesCond.Wait()
 			} else {
-				break //go to append entries for server found
+				//use faster rollback
+				//rf.nextIndex[server]--
+
+				if reply.XLen<=arg.PrevLogIndex{
+					//case 3,the follower just don't have so many logs
+					rf.nextIndex[server]=reply.XLen
+				}else{
+					//check whether leader have the term in XTerm
+					var index=arg.PrevLogIndex
+					for;index>=0&&rf.log[index].Term!=reply.XTerm;index--{}
+					if index==-1{
+						//no such term is found
+						rf.nextIndex[server]=reply.XIndex
+					}else{
+						//find out the start of that term
+						for;index>=0&&rf.log[index].Term==reply.XTerm;index--{}
+						rf.nextIndex[server]=index+1
+					}
+				}
 			}
 		}
-		//send appendentries for server found
-		//this we won't use another goroutine and won't release lock until the reply is properly handled
-		DPrintf("server %d find log should be appended for server %d with current state %s\n", rf.me, server, rf.String())
-		pos++
-		rf.leaderAppendEntries(server)
-
-		rf.Unlock()
 	}
 
 }
+
