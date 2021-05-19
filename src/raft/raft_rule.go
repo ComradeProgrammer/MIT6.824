@@ -5,12 +5,14 @@ package raft
 	@attention require lock before being called 
 	@param term new term number
 	@detail will change to new term, follower state, wipe out data that only belong to leader,and start follower ticker
+	@attention will cause some changes to persistent state, thus persist() will be called
 */
 func (rf *Raft) switchToFollowerOfnewTerm(term int) {
 	rf.currentTerm = term
 	rf.votedFor = -1
 	rf.matchIndex = nil
 	rf.nextIndex = nil
+	rf.persist()
 	if rf.state != FOLLOWER {
 		DPrintf("server %d switch to follower\n", rf.me)
 		rf.state = FOLLOWER

@@ -117,6 +117,7 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 		reply.VoteGranted = true
 		reply.Term = rf.currentTerm
 		rf.timerExpired = false
+		rf.persist()
 	} else {
 		reply.VoteGranted = false
 		reply.Term = rf.currentTerm

@@ -51,6 +51,8 @@ func (rf *Raft) sendAppendEntries(server int, args *AppendEntriesArgs, reply *Ap
 
 /**
 	@brief handler of AppendRntries RPC
+	@attention this function can change the current state
+	@attention will cause some changes to persistent state, thus persist() will be called
 */
 func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
 	//Code of AppendRntries RPC
@@ -106,6 +108,8 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 			//go to commit the newest log it has
 			rf.updateCommitIndex(newIndex)
 		}
+		rf.persist()
+		
 	}
 
 	DPrintf("server %d respondAppendEntries %s with %s,current state %s\n", rf.me, args, reply, rf.String())
@@ -121,6 +125,8 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 
 	if the message is a heartbeat, the entries will be nil, and the PrevLogIndex and PrevLogTerm will be set according to the last log we contain
 	when handle the reply, we use faster rollback mentioned in class
+
+	@attention this function can change the current state
 */
 func (rf *Raft) leaderAppendEntries(server int) {
 	arg := AppendEntriesArgs{
