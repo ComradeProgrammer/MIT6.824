@@ -99,14 +99,11 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	more up-to-date*/
 
 	moreUpToDate := true //whether they are more up-to-date
-	lastLogTerm := -1
-	if len(rf.log) != 0 {
-		lastLogTerm = rf.log[len(rf.log)-1].Term
-	}
+	lastLogIndex,lastLogTerm:=rf.log.GetLastIndexAndterm()
 	if args.LastLogTerm < lastLogTerm {
 		moreUpToDate = false
 	} else if args.LastLogTerm == lastLogTerm {
-		if args.LastLogIndex < len(rf.log)-1 {
+		if args.LastLogIndex <lastLogIndex {
 			moreUpToDate = false
 		}
 	}

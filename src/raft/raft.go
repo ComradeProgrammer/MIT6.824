@@ -81,7 +81,7 @@ type Raft struct {
 	//data structure in figure 2
 	currentTerm int
 	votedFor    int //whenever we switch to a new term, set votedFor=-1
-	log         []Log
+	log         LogVector
 	commitIndex int
 	lastApplied int
 	nextIndex   []int //for leader only, initialized when become leader
@@ -95,6 +95,7 @@ type Raft struct {
 	votesGoted int
 	//leaderAppendEntries depend on this cond variable to be woken up
 	appendEntriesCond *sync.Cond
+	currentSnapShot []byte
 }
 
 /**
@@ -130,28 +131,6 @@ func (rf *Raft) GetState() (int, bool) {
 	return term, isleader
 }
 
-
-
-//
-// A service wants to switch to snapshot.  Only do so if Raft hasn't
-// have more recent info since it communicate the snapshot on applyCh.
-//
-func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int, snapshot []byte) bool {
-
-	// Your code here (2D).
-
-	return true
-}
-
-// the service says it has created a snapshot that has
-// all info up to and including index. this means the
-// service no longer needs the log through (and including)
-// that index. Raft should now trim its log as much as possible.
-func (rf *Raft) Snapshot(index int, snapshot []byte) {
-	// Your code here (2D).
-
-}
-
 //
 // the service using Raft (e.g. a k/v server) wants to start
 // agreement on the next command to be appended to Raft's log. if this
@@ -178,12 +157,13 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	if rf.state == LEADER {
 		term = rf.currentTerm
 		isLeader = true
-		index = len(rf.log) + 1
+		index = rf.log.Len()
 		newLog := Log{
 			Command: command,
 			Term:    rf.currentTerm,
+			Index: index,
 		}
-		rf.log = append(rf.log, newLog)
+		rf.log.PushBack(newLog)
 		rf.appendEntriesCond.Broadcast()
 		rf.persist()
 		
@@ -194,7 +174,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 		DPrintf("server %d rejected command %v with current state %s\n", rf.me, command, rf.String())
 	}
 
-	return index, term, isLeader
+	return index+1, term, isLeader
 }
 
 //
@@ -280,7 +260,7 @@ func (rf *Raft) leaderAppendEntriesTicker(term int) {
 				}
 				next := rf.nextIndex[pos]
 				//new log has be found
-				if len(rf.log) > next {
+				if rf.log.Len() > next {
 					hasNext = true
 					server = pos
 					break
@@ -358,10 +338,7 @@ func (rf *Raft) startElection() bool {
 		//3,set up election timer
 		ms := ELECTIONINTERVAL + rand.Intn(100)
 		//4. ask for votes from all peers
-		lastLogTerm := -1
-		if len(rf.log) != 0 {
-			lastLogTerm = rf.log[len(rf.log)-1].Term
-		}
+		lastLogIndex,lastLogTerm:=rf.log.GetLastIndexAndterm()
 		for i := 0; i < len(rf.peers); i++ {
 			if i == rf.me {
 				continue
@@ -369,8 +346,8 @@ func (rf *Raft) startElection() bool {
 			var arg = RequestVoteArgs{
 				Term:         rf.currentTerm,
 				CandidateID:  rf.me,
-				LastLogIndex: len(rf.log) - 1, // todo: modify here
-				LastLogTerm:  lastLogTerm,     //todo: modify for next lab
+				LastLogIndex:lastLogIndex, 
+				LastLogTerm:  lastLogTerm,     
 			}
 			go func(server int) {
 				var reply = RequestVoteReply{}
@@ -424,12 +401,18 @@ func (rf *Raft) applyLog(index int) {
 
 	applyMsg := ApplyMsg{
 		CommandValid: true,
-		Command:      rf.log[index].Command,
+		Command:     rf.log.Get(index).Command,
 		CommandIndex: index + 1,
 	}
 	DPrintf("server %d is trying to apply log %v\n", rf.me, applyMsg)
 
-	rf.applyCh <- applyMsg
+	go func(){
+		rf.applyCh <- applyMsg
+		rf.Lock()
+		DPrintf("server %d is finished to apply log %v\n", rf.me, applyMsg)
+		rf.Unlock()
+	}()
+	
 }
 
 //
@@ -456,12 +439,13 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.state = FOLLOWER
 	rf.votedFor = -1
 	rf.currentTerm = 0
-	rf.log = make([]Log, 0)
+	rf.log = NewLogVector()
 	rf.commitIndex = -1
 	rf.lastApplied = -1
 
 	rf.timerExpired = true
 	rf.appendEntriesCond = sync.NewCond(&rf.Mutex)
+	rf.currentSnapShot=nil
 
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())

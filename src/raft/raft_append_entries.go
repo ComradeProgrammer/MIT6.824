@@ -6,16 +6,6 @@ import (
 	"time"
 )
 
-type Log struct {
-	Command interface{}
-	Term    int
-}
-
-func (l Log) String() string {
-	data, _ := json.Marshal(l)
-	return string(data)
-}
-
 type AppendEntriesArgs struct {
 	Term         int
 	LeaderID     int
@@ -74,22 +64,22 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	reply.Term = rf.currentTerm
 	//check whether there is a log matches the prevLogIndex
 	reply.Success = true
-	reply.XLen=len(rf.log)
+	reply.XLen=rf.log.Len()
 	reply.XTerm=-1
 	reply.XIndex=-1
 	//if args.PrevLogIndex is -1, that means the whole log needs to be replaced,so just accept all, no need to check the inconsistency
 	if args.PrevLogIndex != -1 {
 		//not trying to overwrite the first log
-		if args.PrevLogIndex >= len(rf.log) {
+		if args.PrevLogIndex >=rf.log.Len() {
 			//reject if our log is too short
 			reply.Success = false
-		} else if rf.log[args.PrevLogIndex].Term != args.PrevLogTerm {
+		} else if rf.log.Get(args.PrevLogIndex).Term != args.PrevLogTerm {
 			//reject and set XTerm and XIndex
 			//XTerm is the term of conflicting entry
 			//XIndex is the first entry of the conflicting term in follower
-			reply.XTerm= rf.log[args.PrevLogIndex].Term
+			reply.XTerm= rf.log.Get(args.PrevLogIndex).Term
 			index:=args.PrevLogIndex
-			for ;index>=0&&rf.log[index].Term==rf.log[args.PrevLogIndex].Term;index--{}
+			for ;index>=0&&rf.log.Get(index).Term==rf.log.Get(args.PrevLogIndex).Term;index--{}
 			reply.XIndex=index+1	
 			reply.Success = false
 		}
@@ -97,12 +87,14 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	}
 	if reply.Success {
 		//now we should accept the append entry request
-		rf.log = rf.log[:args.PrevLogIndex+1]
-		rf.log = append(rf.log, args.Entries...)
+		//rf.log = rf.log[:args.PrevLogIndex+1]
+		//rf.log = append(rf.log, args.Entries...)
+		rf.log.WipeOutInconsistentLogs(args.PrevLogIndex)
+		rf.log.PushBack(args.Entries...)
 		//check leader commit
 		newIndex := args.LeaderCommit
-		if len(rf.log)-1 < newIndex {
-			newIndex = len(rf.log) - 1
+		if rf.log.Len()-1 < newIndex {
+			newIndex =rf.log.Len() - 1
 		}
 		if newIndex > rf.commitIndex {
 			//go to commit the newest log it has
@@ -127,8 +119,16 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	when handle the reply, we use faster rollback mentioned in class
 
 	@attention this function can change the current state
+	@attention require lock
 */
 func (rf *Raft) leaderAppendEntries(server int) {
+
+	//first, according to whether we should use appendentries or snapshot?
+	if rf.log.PrevIndex!=-1&& rf.nextIndex[server]<=rf.log.PrevIndex{
+		//we should user installsnapshot
+		rf.leaderInstallSnapShot(server)
+		return
+	}
 	arg := AppendEntriesArgs{
 		Term:         rf.currentTerm,
 		LeaderID:     rf.me,
@@ -137,12 +137,12 @@ func (rf *Raft) leaderAppendEntries(server int) {
 		LeaderCommit: rf.commitIndex,
 	}
 	if rf.nextIndex[server]-1 >= 0 {
-		arg.PrevLogTerm = rf.log[rf.nextIndex[server]-1].Term
+		arg.PrevLogTerm = rf.log.Get(rf.nextIndex[server]-1).Term
 	}
-	length := len(rf.log) - rf.nextIndex[server]
+	length := rf.log.Len() - rf.nextIndex[server]
 	arg.Entries = make([]Log, length)
 	for i := 0; i < length; i++ {
-		arg.Entries[i] = rf.log[rf.nextIndex[server]+i]
+		arg.Entries[i] = rf.log.Get(rf.nextIndex[server]+i)
 	}
 	reply := AppendEntriesReply{}
 	DPrintf("server %d sendAppendEntries %s\n", rf.me, arg)
@@ -174,8 +174,8 @@ func (rf *Raft) leaderAppendEntries(server int) {
 		} else {
 			//if success,
 			if reply.Success {
-				rf.nextIndex[server] = len(rf.log)
-				rf.updateMatchIndex(server, len(rf.log)-1)
+				rf.nextIndex[server] = arg.PrevLogIndex+len(arg.Entries)+1
+				rf.updateMatchIndex(server, arg.PrevLogIndex+len(arg.Entries))
 			} else if reply.Term > rf.currentTerm {
 				//switch to follower
 				rf.switchToFollowerOfnewTerm(reply.Term)
@@ -190,13 +190,13 @@ func (rf *Raft) leaderAppendEntries(server int) {
 				}else{
 					//check whether leader have the term in XTerm
 					var index=arg.PrevLogIndex
-					for;index>=0&&rf.log[index].Term!=reply.XTerm;index--{}
+					for;index>=0&&rf.log.Get(index).Term!=reply.XTerm;index--{}
 					if index==-1{
 						//no such term is found
 						rf.nextIndex[server]=reply.XIndex
 					}else{
 						//find out the start of that term
-						for;index>=0&&rf.log[index].Term==reply.XTerm;index--{}
+						for;index>=0&&rf.log.Get(index).Term==reply.XTerm;index--{}
 						rf.nextIndex[server]=index+1
 					}
 				}

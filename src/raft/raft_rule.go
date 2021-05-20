@@ -33,7 +33,7 @@ func (rf *Raft) switchToLeader() {
 		rf.nextIndex = make([]int, len(rf.peers))
 		rf.matchIndex = make([]int, len(rf.peers))
 		for i := 0; i < len(rf.peers); i++ {
-			rf.nextIndex[i] = len(rf.log)
+			rf.nextIndex[i] = rf.log.Len()
 			rf.matchIndex[i] = -1
 		}
 		go rf.leaderTicker(rf.currentTerm)
@@ -71,8 +71,8 @@ func (rf *Raft) updateMatchIndex(server, value int) {
 	rf.matchIndex[server] = value
 	DPrintf("server %d setMatchIndex[%d] as %d\n", rf.me, server, value)
 	//scan for the log needs to be applied
-	for i := len(rf.log) - 1; i >= rf.commitIndex+1; i-- {
-		if rf.log[i].Term < rf.currentTerm {
+	for i := rf.log.Len() - 1; i >= rf.commitIndex+1; i-- {
+		if rf.log.Get(i).Term < rf.currentTerm {
 			continue
 		}
 		//check whether this log has been replicated into a majority servers
