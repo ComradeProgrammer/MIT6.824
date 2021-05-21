@@ -21,6 +21,8 @@ func (rf *Raft) CondInstallSnapshot(lastIncludedTerm int, lastIncludedIndex int,
 	rf.currentSnapShot=snapshot
 	//log index from service starts from 1 
 	rf.log.ReplaceLogs(make([]Log, 0),lastIncludedIndex-1,lastIncludedTerm,lastIncludedIndex)
+	rf.lastApplied=lastIncludedIndex-1
+	rf.commitIndex=lastIncludedIndex-1
 	DPrintf("server %d installed snapshot{lastIncludedTerm:%d, lastIncludedIndex:%d} with current state %s\n",
 		rf.me,lastIncludedTerm,lastIncludedIndex-1,rf.String())
 	
@@ -88,6 +90,7 @@ func  (rf *Raft) leaderInstallSnapShot(server int){
 		}
 		if rf.currentTerm<reply.Term{
 			rf.switchToFollowerOfnewTerm(reply.Term)
+			return
 		}
 		rf.nextIndex[i]=args.LastIncludedIndex+1
 	}(server)
@@ -108,10 +111,10 @@ func(rf *Raft)InstallSnapShot(args *InstallSnapShotArgs, reply *InstallSnapShotR
 		CommandValid: false,
 		SnapshotValid: true,
 		SnapshotTerm: args.LastIncludedTerm,
-		SnapshotIndex: args.LastIncludedIndex,
+		SnapshotIndex: args.LastIncludedIndex+1,
 		Snapshot: args.Data,
 	}
-	rf.applyCh<-msg
+	rf.applyMsgQueue.Pushback(msg)
 	DPrintf("server %d send Snapshot %s to applyCh with current state %s\n",rf.me,args,rf.String())
 	return
 }

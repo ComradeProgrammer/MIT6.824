@@ -35,7 +35,7 @@ const (
 	LEADER    int = 2
 )
 const (
-	HEARTBEATINTERVAL int = 200 // unit:ms should range
+	HEARTBEATINTERVAL int = 150 // unit:ms should range
 	ELECTIONINTERVAL  int = 300 //unit:ms should range from 300-400
 )
 
@@ -96,6 +96,7 @@ type Raft struct {
 	//leaderAppendEntries depend on this cond variable to be woken up
 	appendEntriesCond *sync.Cond
 	currentSnapShot []byte
+	applyMsgQueue *ThreadSafeQueue
 }
 
 /**
@@ -112,9 +113,9 @@ func (rf *Raft) String() string {
 	case LEADER:
 		state = "leader"
 	}
-	return fmt.Sprintf("{\n\tme:%d, state:%s, currentTerm:%d, votedFor:%d, timerExpired:%v, votesGoted:%d, commitIndex:%d\n"+
-		"\tlogs:%v,\n\tnextIndex:%v,\n\t matchIndex:%v\n\t}",
-		rf.me, state, rf.currentTerm, rf.votedFor, rf.timerExpired, rf.votesGoted, rf.commitIndex, rf.log, rf.nextIndex, rf.matchIndex)
+	return fmt.Sprintf("{\n\tme:%d, state:%s, currentTerm:%d, votedFor:%d, timerExpired:%v, votesGoted:%d, commitIndex:%d, lastApplied:%d,\n"+
+		"\tlogs:%s,\n\tnextIndex:%v,\n\t matchIndex:%v\n\t}",
+		rf.me, state, rf.currentTerm, rf.votedFor, rf.timerExpired, rf.votesGoted, rf.commitIndex,rf.lastApplied, rf.log.String(), rf.nextIndex, rf.matchIndex)
 }
 
 // return currentTerm and whether this server
@@ -405,14 +406,14 @@ func (rf *Raft) applyLog(index int) {
 		CommandIndex: index + 1,
 	}
 	DPrintf("server %d is trying to apply log %v\n", rf.me, applyMsg)
-
-	go func(){
-		rf.applyCh <- applyMsg
-		rf.Lock()
-		DPrintf("server %d is finished to apply log %v\n", rf.me, applyMsg)
-		rf.Unlock()
-	}()
+	rf.applyMsgQueue.Pushback(applyMsg)
 	
+}
+func (rf *Raft)applyTicker(){
+	for rf.killed() == false{
+		m:=rf.applyMsgQueue.PopFront()
+		rf.applyCh<-m
+	}
 }
 
 //
@@ -446,12 +447,13 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.timerExpired = true
 	rf.appendEntriesCond = sync.NewCond(&rf.Mutex)
 	rf.currentSnapShot=nil
-
+	rf.applyMsgQueue=NewThreadSafeQueue()
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
 
 	// start ticker goroutine to start elections
 	go rf.ticker()
+	go rf.applyTicker()
 
 	return rf
 }

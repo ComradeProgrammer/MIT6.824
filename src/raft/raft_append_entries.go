@@ -73,7 +73,15 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		if args.PrevLogIndex >=rf.log.Len() {
 			//reject if our log is too short
 			reply.Success = false
-		} else if rf.log.Get(args.PrevLogIndex).Term != args.PrevLogTerm {
+		} else {
+			var prevLogTerm int
+			if args.PrevLogIndex==rf.log.PrevIndex{
+				prevLogTerm=rf.log.PrevLogTerm
+			}else{
+				prevLogTerm=rf.log.Get(args.PrevLogIndex).Term 
+			}
+			
+			if prevLogTerm!= args.PrevLogTerm {
 			//reject and set XTerm and XIndex
 			//XTerm is the term of conflicting entry
 			//XIndex is the first entry of the conflicting term in follower
@@ -82,7 +90,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 			for ;index>=0&&rf.log.Get(index).Term==rf.log.Get(args.PrevLogIndex).Term;index--{}
 			reply.XIndex=index+1	
 			reply.Success = false
-		}
+		}}
 
 	}
 	if reply.Success {
@@ -137,7 +145,12 @@ func (rf *Raft) leaderAppendEntries(server int) {
 		LeaderCommit: rf.commitIndex,
 	}
 	if rf.nextIndex[server]-1 >= 0 {
-		arg.PrevLogTerm = rf.log.Get(rf.nextIndex[server]-1).Term
+		if rf.nextIndex[server]-1==rf.log.PrevIndex{
+			arg.PrevLogTerm=rf.log.PrevLogTerm
+		}else{
+
+			arg.PrevLogTerm = rf.log.Get(rf.nextIndex[server]-1).Term
+		}
 	}
 	length := rf.log.Len() - rf.nextIndex[server]
 	arg.Entries = make([]Log, length)

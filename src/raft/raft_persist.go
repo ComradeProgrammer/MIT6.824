@@ -13,6 +13,7 @@ type PersistentState struct{
 	PrevIndex int
 	PrevTerm int
 	RealLength int
+	SnapShot []byte
 
 }	
 
@@ -38,6 +39,7 @@ func (rf *Raft) persist() {
 		PrevIndex:rf.log.PrevIndex,
 		PrevTerm: rf.log.PrevLogTerm,
 		RealLength: rf.log.Len(),
+		SnapShot: rf.currentSnapShot,
 	}
 	DPrintf("server %d is persisting its state, current state %s", rf.me,rf.String())
 	buffer := new(bytes.Buffer)
@@ -78,4 +80,7 @@ func (rf *Raft) readPersist(data []byte) {
 	rf.currentTerm=persistentState.CurrentTerm
 	rf.votedFor=persistentState.VotedFor
 	rf.log.ReplaceLogs(persistentState.Logs,persistentState.PrevIndex,persistentState.PrevTerm,persistentState.RealLength)
+	rf.currentSnapShot=persistentState.SnapShot
+	rf.commitIndex=persistentState.PrevIndex
+	rf.lastApplied=persistentState.PrevIndex
 }

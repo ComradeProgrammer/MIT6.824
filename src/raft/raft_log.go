@@ -19,6 +19,10 @@ type LogVector struct{
 	PrevLogTerm int
 	RealLength int
 }
+func (l LogVector) String() string {
+	data, _ := json.Marshal(l)
+	return string(data)
+}
 
 func NewLogVector()LogVector{
 	var tmp=LogVector{
