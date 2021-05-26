@@ -1,8 +1,12 @@
 package kvraft
 
-import "6.824/labrpc"
-import "crypto/rand"
-import "math/big"
+import (
+	"crypto/rand"
+	"math/big"
+	"time"
+
+	"6.824/labrpc"
+)
 
 
 type Clerk struct {
@@ -39,7 +43,27 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 func (ck *Clerk) Get(key string) string {
 
 	// You will have to modify this function.
-	return ""
+	i:=0
+	args:=GetArgs{
+		Key: key,
+		ID: nrand(),
+	}
+	reply:=GetReply{}
+	for{
+		ok := ck.servers[i].Call("KVServer.Get", &args, &reply)
+		if ok{
+			DPrintf("Get request %s receives reply from server %s\n",args,reply)
+			if reply.Err==ErrNoKey{
+				return ""
+			}else if reply.Err==OK{
+				return reply.Value
+			}
+		}else{
+			DPrintf("Get request %s to server  failed\n",args)
+		}
+		i=(i+1)%len(ck.servers)
+		time.Sleep(10*time.Millisecond)
+	}
 }
 
 //
@@ -54,6 +78,27 @@ func (ck *Clerk) Get(key string) string {
 //
 func (ck *Clerk) PutAppend(key string, value string, op string) {
 	// You will have to modify this function.
+	i:=0
+	arg:=PutAppendArgs{
+		Key: key,
+		Value: value,
+		Op: op,
+		ID:nrand(),
+	}
+	reply:=PutAppendReply{}
+	for{
+		ok := ck.servers[i].Call("KVServer.PutAppend", &arg, &reply)
+		if ok{
+			DPrintf("Put request %s receives reply from server  %s\n",arg,reply)
+			if reply.Err==OK{
+				return
+			}
+		}else{
+			DPrintf("PutAppend request %s to server failed\n",arg)
+		}
+		i=(i+1)%len(ck.servers)
+		time.Sleep(10*time.Millisecond)
+	}
 }
 
 func (ck *Clerk) Put(key string, value string) {
