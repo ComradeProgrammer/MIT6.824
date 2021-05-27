@@ -35,7 +35,7 @@ const (
 	LEADER    int = 2
 )
 const (
-	HEARTBEATINTERVAL int = 150 // unit:ms should range
+	HEARTBEATINTERVAL int = 100 // unit:ms should range
 	ELECTIONINTERVAL  int = 300 //unit:ms should range from 300-400
 )
 

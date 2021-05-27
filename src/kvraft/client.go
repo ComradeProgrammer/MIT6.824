@@ -12,6 +12,7 @@ import (
 type Clerk struct {
 	servers []*labrpc.ClientEnd
 	// You will have to modify this struct.
+	lastLeader int
 }
 
 func nrand() int64 {
@@ -25,6 +26,7 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 	ck := new(Clerk)
 	ck.servers = servers
 	// You'll have to add code here.
+	ck.lastLeader=0
 	return ck
 }
 
@@ -43,7 +45,7 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 func (ck *Clerk) Get(key string) string {
 
 	// You will have to modify this function.
-	i:=0
+	i:=ck.lastLeader
 	args:=GetArgs{
 		Key: key,
 		ID: nrand(),
@@ -54,8 +56,10 @@ func (ck *Clerk) Get(key string) string {
 		if ok{
 			DPrintf("Get request %s receives reply from server %s\n",args,reply)
 			if reply.Err==ErrNoKey{
+				ck.lastLeader=i
 				return ""
 			}else if reply.Err==OK{
+				ck.lastLeader=i
 				return reply.Value
 			}
 		}else{
@@ -78,7 +82,7 @@ func (ck *Clerk) Get(key string) string {
 //
 func (ck *Clerk) PutAppend(key string, value string, op string) {
 	// You will have to modify this function.
-	i:=0
+	i:=ck.lastLeader
 	arg:=PutAppendArgs{
 		Key: key,
 		Value: value,
@@ -91,6 +95,7 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 		if ok{
 			DPrintf("Put request %s receives reply from server  %s\n",arg,reply)
 			if reply.Err==OK{
+				ck.lastLeader=i
 				return
 			}
 		}else{
