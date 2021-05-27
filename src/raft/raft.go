@@ -95,27 +95,35 @@ type Raft struct {
 	votesGoted int
 	//leaderAppendEntries depend on this cond variable to be woken up
 	appendEntriesCond *sync.Cond
-	currentSnapShot []byte
-	applyMsgQueue *ThreadSafeQueue
+	currentSnapShot   []byte
+	applyMsgQueue     *ThreadSafeQueue
 }
 
 /**
 @brief convert the state of current raft module into string
 @attention requires lock before being called
+@attention this function will EXTREMELY affect the performance due to %v invokes marshal of raft opbject,
+and if marshaling the raft object is involved with -race, it will be very time-consuming
+make sure marshaling part of this function won't be called when your performance is being tested 
 */
 func (rf *Raft) String() string {
-	var state string
-	switch rf.state {
-	case FOLLOWER:
-		state = "follower"
-	case CANDIDATE:
-		state = "candidate"
-	case LEADER:
-		state = "leader"
+	if DEBUG {
+		var state string
+		switch rf.state {
+		case FOLLOWER:
+			state = "follower"
+		case CANDIDATE:
+			state = "candidate"
+		case LEADER:
+			state = "leader"
+		}
+		return fmt.Sprintf("{\n\tme:%d, state:%s, currentTerm:%d, votedFor:%d, timerExpired:%v, votesGoted:%d, commitIndex:%d, lastApplied:%d,\n"+
+			"\tlogs:%s,\n\tnextIndex:%v,\n\t matchIndex:%v\n\t}",
+			rf.me, state, rf.currentTerm, rf.votedFor, rf.timerExpired, rf.votesGoted, rf.commitIndex, rf.lastApplied, rf.log.String(), rf.nextIndex, rf.matchIndex)
+	} else {
+		return ""
 	}
-	return fmt.Sprintf("{\n\tme:%d, state:%s, currentTerm:%d, votedFor:%d, timerExpired:%v, votesGoted:%d, commitIndex:%d, lastApplied:%d,\n"+
-		"\tlogs:%s,\n\tnextIndex:%v,\n\t matchIndex:%v\n\t}",
-		rf.me, state, rf.currentTerm, rf.votedFor, rf.timerExpired, rf.votesGoted, rf.commitIndex,rf.lastApplied, rf.log.String(), rf.nextIndex, rf.matchIndex)
+
 }
 
 // return currentTerm and whether this server
@@ -162,12 +170,12 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 		newLog := Log{
 			Command: command,
 			Term:    rf.currentTerm,
-			Index: index,
+			Index:   index,
 		}
 		rf.log.PushBack(newLog)
 		rf.appendEntriesCond.Broadcast()
 		rf.persist()
-		
+
 	}
 	if isLeader {
 		DPrintf("server %d start command %v at pos %d with current state %s\n", rf.me, command, index, rf.String())
@@ -175,7 +183,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 		DPrintf("server %d rejected command %v with current state %s\n", rf.me, command, rf.String())
 	}
 
-	return index+1, term, isLeader
+	return index + 1, term, isLeader
 }
 
 //
@@ -339,7 +347,7 @@ func (rf *Raft) startElection() bool {
 		//3,set up election timer
 		ms := ELECTIONINTERVAL + rand.Intn(100)
 		//4. ask for votes from all peers
-		lastLogIndex,lastLogTerm:=rf.log.GetLastIndexAndterm()
+		lastLogIndex, lastLogTerm := rf.log.GetLastIndexAndterm()
 		for i := 0; i < len(rf.peers); i++ {
 			if i == rf.me {
 				continue
@@ -347,8 +355,8 @@ func (rf *Raft) startElection() bool {
 			var arg = RequestVoteArgs{
 				Term:         rf.currentTerm,
 				CandidateID:  rf.me,
-				LastLogIndex:lastLogIndex, 
-				LastLogTerm:  lastLogTerm,     
+				LastLogIndex: lastLogIndex,
+				LastLogTerm:  lastLogTerm,
 			}
 			go func(server int) {
 				var reply = RequestVoteReply{}
@@ -402,17 +410,17 @@ func (rf *Raft) applyLog(index int) {
 
 	applyMsg := ApplyMsg{
 		CommandValid: true,
-		Command:     rf.log.Get(index).Command,
+		Command:      rf.log.Get(index).Command,
 		CommandIndex: index + 1,
 	}
 	DPrintf("server %d is trying to apply log %v\n", rf.me, applyMsg)
 	rf.applyMsgQueue.Pushback(applyMsg)
-	
+
 }
-func (rf *Raft)applyTicker(){
-	for rf.killed() == false{
-		m:=rf.applyMsgQueue.PopFront()
-		rf.applyCh<-m
+func (rf *Raft) applyTicker() {
+	for rf.killed() == false {
+		m := rf.applyMsgQueue.PopFront()
+		rf.applyCh <- m
 	}
 }
 
@@ -446,8 +454,8 @@ func Make(peers []*labrpc.ClientEnd, me int,
 
 	rf.timerExpired = true
 	rf.appendEntriesCond = sync.NewCond(&rf.Mutex)
-	rf.currentSnapShot=nil
-	rf.applyMsgQueue=NewThreadSafeQueue()
+	rf.currentSnapShot = nil
+	rf.applyMsgQueue = NewThreadSafeQueue()
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
 

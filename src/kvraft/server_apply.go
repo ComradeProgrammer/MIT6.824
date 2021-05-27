@@ -84,7 +84,7 @@ func (kv *KVServer) applyChThread() {
 		select{
 		case applyMsg = <-kv.applyCh:
 		default:
-			time.Sleep(20*time.Millisecond)
+			time.Sleep(10*time.Millisecond)
 			continue
 		}
 
