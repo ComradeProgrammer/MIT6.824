@@ -23,6 +23,8 @@ func (r AppendEntriesArgs) String() string {
 type AppendEntriesReply struct {
 	Term    int
 	Success bool
+	//for checking old pack in unreliable net
+	OldPackage bool
 	//for faster rollback
 	XTerm int
 	XIndex int
@@ -30,8 +32,12 @@ type AppendEntriesReply struct {
 }
 
 func (r AppendEntriesReply) String() string {
-	data, _ := json.Marshal(r)
-	return string(data)
+	if DEBUG {
+		data, _ := json.Marshal(r)
+		return string(data)
+	} else {
+		return ""
+	}
 }
 
 func (rf *Raft) sendAppendEntries(server int, args *AppendEntriesArgs, reply *AppendEntriesReply) bool {
@@ -77,17 +83,22 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 			var prevLogTerm int
 			if args.PrevLogIndex==rf.log.PrevIndex{
 				prevLogTerm=rf.log.PrevLogTerm
-			}else{
+			}else if  args.PrevLogIndex>rf.log.PrevIndex{
 				prevLogTerm=rf.log.Get(args.PrevLogIndex).Term 
+			}else{
+				// we may receive old packages ,when we have already install a snapshot, and a appendentries rpc want us to commit a older log
+				//if so, we should just return false
+				reply.Success=false
+				reply.OldPackage=true
 			}
 			
-			if prevLogTerm!= args.PrevLogTerm {
+			if !reply.OldPackage&& prevLogTerm!= args.PrevLogTerm {
 			//reject and set XTerm and XIndex
 			//XTerm is the term of conflicting entry
 			//XIndex is the first entry of the conflicting term in follower
 			reply.XTerm= rf.log.Get(args.PrevLogIndex).Term
 			index:=args.PrevLogIndex
-			for ;index>=0&&rf.log.Get(index).Term==rf.log.Get(args.PrevLogIndex).Term;index--{}
+			for ;index>rf.log.PrevLogTerm&&rf.log.Get(index).Term==rf.log.Get(args.PrevLogIndex).Term;index--{}
 			reply.XIndex=index+1	
 			reply.Success = false
 		}}
@@ -193,6 +204,9 @@ func (rf *Raft) leaderAppendEntries(server int) {
 				//switch to follower
 				rf.switchToFollowerOfnewTerm(reply.Term)
 				return
+			}else if reply.OldPackage{
+				// do nothing
+				return
 			} else {
 				//use faster rollback
 				//rf.nextIndex[server]--
@@ -212,6 +226,10 @@ func (rf *Raft) leaderAppendEntries(server int) {
 						for;index>=0&&rf.log.Get(index).Term==reply.XTerm;index--{}
 						rf.nextIndex[server]=index+1
 					}
+				}
+				// final assurance in case of receiving old packages
+				if rf.nextIndex[server]<rf.matchIndex[server]+1{
+					rf.nextIndex[server]=rf.matchIndex[server]+1
 				}
 			}
 		}

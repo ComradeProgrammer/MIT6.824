@@ -88,7 +88,7 @@ func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	commitChan:=make(chan OpResult)
 	kv.pendRequest(op.ID,abortChan,commitChan)
 	kv.Unlock()
-	DPrintf("waiting\n")
+
 	select{
 	case res:=<-commitChan:
 		reply.Err=res.Err

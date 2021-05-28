@@ -88,9 +88,9 @@ func (kv *KVServer) applyChThread() {
 			continue
 		}
 
-		
-		DPrintf("kvserver got applyMessage %v\n", applyMsg)
+
 		kv.Lock()
+		kv.checkMaxSizeExceeded()
 		DPrintf("kvserver %d got applyMessage %v\n", kv.me, applyMsg)
 		//handle the applyMsg
 		if applyMsg.CommandValid {
@@ -98,11 +98,14 @@ func (kv *KVServer) applyChThread() {
 			//detect abnormal case that corresponding raft server has lost its leadership
 			//by checking the index
 			index := applyMsg.CommandIndex
+			if index>kv.lastIndex{
+				kv.lastIndex=index
+			}
 			if id, ok := kv.raftIndexToOp[index]; ok {
 				if id != command.ID {
 					//this op should be aborted at once
 					kv.abortOp(id)
-					//by the way, if this raft is currently not leader,then all ops shoulde be abandoned at once
+					//by the way, if this raft is currently not leader,then all ops should be abandoned at once
 					if _, isLeader := kv.rf.GetState(); !isLeader {
 						for k, _ := range kv.abortChanMap {
 							kv.abortOp(k)
@@ -162,6 +165,9 @@ func (kv *KVServer) applyChThread() {
 					kv.Unlock()
 				}
 			}
+		}else if applyMsg.SnapshotValid{
+			kv.handleSnapInstall(&applyMsg)
+			kv.Unlock()
 		}
 
 	}

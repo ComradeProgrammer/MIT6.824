@@ -117,9 +117,9 @@ func (rf *Raft) String() string {
 		case LEADER:
 			state = "leader"
 		}
-		return fmt.Sprintf("{\n\tme:%d, state:%s, currentTerm:%d, votedFor:%d, timerExpired:%v, votesGoted:%d, commitIndex:%d, lastApplied:%d,\n"+
+		return fmt.Sprintf("{\n\tme:%d, state:%s, currentTerm:%d, votedFor:%d, timerExpired:%v, votesGoted:%d, commitIndex:%d, lastApplied:%d,currentSnapshot:%d\n"+
 			"\tlogs:%s,\n\tnextIndex:%v,\n\t matchIndex:%v\n\t}",
-			rf.me, state, rf.currentTerm, rf.votedFor, rf.timerExpired, rf.votesGoted, rf.commitIndex, rf.lastApplied, rf.log.String(), rf.nextIndex, rf.matchIndex)
+			rf.me, state, rf.currentTerm, rf.votedFor, rf.timerExpired, rf.votesGoted, rf.commitIndex, rf.lastApplied,len(rf.currentSnapShot), rf.log.String(), rf.nextIndex, rf.matchIndex)
 	} else {
 		return ""
 	}
@@ -458,6 +458,7 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.applyMsgQueue = NewThreadSafeQueue()
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
+	rf.currentSnapShot=rf.persister.ReadSnapshot()
 
 	// start ticker goroutine to start elections
 	go rf.ticker()

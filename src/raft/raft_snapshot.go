@@ -38,6 +38,9 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 	rf.Lock()
 	defer rf.Unlock()
 	DPrintf("server %d Snapshot is called, index is %d\n",rf.me,index-1)
+	if index-1==rf.log.PrevIndex{
+		return
+	}
 	rf.currentSnapShot=snapshot
 	rf.log.WipeOutSnapshottedLogs(index-1)
 	rf.timerExpired=false
@@ -93,6 +96,7 @@ func  (rf *Raft) leaderInstallSnapShot(server int){
 			return
 		}
 		rf.nextIndex[i]=args.LastIncludedIndex+1
+		rf.updateMatchIndex(i,args.LastIncludedIndex)
 	}(server)
 }
 

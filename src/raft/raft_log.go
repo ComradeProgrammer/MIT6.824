@@ -8,8 +8,12 @@ type Log struct {
 }
 
 func (l Log) String() string {
-	data, _ := json.Marshal(l)
-	return string(data)
+	if DEBUG {
+		data, _ := json.Marshal(l)
+		return string(data)
+	} else {
+		return ""
+	}
 }
 
 
@@ -20,8 +24,12 @@ type LogVector struct{
 	RealLength int
 }
 func (l LogVector) String() string {
-	data, _ := json.Marshal(l)
-	return string(data)
+	if DEBUG {
+		data, _ := json.Marshal(l)
+		return string(data)
+	} else {
+		return ""
+	}
 }
 
 func NewLogVector()LogVector{

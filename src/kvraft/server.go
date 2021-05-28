@@ -32,6 +32,7 @@ type KVServer struct {
 	dead    int32 // set by Kill()
 
 	maxraftstate int // snapshot if log grows this big
+	persister *raft.Persister
 
 	// Your definitions here.
 	kvMap map[string]string
@@ -40,6 +41,7 @@ type KVServer struct {
 	raftIndexToOp map[int]int64
 
 	opIDSet map[int64]struct{}
+	lastIndex int
 }
 
 
@@ -89,6 +91,7 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	kv := new(KVServer)
 	kv.me = me
 	kv.maxraftstate = maxraftstate
+	kv.persister=persister
 
 	// You may need initialization code here.
 
@@ -101,6 +104,8 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	kv.kvMap=make(map[string]string)
 	kv.raftIndexToOp=make(map[int]int64)
 	kv.opIDSet=make(map[int64]struct{})
+	kv.lastIndex=0
+	kv.installSnapFromPersister()
 	go kv.applyChThread()
 	return kv
 }

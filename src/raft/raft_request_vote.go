@@ -17,8 +17,12 @@ type RequestVoteArgs struct {
 }
 
 func (r RequestVoteArgs) String() string {
-	data, _ := json.Marshal(r)
-	return string(data)
+	if DEBUG {
+		data, _ := json.Marshal(r)
+		return string(data)
+	} else {
+		return ""
+	}
 }
 
 //
@@ -32,8 +36,13 @@ type RequestVoteReply struct {
 }
 
 func (r RequestVoteReply) String() string {
-	data, _ := json.Marshal(r)
-	return string(data)
+	if DEBUG {
+		data, _ := json.Marshal(r)
+		return string(data)
+	} else {
+		return ""
+	}
+
 }
 
 //
@@ -72,7 +81,7 @@ func (rf *Raft) sendRequestVote(server int, args *RequestVoteArgs, reply *Reques
 }
 
 /**
-	@brief RPC Handler for "raft.RequestVote"
+@brief RPC Handler for "raft.RequestVote"
 */
 func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	// Your code here (2A, 2B).
@@ -99,11 +108,11 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 	more up-to-date*/
 
 	moreUpToDate := true //whether they are more up-to-date
-	lastLogIndex,lastLogTerm:=rf.log.GetLastIndexAndterm()
+	lastLogIndex, lastLogTerm := rf.log.GetLastIndexAndterm()
 	if args.LastLogTerm < lastLogTerm {
 		moreUpToDate = false
 	} else if args.LastLogTerm == lastLogTerm {
-		if args.LastLogIndex <lastLogIndex {
+		if args.LastLogIndex < lastLogIndex {
 			moreUpToDate = false
 		}
 	}
