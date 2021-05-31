@@ -32,6 +32,7 @@ func (ck *Clerk) Query(num int) Config {
 	args := &QueryArgs{}
 	// Your code here.
 	args.Num = num
+	args.Nonce=nrand()
 	for {
 		// try each known server.
 		for _, srv := range ck.servers {
@@ -49,7 +50,7 @@ func (ck *Clerk) Join(servers map[int][]string) {
 	args := &JoinArgs{}
 	// Your code here.
 	args.Servers = servers
-
+	args.Nonce=nrand()
 	for {
 		// try each known server.
 		for _, srv := range ck.servers {
@@ -67,7 +68,7 @@ func (ck *Clerk) Leave(gids []int) {
 	args := &LeaveArgs{}
 	// Your code here.
 	args.GIDs = gids
-
+	args.Nonce=nrand()
 	for {
 		// try each known server.
 		for _, srv := range ck.servers {
@@ -86,7 +87,7 @@ func (ck *Clerk) Move(shard int, gid int) {
 	// Your code here.
 	args.Shard = shard
 	args.GID = gid
-
+	args.Nonce=nrand()
 	for {
 		// try each known server.
 		for _, srv := range ck.servers {
