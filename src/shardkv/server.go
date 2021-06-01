@@ -1,10 +1,13 @@
 package shardkv
 
+import (
+	"sync"
 
-import "6.824/labrpc"
-import "6.824/raft"
-import "sync"
-import "6.824/labgob"
+	"6.824/labgob"
+	"6.824/labrpc"
+	"6.824/raft"
+	"6.824/shardctrler"
+)
 
 
 
@@ -12,10 +15,18 @@ type Op struct {
 	// Your definitions here.
 	// Field names must start with capital letters,
 	// otherwise RPC will break.
+	Type string
+	Key string
+	Value string
+	Nonce int64
+}
+type OpResult struct{
+	Err Err
+	Value string
 }
 
 type ShardKV struct {
-	mu           sync.Mutex
+	sync.Mutex
 	me           int
 	rf           *raft.Raft
 	applyCh      chan raft.ApplyMsg
@@ -23,18 +34,25 @@ type ShardKV struct {
 	gid          int
 	ctrlers      []*labrpc.ClientEnd
 	maxraftstate int // snapshot if log grows this big
+	persister *raft.Persister
+	lastIndex int
 
 	// Your definitions here.
+	pendingChans map[int64][]chan OpResult
+	nonces map[int64]struct{}
+	kvMap ShardMap
+	indexToNonce map[int]int64
+	term int
+
+	ctrlClient       *shardctrler.Clerk
+	config shardctrler.Config
+
+	
+
+	done chan struct{}
 }
 
 
-func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
-	// Your code here.
-}
-
-func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
-	// Your code here.
-}
 
 //
 // the tester calls Kill() when a ShardKV instance won't
@@ -45,6 +63,15 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 func (kv *ShardKV) Kill() {
 	kv.rf.Kill()
 	// Your code here, if desired.
+	kv.done<-struct{}{}
+	//kick out all hanging requests
+	kv.Lock()
+	defer kv.Unlock()
+	for _,chs:=range kv.pendingChans{
+		for _,ch:=range chs{
+			ch <- OpResult{Err:ErrWrongLeader}
+		}
+	}
 }
 
 
@@ -87,6 +114,8 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	kv.make_end = make_end
 	kv.gid = gid
 	kv.ctrlers = ctrlers
+	kv.persister=persister
+	kv.lastIndex=0
 
 	// Your initialization code here.
 
@@ -95,7 +124,17 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 
 	kv.applyCh = make(chan raft.ApplyMsg)
 	kv.rf = raft.Make(servers, me, persister, kv.applyCh)
+	kv.pendingChans=make(map[int64][]chan OpResult)
+	kv.indexToNonce=make(map[int]int64)
+	kv.nonces=make(map[int64]struct{})
+	kv.done=make(chan struct{})
+	kv.term=0
 
+	kv.ctrlClient= shardctrler.MakeClerk(ctrlers)
+	kv.config.Num=0
 
+	kv.installSnapFromPersister()
+	go kv.pullConfiguration()
+	go kv.applyTicker()
 	return kv
 }

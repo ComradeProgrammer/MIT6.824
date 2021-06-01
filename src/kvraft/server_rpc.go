@@ -75,14 +75,14 @@ func (kv *KVServer) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		return
 	}
 	DPrintf("kvserver %d received Append request %s\n",kv.me,args)
-	_,_,isLeader:=kv.rf.Start(op)
+	index,_,isLeader:=kv.rf.Start(op)
 	if !isLeader{
 		reply.Err=ErrWrongLeader
 		DPrintf("kvserver %d response duplicated Append request %s with %s\n",kv.me,args,reply)
 		kv.Unlock()
 		return
 	}
-	
+	kv.raftIndexToOp[index]=op.ID
 	
 	abortChan:=make(chan struct{})
 	commitChan:=make(chan OpResult)

@@ -42,7 +42,7 @@ func (ck *Clerk) Query(num int) Config {
 				return reply.Config
 			}
 		}
-		time.Sleep(100 * time.Millisecond)
+		time.Sleep(20 * time.Millisecond)
 	}
 }
 

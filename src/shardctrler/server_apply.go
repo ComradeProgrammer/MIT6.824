@@ -50,7 +50,10 @@ func (sc *ShardCtrler) applyTicker() {
 			sc.Unlock()
 			continue
 		}
-
+		if !applyMsg.CommandValid{
+			sc.Unlock()
+			continue
+		}
 		op := applyMsg.Command.(Op)
 		var res OpResult
 		switch op.Type {
