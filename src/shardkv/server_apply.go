@@ -23,6 +23,10 @@ func (kv *ShardKV) applyTicker() {
 		DPrintf("kvserver %d-%d receive ApplyMsg %v with current state %s \n",kv.gid, kv.me, applyMsg,kv)
 		kv.checkMaxSizeExceeded()
 		if applyMsg.CommandValid {
+			index := applyMsg.CommandIndex
+			if index>kv.lastIndex{
+				kv.lastIndex=index
+			}
 			ok := kv.checkRequest(&applyMsg)
 			if !ok {
 				kv.Unlock()
@@ -52,7 +56,7 @@ func (kv *ShardKV) applyTicker() {
 				DPrintf("kvserver %d-%d reply applymsg %v with %v,\n\tcurrent state %v\n",kv.gid, kv.me, applyMsg, opResult,kv)
 				kv.Unlock()
 			}
-		}else{
+		}else if applyMsg.SnapshotValid{
 			kv.handleSnapInstall(&applyMsg)
 			kv.Unlock()
 		}
