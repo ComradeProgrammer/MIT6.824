@@ -16,6 +16,7 @@ const (
 	ErrNoKey       = "ErrNoKey"
 	ErrWrongGroup  = "ErrWrongGroup"
 	ErrWrongLeader = "ErrWrongLeader"
+	ErrWrongConfigNum="ErrWrongConfigNum"
 )
 const (
 	PUT    = "Put"

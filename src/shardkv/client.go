@@ -69,6 +69,7 @@ func (ck *Clerk) Get(key string) string {
 	args := GetArgs{}
 	args.Key = key
 	args.Nonce=nrand()
+	DPrintf("client sendout get %v with config %v",args,ck.config)
 
 	for {
 		shard := key2shard(key)
@@ -106,7 +107,7 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	args.Value = value
 	args.Op = op
 	args.Nonce=nrand()
-
+	DPrintf("client sendout PutAppend %v with config %v",args,ck.config)
 
 	for {
 		shard := key2shard(key)
@@ -140,6 +141,7 @@ func (ck *Clerk) Append(key string, value string) {
 
 func (ck *Clerk)GetShards(args* GetShardsArgs)*GetShardsReply{
 	reply:=GetShardsReply{}
+	DPrintf("client sendout getshards %v with config %v",args,ck.config)
 
 	for{
 		//gid:=args.Gid

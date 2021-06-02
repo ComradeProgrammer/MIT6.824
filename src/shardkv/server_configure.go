@@ -59,7 +59,7 @@ func (kv *ShardKV)pullConfiguration(){
 func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 	kv.Lock()
 	missingShards:=make(map[int][]int)
-	for gid,_:=range kv.config.Groups{
+	for gid,_:=range oldConfig.Groups{
 		if gid==kv.gid{
 			continue
 		}
@@ -72,7 +72,7 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 			}
 		}
 	}
-	DPrintf("kvserver %d-%d  missing Shard are  %v \n",kv.gid,kv.me,missingShards)
+	DPrintf("kvserver %d-%d  missing Shard are  %v \n\t new config is %v\n\t old config is %v\n",kv.gid,kv.me,missingShards,kv.config,oldConfig)
 	kv.Unlock()
 
 	var wg sync.WaitGroup

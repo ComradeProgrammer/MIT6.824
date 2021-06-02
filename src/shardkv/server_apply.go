@@ -20,7 +20,7 @@ func (kv *ShardKV) applyTicker() {
 		}
 
 		kv.Lock()
-		DPrintf("kvserver %d-%d receive ApplyMsg %v with current state %s \n",kv.me, kv.me, applyMsg,kv)
+		DPrintf("kvserver %d-%d receive ApplyMsg %v with current state %s \n",kv.gid, kv.me, applyMsg,kv)
 		kv.checkMaxSizeExceeded()
 		if applyMsg.CommandValid {
 			ok := kv.checkRequest(&applyMsg)
@@ -49,7 +49,7 @@ func (kv *ShardKV) applyTicker() {
 					ch <- opResult
 				}
 				kv.Lock()
-				DPrintf("kvserver %d-%d reply applymsg %v with %v\n",kv.gid, kv.me, applyMsg, opResult)
+				DPrintf("kvserver %d-%d reply applymsg %v with %v,\n\tcurrent state %v\n",kv.gid, kv.me, applyMsg, opResult,kv)
 				kv.Unlock()
 			}
 		}else{
