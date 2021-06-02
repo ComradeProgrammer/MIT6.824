@@ -20,10 +20,12 @@ type Op struct {
 	Key string
 	Value string
 	Nonce int64
+	Data interface{}
 }
 type OpResult struct{
 	Err Err
 	Value string
+	Data interface{}
 }
 
 type ShardKV struct {
@@ -116,7 +118,8 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	// call labgob.Register on structures you want
 	// Go's RPC library to marshall/unmarshall.
 	labgob.Register(Op{})
-
+	labgob.Register(GetShardsArgs{})
+	labgob.Register(GetShardsReply{})
 	kv := new(ShardKV)
 	kv.me = me
 	kv.maxraftstate = maxraftstate

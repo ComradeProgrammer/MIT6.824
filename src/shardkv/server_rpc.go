@@ -9,7 +9,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		Nonce: args.Nonce,
 	}
 	kv.Lock()
-	DPrintf("kvserver %d-%d received Get request %s\n",kv.gid, kv.me, args)
+	DPrintf("kvserver %d-%d received Get request %s with current state %s\n",kv.gid, kv.me, args,kv)
 	//check shard
 	if kv.config.Num == 0 {
 		DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
@@ -18,7 +18,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		return
 	} else {
 		shard := key2shard(args.Key)
-		if kv.config.Shards[shard] != kv.gid /*|| !kv.kvMap.HasShard(shard)*/{
+		if kv.config.Shards[shard] != kv.gid || !kv.kvMap.HasShard(shard){
 			reply.Err = ErrWrongGroup
 			DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 			kv.Unlock()
@@ -121,4 +121,47 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	kv.Lock()
 	DPrintf("kvserver %d-%d response  PutAppend request %s with %s\n",kv.gid, kv.me, args, reply)
 	kv.Unlock()
+}
+
+func (kv *ShardKV)GetShards(args *GetShardsArgs, reply *GetShardsReply){
+	var op=Op{
+		Type:GETSHARDS,
+		Data: *args,
+		Nonce:args.Nonce,
+	}
+	kv.Lock()
+	DPrintf("kvserver %d-%d received Append request %s\n",kv.gid, kv.me, args)
+	//check duplication
+	if _, exist := kv.nonces[args.Nonce]; exist {
+		reply.Err = OK
+		DPrintf("kvserver %d-%d response Get request %s with %s\n",kv.gid, kv.me, args, reply)
+		kv.Unlock()
+		return
+	}
+	index, _, isLeader := kv.rf.Start(op)
+	if !isLeader {
+		reply.Err = ErrWrongLeader
+		DPrintf("kvserver %d-%d response Append request %s with %s\n",kv.gid, kv.me, args, reply)
+		kv.Unlock()
+		return
+	}
+	//remember this index
+	kv.indexToNonce[index] = args.Nonce
+	//wait for response
+	pendingChan := make(chan OpResult)
+	if _, ok := kv.pendingChans[args.Nonce]; !ok {
+		kv.pendingChans[args.Nonce] = make([]chan OpResult, 0)
+	}
+	kv.pendingChans[args.Nonce] = append(kv.pendingChans[args.Nonce], pendingChan)
+	kv.Unlock()
+
+	opResult := <-pendingChan
+	reply.Err = opResult.Err
+	res:=opResult.Data.(GetShardsReply)
+	reply.Data=res.Data
+
+	kv.Lock()
+	DPrintf("kvserver %d-%d response  PutAppend request %s with %s\n",kv.gid, kv.me, args, reply)
+	kv.Unlock()
+
 }

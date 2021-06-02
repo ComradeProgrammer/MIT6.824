@@ -53,8 +53,10 @@ func (s *ShardMap)ExportShard(shard int)map[string]string{
 	for k,v:=range s.Map[shard]{
 		res[k]=v
 	}
-	delete(s.Map,shard)
 	return res
+}
+func (s *ShardMap)DeleteShard(shard int){
+	delete(s.Map,shard)
 }
 
 func (s* ShardMap)ImportShard(shard int,content map[string]string){

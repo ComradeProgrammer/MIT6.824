@@ -32,11 +32,13 @@ func (kv *ShardKV) applyTicker() {
 			var opResult OpResult
 			switch op.Type {
 			case GET:
-				opResult = kv.handleGet(applyMsg)
+				opResult = kv.handleGet(&applyMsg)
 			case APPEND:
-				opResult = kv.handleAppend(applyMsg)
+				opResult = kv.handleAppend(&applyMsg)
 			case PUT:
-				opResult = kv.handlePut(applyMsg)
+				opResult = kv.handlePut(&applyMsg)
+			case GETSHARDS:
+				opResult = kv.handleGetShards(&applyMsg)
 			}
 			//send out request
 			chs, ok := kv.pendingChans[op.Nonce]
@@ -112,7 +114,7 @@ func (kv *ShardKV) checkRequest(applyMsg *raft.ApplyMsg) bool {
 	return true
 }
 
-func (kv *ShardKV) handleGet(applyMsg raft.ApplyMsg) OpResult {
+func (kv *ShardKV) handleGet(applyMsg *raft.ApplyMsg) OpResult {
 	op := applyMsg.Command.(Op)
 	value, ok := kv.kvMap.Get(op.Key)
 	var res = OpResult{}
@@ -125,7 +127,7 @@ func (kv *ShardKV) handleGet(applyMsg raft.ApplyMsg) OpResult {
 	return res
 }
 
-func (kv *ShardKV) handlePut(applyMsg raft.ApplyMsg) OpResult {
+func (kv *ShardKV) handlePut(applyMsg *raft.ApplyMsg) OpResult {
 	op := applyMsg.Command.(Op)
 	kv.kvMap.Put(op.Key, op.Value)
 	var res = OpResult{}
@@ -133,10 +135,27 @@ func (kv *ShardKV) handlePut(applyMsg raft.ApplyMsg) OpResult {
 	return res
 }
 
-func (kv *ShardKV) handleAppend(applyMsg raft.ApplyMsg) OpResult {
+func (kv *ShardKV) handleAppend(applyMsg *raft.ApplyMsg) OpResult {
 	op := applyMsg.Command.(Op)
 	kv.kvMap.Append(op.Key, op.Value)
 	var res = OpResult{}
 	res.Err = OK
+	return res
+}
+
+func(kv *ShardKV)handleGetShards(applyMsg *raft.ApplyMsg) OpResult {
+	op := applyMsg.Command.(Op)
+	arg:=op.Data.(GetShardsArgs)
+	reply:=GetShardsReply{
+		Data: make(map[int]map[string]string),
+		Err: OK,
+	}
+	for _,shard:=range arg.Shards{
+		reply.Data[shard]=kv.kvMap.ExportShard(shard)
+	}
+	var res =OpResult{
+		Err: reply.Err,
+		Data: reply,
+	}
 	return res
 }

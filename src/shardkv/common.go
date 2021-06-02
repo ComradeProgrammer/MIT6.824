@@ -21,6 +21,7 @@ const (
 	PUT    = "Put"
 	APPEND = "Append"
 	GET    = "Get"
+	GETSHARDS="GetShards"
 )
 
 type Err string
@@ -38,7 +39,7 @@ type PutAppendArgs struct {
 }
 
 func (r PutAppendArgs) String() string {
-	if !DEBUG {
+	if DEBUG {
 		data, _ := json.Marshal(r)
 		return string(data)
 	} else {
@@ -52,7 +53,7 @@ type PutAppendReply struct {
 }
 
 func (r PutAppendReply) String() string {
-	if !DEBUG {
+	if DEBUG {
 		data, _ := json.Marshal(r)
 		return string(data)
 	} else {
@@ -68,7 +69,7 @@ type GetArgs struct {
 }
 
 func (r GetArgs) String() string {
-	if !DEBUG {
+	if DEBUG {
 		data, _ := json.Marshal(r)
 		return string(data)
 	} else {
@@ -83,7 +84,37 @@ type GetReply struct {
 }
 
 func (r GetReply) String() string {
-	if !DEBUG {
+	if DEBUG {
+		data, _ := json.Marshal(r)
+		return string(data)
+	} else {
+		return ""
+	}
+
+}
+
+type GetShardsArgs struct{
+	Shards []int
+	Gid int
+	Num int
+	Nonce int64
+	Servers []string
+}
+func (r GetShardsArgs) String() string {
+	if DEBUG {
+		data, _ := json.Marshal(r)
+		return string(data)
+	} else {
+		return ""
+	}
+
+}
+type GetShardsReply struct{
+	Err Err
+	Data map[int]map[string]string
+}
+func (r GetShardsReply) String() string {
+	if DEBUG {
 		data, _ := json.Marshal(r)
 		return string(data)
 	} else {

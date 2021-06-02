@@ -137,3 +137,25 @@ func (ck *Clerk) Put(key string, value string) {
 func (ck *Clerk) Append(key string, value string) {
 	ck.PutAppend(key, value, APPEND)
 }
+
+func (ck *Clerk)GetShards(args* GetShardsArgs)*GetShardsReply{
+	reply:=GetShardsReply{}
+
+	for{
+		//gid:=args.Gid
+		servers:=args.Servers
+			for si := 0; si < len(servers); si++ {
+				srv := ck.make_end(servers[si])
+				ok := srv.Call("ShardKV.GetShards", args, &reply)
+				if ok && reply.Err == OK {
+					return &reply
+				}
+				if ok && reply.Err == ErrWrongGroup {
+					return &reply
+				}
+				// ... not ok, or ErrWrongLeader
+			}
+		
+		time.Sleep(100 * time.Millisecond)
+	}	
+}
