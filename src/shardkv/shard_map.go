@@ -1,13 +1,23 @@
 package shardkv
+
+import "encoding/json"
 type ShardMap struct{
 	Map map[int]map[string]string
 }
+
 
 func NewShardMap()ShardMap{
 	var res= ShardMap{
 		Map: make(map[int]map[string]string),
 	}
 	return res
+}
+func (s *ShardMap)String()string{
+	if DEBUG{
+		data,_:=json.Marshal(s)
+		return string(data)
+	}
+	return ""
 }
 
 func (s *ShardMap)Get(key string)(string,bool){
@@ -53,8 +63,14 @@ func (s* ShardMap)ImportShard(shard int,content map[string]string){
 		s.Map[shard][k]=v
 	}
 }
+
+func (s *ShardMap)HasShard(shard int)bool{
+	_,ok:=s.Map[shard]
+	return ok
+}
+
 func(s* ShardMap)Copy()ShardMap{
-	var res ShardMap
+	var res ShardMap=NewShardMap()
 	for k1,v1:=range s.Map{
 		res.Map[k1]=make(map[string]string)
 		for k2,v2:=range v1{

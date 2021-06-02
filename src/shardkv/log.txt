@@ -1,0 +1,1371 @@
+Test: static shards ...
+15:00:27.228341 100-0 aaa
+15:00:27.230164 100-1 aaa
+15:00:27.231325 100-2 aaa
+15:00:27.236453 101-0 aaa
+15:00:27.238236 101-1 aaa
+15:00:27.238508 101-2 aaa
+15:00:27.238672 102-0 aaa
+15:00:27.241276 102-1 aaa
+15:00:27.241854 102-2 aaa
+15:00:27.556407 all pending request is kicked out due to leadership change
+15:00:27.559801 all pending request is kicked out due to leadership change
+15:00:27.567651 all pending request is kicked out due to leadership change
+15:00:27.584531 all pending request is kicked out due to leadership change
+15:00:27.585031 all pending request is kicked out due to leadership change
+15:00:27.585742 all pending request is kicked out due to leadership change
+15:00:27.606612 all pending request is kicked out due to leadership change
+15:00:27.607487 all pending request is kicked out due to leadership change
+15:00:27.609916 all pending request is kicked out due to leadership change
+15:00:27.956255 101-1 ddd
+15:00:27.957065 102-1 ddd
+15:00:27.972489 all pending request is kicked out due to leadership change
+15:00:27.974199 all pending request is kicked out due to leadership change
+15:00:27.975885 all pending request is kicked out due to leadership change
+15:00:27.976556 101-1 aaa
+15:00:27.977331 102-1 aaa
+15:00:28.281096 101-0 ddd
+15:00:28.292183 102-0 ddd
+15:00:28.292608 102-2 ddd
+15:00:28.302045 101-0 aaa
+15:00:28.302528 100-2 ddd
+15:00:28.312622 102-0 aaa
+15:00:28.312746 102-2 aaa
+15:00:28.313809 100-1 ddd
+15:00:28.322700 100-2 aaa
+15:00:28.323621 101-1 ddd
+15:00:28.333885 102-1 ddd
+15:00:28.334004 100-1 aaa
+15:00:28.343819 101-1 aaa
+15:00:28.344347 100-0 ddd
+15:00:28.354241 101-2 ddd
+15:00:28.354357 102-1 aaa
+15:00:28.355286 101-0 ddd
+15:00:28.364446 100-0 aaa
+15:00:28.364601 102-2 eee
+15:00:28.364637 102-2 aaa
+15:00:28.374426 101-2 aaa
+15:00:28.375030 102-0 eee
+15:00:28.375087 102-0 aaa
+15:00:28.375477 101-0 aaa
+15:00:28.384987 100-2 eee
+15:00:28.385069 100-2 aaa
+15:00:28.395344 100-1 eee
+15:00:28.395440 100-1 aaa
+15:00:28.405872 101-1 eee
+15:00:28.405982 101-1 aaa
+15:00:28.415934 102-1 eee
+15:00:28.416045 102-1 aaa
+15:00:28.436874 100-0 eee
+15:00:28.436957 100-0 aaa
+15:00:28.446857 101-2 eee
+15:00:28.446974 101-2 aaa
+15:00:28.447020 102-2 ddd
+15:00:28.447103 102-0 ddd
+15:00:28.457346 101-0 eee
+15:00:28.457437 101-0 aaa
+15:00:28.467161 102-0 aaa
+15:00:28.467481 102-2 aaa
+15:00:28.468087 100-2 ddd
+15:00:28.478796 100-1 ddd
+15:00:28.488200 100-2 aaa
+15:00:28.488654 101-1 ddd
+15:00:28.499211 102-1 ddd
+15:00:28.499382 100-1 aaa
+15:00:28.508916 101-1 aaa
+15:00:28.510133 100-0 ddd
+15:00:28.510265 101-0 ddd
+15:00:28.510322 101-2 ddd
+15:00:28.519362 102-1 aaa
+15:00:28.520422 102-0 ddd
+15:00:28.530140 102-2 ddd
+15:00:28.530273 100-0 aaa
+15:00:28.530276 100-2 ddd
+15:00:28.530409 101-0 aaa
+15:00:28.530414 101-2 aaa
+15:00:28.540689 102-0 aaa
+15:00:28.541129 101-1 ddd
+15:00:28.541208 100-1 ddd
+15:00:28.550480 102-2 aaa
+15:00:28.550744 100-2 aaa
+15:00:28.552612 102-1 ddd
+15:00:28.553275 kvserver 100-0 received Append request 
+15:00:28.561565 101-1 aaa
+15:00:28.561932 101-0 ddd
+15:00:28.562111 100-1 aaa
+15:00:28.568869 kvserver 2-2 receive ApplyMsg {true {Put 0 uYLg1ggsFj7vmVCi-OgN 3004486915532317873} 1 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{},"9":{}}}
+} 
+15:00:28.572659 101-2 ddd
+15:00:28.572765 102-1 aaa
+15:00:28.576537 kvserver 0-0 receive ApplyMsg {true {Put 0 uYLg1ggsFj7vmVCi-OgN 3004486915532317873} 1 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{},"9":{}}}
+} 
+15:00:28.576715 kvserver 100-0 reply applymsg {true {Put 0 uYLg1ggsFj7vmVCi-OgN 3004486915532317873} 1 false [] 0 0} with {OK }
+15:00:28.576797 kvserver 100-0 response  PutAppend request  with 
+15:00:28.577844 kvserver 101-0 received Append request 
+15:00:28.577938 kvserver 101-0 response Append request  with 
+15:00:28.578921 kvserver 101-1 received Append request 
+15:00:28.579020 kvserver 101-1 response Append request  with 
+15:00:28.580076 kvserver 101-2 received Append request 
+15:00:28.582089 101-0 aaa
+15:00:28.583390 102-0 ddd
+15:00:28.583915 100-0 ddd
+15:00:28.593043 101-2 aaa
+15:00:28.593441 100-2 ddd
+15:00:28.593459 102-2 ddd
+15:00:28.602589 kvserver 1-1 receive ApplyMsg {true {Put 1 dMW4ksaaS680k79xdxA5 940794099956760264} 1 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{}}
+} 
+15:00:28.602591 kvserver 2-2 receive ApplyMsg {true {Put 1 dMW4ksaaS680k79xdxA5 940794099956760264} 1 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{}}
+} 
+15:00:28.602959 kvserver 101-2 reply applymsg {true {Put 1 dMW4ksaaS680k79xdxA5 940794099956760264} 1 false [] 0 0} with {OK }
+15:00:28.603076 kvserver 101-2 response  PutAppend request  with 
+15:00:28.603152 kvserver 0-0 receive ApplyMsg {true {Put 1 dMW4ksaaS680k79xdxA5 940794099956760264} 1 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{}}
+} 
+15:00:28.603629 102-0 aaa
+15:00:28.604000 100-0 aaa
+15:00:28.604115 101-1 ddd
+15:00:28.604588 kvserver 100-0 received Append request 
+15:00:28.609803 kvserver 2-2 receive ApplyMsg {true {Put 2 dajrmhMl0exd9-35N5vU 3383310042492423665} 2 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.613578 102-2 aaa
+15:00:28.613597 100-2 aaa
+15:00:28.614194 100-1 ddd
+15:00:28.618094 kvserver 0-0 receive ApplyMsg {true {Put 2 dajrmhMl0exd9-35N5vU 3383310042492423665} 2 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.618249 kvserver 100-0 reply applymsg {true {Put 2 dajrmhMl0exd9-35N5vU 3383310042492423665} 2 false [] 0 0} with {OK }
+15:00:28.618293 kvserver 100-0 response  PutAppend request  with 
+15:00:28.619695 kvserver 101-0 received Append request 
+15:00:28.619768 kvserver 101-0 response Append request  with 
+15:00:28.620535 kvserver 1-1 receive ApplyMsg {true {Put 0 uYLg1ggsFj7vmVCi-OgN 3004486915532317873} 1 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{},"9":{}}}
+} 
+15:00:28.620721 kvserver 101-1 received Append request 
+15:00:28.620786 kvserver 101-1 response Append request  with 
+15:00:28.621867 kvserver 101-2 received Append request 
+15:00:28.624334 101-1 aaa
+15:00:28.624530 102-1 ddd
+15:00:28.634378 100-1 aaa
+15:00:28.635074 101-0 ddd
+15:00:28.643106 kvserver 1-1 receive ApplyMsg {true {Put 3 Dv36Gs5s5i3CAzPrfpZq 1017057615543664872} 2 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.644102 kvserver 2-2 receive ApplyMsg {true {Put 3 Dv36Gs5s5i3CAzPrfpZq 1017057615543664872} 2 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.644251 kvserver 101-2 reply applymsg {true {Put 3 Dv36Gs5s5i3CAzPrfpZq 1017057615543664872} 2 false [] 0 0} with {OK }
+15:00:28.644303 kvserver 101-2 response  PutAppend request  with 
+15:00:28.644582 102-1 aaa
+15:00:28.645247 101-2 ddd
+15:00:28.645417 kvserver 100-0 received Append request 
+15:00:28.651007 kvserver 2-2 receive ApplyMsg {true {Put 4 JxINzdLyZVvvpdMzNma3 2753752758697549467} 3 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.655208 100-0 ddd
+15:00:28.655342 101-0 aaa
+15:00:28.659216 kvserver 0-0 receive ApplyMsg {true {Put 4 JxINzdLyZVvvpdMzNma3 2753752758697549467} 3 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.659413 kvserver 100-0 reply applymsg {true {Put 4 JxINzdLyZVvvpdMzNma3 2753752758697549467} 3 false [] 0 0} with {OK }
+15:00:28.659485 kvserver 100-0 response  PutAppend request  with 
+15:00:28.660999 kvserver 101-0 received Append request 
+15:00:28.661108 kvserver 101-0 response Append request  with 
+15:00:28.661977 kvserver 1-1 receive ApplyMsg {true {Put 2 dajrmhMl0exd9-35N5vU 3383310042492423665} 2 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.662866 kvserver 101-1 received Append request 
+15:00:28.663007 kvserver 101-1 response Append request  with 
+15:00:28.664379 kvserver 101-2 received Append request 
+15:00:28.665662 101-2 aaa
+15:00:28.668600 102-0 ddd
+15:00:28.675545 100-0 aaa
+15:00:28.677502 102-2 ddd
+15:00:28.677509 100-2 ddd
+15:00:28.683632 kvserver 1-1 receive ApplyMsg {true {Put 5 0-LODYYtzhPY7IgDQ6gi 1050759726297882692} 3 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.685007 kvserver 0-0 receive ApplyMsg {true {Put 3 Dv36Gs5s5i3CAzPrfpZq 1017057615543664872} 2 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.687245 kvserver 2-2 receive ApplyMsg {true {Put 5 0-LODYYtzhPY7IgDQ6gi 1050759726297882692} 3 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.687378 kvserver 101-2 reply applymsg {true {Put 5 0-LODYYtzhPY7IgDQ6gi 1050759726297882692} 3 false [] 0 0} with {OK }
+15:00:28.687427 kvserver 101-2 response  PutAppend request  with 
+15:00:28.687783 101-1 ddd
+15:00:28.688365 kvserver 100-0 received Append request 
+15:00:28.688769 102-0 aaa
+15:00:28.697722 102-2 aaa
+15:00:28.697872 100-2 aaa
+15:00:28.698059 100-1 ddd
+15:00:28.699975 kvserver 0-0 receive ApplyMsg {true {Put 6 irOSkAmbYBBBDP-cCVr- 242615287785379694} 4 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.700114 kvserver 100-0 reply applymsg {true {Put 6 irOSkAmbYBBBDP-cCVr- 242615287785379694} 4 false [] 0 0} with {OK }
+15:00:28.700160 kvserver 100-0 response  PutAppend request  with 
+15:00:28.701235 kvserver 101-0 received Append request 
+15:00:28.701316 kvserver 101-0 response Append request  with 
+15:00:28.702399 kvserver 101-1 received Append request 
+15:00:28.702460 kvserver 101-1 response Append request  with 
+15:00:28.703023 kvserver 1-1 receive ApplyMsg {true {Put 4 JxINzdLyZVvvpdMzNma3 2753752758697549467} 3 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.703810 kvserver 101-2 received Append request 
+15:00:28.706256 kvserver 0-0 receive ApplyMsg {true {Put 5 0-LODYYtzhPY7IgDQ6gi 1050759726297882692} 3 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.707683 kvserver 2-2 receive ApplyMsg {true {Put 7 2FchylAzluvlgBJt7yiY 1177630981951172118} 4 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.707814 kvserver 101-2 reply applymsg {true {Put 7 2FchylAzluvlgBJt7yiY 1177630981951172118} 4 false [] 0 0} with {OK }
+15:00:28.707854 kvserver 101-2 response  PutAppend request  with 
+15:00:28.707889 101-1 aaa
+15:00:28.708994 101-0 ddd
+15:00:28.709283 102-1 ddd
+15:00:28.709744 kvserver 100-0 received Append request 
+15:00:28.712560 kvserver 2-2 receive ApplyMsg {true {Put 6 irOSkAmbYBBBDP-cCVr- 242615287785379694} 4 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.718199 100-1 aaa
+15:00:28.719454 100-0 ddd
+15:00:28.720143 102-0 ddd
+15:00:28.720152 101-2 ddd
+15:00:28.720588 kvserver 0-0 receive ApplyMsg {true {Put 8 -U6wOkX8lW56c3jrPhPU 1889715022982925918} 5 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.720768 kvserver 100-0 reply applymsg {true {Put 8 -U6wOkX8lW56c3jrPhPU 1889715022982925918} 5 false [] 0 0} with {OK }
+15:00:28.720903 kvserver 100-0 response  PutAppend request  with 
+15:00:28.722654 kvserver 101-0 received Append request 
+15:00:28.722746 kvserver 101-0 response Append request  with 
+15:00:28.723714 kvserver 1-1 receive ApplyMsg {true {Put 6 irOSkAmbYBBBDP-cCVr- 242615287785379694} 4 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.723817 kvserver 101-1 received Append request 
+15:00:28.723866 kvserver 101-1 response Append request  with 
+15:00:28.724520 kvserver 1-1 receive ApplyMsg {true {Put 7 2FchylAzluvlgBJt7yiY 1177630981951172118} 4 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.725446 kvserver 101-2 received Append request 
+15:00:28.729093 101-0 aaa
+15:00:28.729407 102-1 aaa
+15:00:28.731685 101-1 ddd
+15:00:28.732257 100-2 ddd
+15:00:28.732351 102-2 ddd
+15:00:28.733225 kvserver 2-2 receive ApplyMsg {true {Put 8 -U6wOkX8lW56c3jrPhPU 1889715022982925918} 5 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.739660 100-0 aaa
+15:00:28.740360 102-0 aaa
+15:00:28.740698 101-2 aaa
+15:00:28.740822 100-1 ddd
+15:00:28.744988 kvserver 1-1 receive ApplyMsg {true {Put 9 _qqtYYFohIcRD7Lga6-9 267140556778941106} 5 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.745329 kvserver 1-1 receive ApplyMsg {true {Put 8 -U6wOkX8lW56c3jrPhPU 1889715022982925918} 5 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.747980 kvserver 0-0 receive ApplyMsg {true {Put 7 2FchylAzluvlgBJt7yiY 1177630981951172118} 4 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.749145 kvserver 2-2 receive ApplyMsg {true {Put 9 _qqtYYFohIcRD7Lga6-9 267140556778941106} 5 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.749275 kvserver 101-2 reply applymsg {true {Put 9 _qqtYYFohIcRD7Lga6-9 267140556778941106} 5 false [] 0 0} with {OK }
+15:00:28.749320 kvserver 101-2 response  PutAppend request  with 
+15:00:28.750404 kvserver 100-0 received Get request 
+15:00:28.750772 101-0 ddd
+15:00:28.752311 101-1 aaa
+15:00:28.752460 100-2 aaa
+15:00:28.752593 102-2 aaa
+15:00:28.761185 100-1 aaa
+15:00:28.761539 kvserver 0-0 receive ApplyMsg {true {Get 0  786613373625642302} 6 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.761903 kvserver 100-0 reply applymsg {true {Get 0  786613373625642302} 6 false [] 0 0} with {OK uYLg1ggsFj7vmVCi-OgN}
+15:00:28.762082 kvserver 100-0 response Get request  with 
+15:00:28.763641 kvserver 101-0 received Get request 
+15:00:28.763726 kvserver 101-0 response  Get request  with 
+15:00:28.764800 kvserver 101-1 received Get request 
+15:00:28.764861 kvserver 101-1 response  Get request  with 
+15:00:28.766256 kvserver 101-2 received Get request 
+15:00:28.770952 101-0 aaa
+15:00:28.771406 102-1 ddd
+15:00:28.771995 101-2 ddd
+15:00:28.772582 100-0 ddd
+15:00:28.773808 kvserver 2-2 receive ApplyMsg {true {Get 0  786613373625642302} 6 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.783260 102-0 ddd
+15:00:28.785756 kvserver 1-1 receive ApplyMsg {true {Get 1  1172606717366762719} 6 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.789430 kvserver 0-0 receive ApplyMsg {true {Put 9 _qqtYYFohIcRD7Lga6-9 267140556778941106} 5 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.790611 kvserver 2-2 receive ApplyMsg {true {Get 1  1172606717366762719} 6 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.790743 kvserver 101-2 reply applymsg {true {Get 1  1172606717366762719} 6 false [] 0 0} with {OK dMW4ksaaS680k79xdxA5}
+15:00:28.790787 kvserver 101-2 response Get request  with 
+15:00:28.791506 102-1 aaa
+15:00:28.791978 kvserver 100-0 received Get request 
+15:00:28.792122 101-2 aaa
+15:00:28.792744 100-0 aaa
+15:00:28.793640 100-2 ddd
+15:00:28.802539 kvserver 0-0 receive ApplyMsg {true {Get 2  797432813123632520} 7 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.802686 kvserver 100-0 reply applymsg {true {Get 2  797432813123632520} 7 false [] 0 0} with {OK dajrmhMl0exd9-35N5vU}
+15:00:28.802877 kvserver 100-0 response Get request  with 
+15:00:28.804050 102-0 aaa
+15:00:28.804659 kvserver 101-0 received Get request 
+15:00:28.804757 kvserver 101-0 response  Get request  with 
+15:00:28.805708 102-2 ddd
+15:00:28.806054 kvserver 1-1 receive ApplyMsg {true {Get 0  786613373625642302} 6 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.806320 kvserver 101-1 received Get request 
+15:00:28.806440 kvserver 101-1 response  Get request  with 
+15:00:28.807817 kvserver 101-2 received Get request 
+15:00:28.809862 kvserver 0-0 receive ApplyMsg {true {Get 1  1172606717366762719} 6 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.814631 100-2 aaa
+15:00:28.815105 kvserver 2-2 receive ApplyMsg {true {Get 2  797432813123632520} 7 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.815525 101-1 ddd
+15:00:28.825685 101-0 ddd
+15:00:28.825785 100-1 ddd
+15:00:28.825833 102-2 aaa
+15:00:28.826542 kvserver 1-1 receive ApplyMsg {true {Get 3  1763354181351014856} 7 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.831232 kvserver 2-2 receive ApplyMsg {true {Get 3  1763354181351014856} 7 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.831384 kvserver 101-2 reply applymsg {true {Get 3  1763354181351014856} 7 false [] 0 0} with {OK Dv36Gs5s5i3CAzPrfpZq}
+15:00:28.831427 kvserver 101-2 response Get request  with 
+15:00:28.832695 kvserver 100-0 received Get request 
+15:00:28.835677 101-1 aaa
+15:00:28.835831 102-1 ddd
+15:00:28.844158 kvserver 0-0 receive ApplyMsg {true {Get 4  3568814177453234176} 8 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.844383 kvserver 100-0 reply applymsg {true {Get 4  3568814177453234176} 8 false [] 0 0} with {OK JxINzdLyZVvvpdMzNma3}
+15:00:28.844454 kvserver 100-0 response Get request  with 
+15:00:28.845900 101-0 aaa
+15:00:28.846028 kvserver 101-0 received Get request 
+15:00:28.846084 kvserver 101-0 response  Get request  with 
+15:00:28.846270 100-1 aaa
+15:00:28.846290 101-2 ddd
+15:00:28.846607 kvserver 1-1 receive ApplyMsg {true {Get 2  797432813123632520} 7 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.847011 kvserver 101-1 received Get request 
+15:00:28.847056 kvserver 101-1 response  Get request  with 
+15:00:28.847996 kvserver 101-2 received Get request 
+15:00:28.850833 kvserver 0-0 receive ApplyMsg {true {Get 3  1763354181351014856} 7 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.852125 kvserver 2-2 receive ApplyMsg {true {Get 5  3261700871346332943} 8 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.852280 kvserver 101-2 reply applymsg {true {Get 5  3261700871346332943} 8 false [] 0 0} with {OK 0-LODYYtzhPY7IgDQ6gi}
+15:00:28.852369 kvserver 101-2 response Get request  with 
+15:00:28.853802 kvserver 100-0 received Get request 
+15:00:28.855938 kvserver 2-2 receive ApplyMsg {true {Get 4  3568814177453234176} 8 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.856068 102-1 aaa
+15:00:28.863587 100-0 ddd
+15:00:28.863892 102-0 ddd
+15:00:28.865006 kvserver 0-0 receive ApplyMsg {true {Get 6  4581526525464741011} 9 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.865163 kvserver 100-0 reply applymsg {true {Get 6  4581526525464741011} 9 false [] 0 0} with {OK irOSkAmbYBBBDP-cCVr-}
+15:00:28.865268 kvserver 100-0 response Get request  with 
+15:00:28.866386 101-2 aaa
+15:00:28.866821 kvserver 101-0 received Get request 
+15:00:28.866913 kvserver 101-0 response  Get request  with 
+15:00:28.867498 kvserver 1-1 receive ApplyMsg {true {Get 5  3261700871346332943} 8 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.867873 kvserver 1-1 receive ApplyMsg {true {Get 4  3568814177453234176} 8 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.868222 kvserver 101-1 received Get request 
+15:00:28.868291 kvserver 101-1 response  Get request  with 
+15:00:28.869628 kvserver 101-2 received Get request 
+15:00:28.876302 kvserver 2-2 receive ApplyMsg {true {Get 6  4581526525464741011} 9 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.877220 100-2 ddd
+15:00:28.883737 100-0 aaa
+15:00:28.883988 102-0 aaa
+15:00:28.888769 kvserver 1-1 receive ApplyMsg {true {Get 7  3043656039761251616} 9 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.891200 kvserver 0-0 receive ApplyMsg {true {Get 5  3261700871346332943} 8 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.891765 102-2 ddd
+15:00:28.893482 kvserver 2-2 receive ApplyMsg {true {Get 7  3043656039761251616} 9 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.893671 kvserver 101-2 reply applymsg {true {Get 7  3043656039761251616} 9 false [] 0 0} with {OK 2FchylAzluvlgBJt7yiY}
+15:00:28.893763 kvserver 101-2 response Get request  with 
+15:00:28.895282 kvserver 100-0 received Get request 
+15:00:28.897527 100-2 aaa
+15:00:28.904304 101-1 ddd
+15:00:28.905893 kvserver 0-0 receive ApplyMsg {true {Get 8  1448585422170570274} 10 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.906539 kvserver 100-0 reply applymsg {true {Get 8  1448585422170570274} 10 false [] 0 0} with {OK -U6wOkX8lW56c3jrPhPU}
+15:00:28.906681 kvserver 100-0 response Get request  with 
+15:00:28.908629 kvserver 101-0 received Get request 
+15:00:28.908684 kvserver 101-0 response  Get request  with 
+15:00:28.908840 kvserver 1-1 receive ApplyMsg {true {Get 6  4581526525464741011} 9 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.909660 kvserver 101-1 received Get request 
+15:00:28.909744 kvserver 101-1 response  Get request  with 
+15:00:28.911369 kvserver 101-2 received Get request 
+15:00:28.911527 kvserver 0-0 receive ApplyMsg {true {Get 7  3043656039761251616} 9 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.912223 102-2 aaa
+15:00:28.917033 kvserver 2-2 receive ApplyMsg {true {Get 8  1448585422170570274} 10 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.918162 101-0 ddd
+15:00:28.924580 101-1 aaa
+15:00:28.929306 kvserver 1-1 receive ApplyMsg {true {Get 9  3072598477551219539} 10 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.929786 100-1 ddd
+15:00:28.935001 kvserver 2-2 receive ApplyMsg {true {Get 9  3072598477551219539} 10 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:28.935143 kvserver 101-2 reply applymsg {true {Get 9  3072598477551219539} 10 false [] 0 0} with {OK _qqtYYFohIcRD7Lga6-9}
+15:00:28.935218 kvserver 101-2 response Get request  with 
+15:00:28.939206 101-0 aaa
+15:00:28.940064 101-2 ddd
+15:00:28.940217 102-1 ddd
+15:00:28.949950 kvserver 1-1 receive ApplyMsg {true {Get 8  1448585422170570274} 10 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:28.950063 100-1 aaa
+15:00:28.950455 100-0 ddd
+15:00:28.960165 101-2 aaa
+15:00:28.960329 102-1 aaa
+15:00:28.960673 102-0 ddd
+15:00:28.970527 100-0 aaa
+15:00:28.971505 100-2 ddd
+15:00:28.981414 102-0 aaa
+15:00:28.982665 102-2 ddd
+15:00:28.992288 100-2 aaa
+15:00:28.993511 100-1 ddd
+15:00:29.003706 102-2 aaa
+15:00:29.012564 100-0 ddd
+15:00:29.012949 102-1 ddd
+15:00:29.014211 100-1 aaa
+15:00:29.023199 100-2 ddd
+15:00:29.023365 102-0 ddd
+15:00:29.032883 100-0 aaa
+15:00:29.033111 102-1 aaa
+15:00:29.033671 102-2 ddd
+15:00:29.043931 102-0 aaa
+15:00:29.043932 100-2 aaa
+15:00:29.045238 100-1 ddd
+15:00:29.054762 102-2 aaa
+15:00:29.056231 102-1 ddd
+15:00:29.056298 100-0 ddd
+15:00:29.066141 100-1 aaa
+15:00:29.067887 102-0 ddd
+15:00:29.068094 100-2 ddd
+15:00:29.076585 100-0 aaa
+15:00:29.076594 102-1 aaa
+15:00:29.078657 102-2 ddd
+15:00:29.088836 100-2 aaa
+15:00:29.088854 102-0 aaa
+15:00:29.099419 102-2 aaa
+15:00:29.141547 100-1 ddd
+15:00:29.151375 100-0 ddd
+15:00:29.161497 102-1 ddd
+15:00:29.161766 100-1 aaa
+15:00:29.171702 100-0 aaa
+15:00:29.173518 kvserver 100-0 received Get request 
+15:00:29.181999 kvserver 2-2 receive ApplyMsg {true {Get 0  4171560203860843278} 11 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.182137 102-1 aaa
+15:00:29.193761 kvserver 0-0 receive ApplyMsg {true {Get 0  4171560203860843278} 11 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.193956 kvserver 100-0 reply applymsg {true {Get 0  4171560203860843278} 11 false [] 0 0} with {OK uYLg1ggsFj7vmVCi-OgN}
+15:00:29.194026 kvserver 100-0 response Get request  with 
+15:00:29.204941 kvserver 100-0 received Get request 
+15:00:29.214114 kvserver 100-0 received Get request 
+15:00:29.214901 kvserver 0-0 receive ApplyMsg {true {Get 8  1516731991170065650} 12 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.215050 kvserver 100-0 reply applymsg {true {Get 8  1516731991170065650} 12 false [] 0 0} with {OK -U6wOkX8lW56c3jrPhPU}
+15:00:29.215107 kvserver 100-0 response Get request  with 
+15:00:29.217389 kvserver 1-1 receive ApplyMsg {true {Get 0  4171560203860843278} 11 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.220664 kvserver 1-1 receive ApplyMsg {true {Get 8  1516731991170065650} 12 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.223045 kvserver 2-2 receive ApplyMsg {true {Get 8  1516731991170065650} 12 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.224900 kvserver 100-0 received Get request 
+15:00:29.235993 kvserver 0-0 receive ApplyMsg {true {Get 6  2932123460974627576} 13 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.236231 kvserver 100-0 reply applymsg {true {Get 6  2932123460974627576} 13 false [] 0 0} with {OK irOSkAmbYBBBDP-cCVr-}
+15:00:29.236670 kvserver 0-0 receive ApplyMsg {true {Get 4  746659129991762026} 14 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.236893 kvserver 100-0 reply applymsg {true {Get 4  746659129991762026} 14 false [] 0 0} with {OK JxINzdLyZVvvpdMzNma3}
+15:00:29.237008 kvserver 100-0 response Get request  with 
+15:00:29.237195 kvserver 100-0 response Get request  with 
+15:00:29.241459 kvserver 1-1 receive ApplyMsg {true {Get 6  2932123460974627576} 13 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.243682 kvserver 2-2 receive ApplyMsg {true {Get 6  2932123460974627576} 13 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.246569 kvserver 100-0 received Get request 
+15:00:29.256948 102-0 ddd
+15:00:29.257551 kvserver 0-0 receive ApplyMsg {true {Get 2  1258423005137879783} 15 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.257835 kvserver 100-0 reply applymsg {true {Get 2  1258423005137879783} 15 false [] 0 0} with {OK dajrmhMl0exd9-35N5vU}
+15:00:29.258044 kvserver 100-0 response Get request  with 
+15:00:29.262324 kvserver 1-1 receive ApplyMsg {true {Get 4  746659129991762026} 14 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.264097 kvserver 2-2 receive ApplyMsg {true {Get 4  746659129991762026} 14 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.264424 kvserver 2-2 receive ApplyMsg {true {Get 2  1258423005137879783} 15 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.267479 100-2 ddd
+15:00:29.277661 102-0 aaa
+15:00:29.279439 102-2 ddd
+15:00:29.288359 100-2 aaa
+15:00:29.290570 100-1 ddd
+15:00:29.300015 102-2 aaa
+15:00:29.301713 102-1 ddd
+15:00:29.302470 100-0 ddd
+15:00:29.311604 100-1 aaa
+15:00:29.312651 102-0 ddd
+15:00:29.322504 102-1 aaa
+15:00:29.322848 100-0 aaa
+15:00:29.324644 100-2 ddd
+15:00:29.332888 102-0 aaa
+15:00:29.345376 100-2 aaa
+15:00:29.353387 102-2 ddd
+15:00:29.358377 100-1 ddd
+15:00:29.365222 kvserver 1-1 receive ApplyMsg {true {Get 2  1258423005137879783} 15 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:29.368579 102-0 ddd
+15:00:29.373577 102-2 aaa
+15:00:29.379313 100-1 aaa
+15:00:29.379574 102-1 ddd
+15:00:29.388837 102-0 aaa
+15:00:29.400395 102-1 aaa
+15:00:29.413562 100-2 ddd
+15:00:29.414534 100-0 ddd
+15:00:29.425319 102-2 ddd
+15:00:29.434217 100-2 aaa
+15:00:29.434783 100-0 aaa
+15:00:29.436333 100-1 ddd
+15:00:29.446027 102-2 aaa
+15:00:29.456598 100-1 aaa
+15:00:29.487071 102-0 ddd
+15:00:29.497437 102-1 ddd
+15:00:29.507702 102-0 aaa
+15:00:29.508288 100-2 ddd
+15:00:29.518522 102-1 aaa
+15:00:29.529153 100-2 aaa
+15:00:29.530277 100-0 ddd
+15:00:29.530408 102-2 ddd
+15:00:29.550685 100-0 aaa
+15:00:29.550689 102-2 aaa
+15:00:29.551508 100-1 ddd
+15:00:29.572014 100-1 aaa
+15:00:29.580433 102-0 ddd
+15:00:29.600701 102-0 aaa
+15:00:29.601968 102-1 ddd
+15:00:29.612204 100-2 ddd
+15:00:29.622199 100-0 ddd
+15:00:29.622359 102-1 aaa
+15:00:29.632358 100-2 aaa
+15:00:29.632982 102-2 ddd
+15:00:29.642852 100-0 aaa
+15:00:29.644347 100-1 ddd
+15:00:29.644347 102-1 ddd
+15:00:29.645357 102-0 ddd
+15:00:29.653742 102-2 aaa
+15:00:29.654889 100-2 ddd
+15:00:29.664729 100-1 aaa
+15:00:29.664927 102-1 aaa
+15:00:29.665602 102-0 aaa
+15:00:29.669041 100-0 ddd
+15:00:29.675840 100-2 aaa
+15:00:29.689254 100-0 aaa
+15:00:29.703368 102-2 ddd
+15:00:29.714203 100-1 ddd
+15:00:29.723531 102-2 aaa
+15:00:29.724784 102-1 ddd
+15:00:29.725053 102-0 ddd
+15:00:29.734434 100-1 aaa
+15:00:29.734934 100-2 ddd
+15:00:29.745106 102-2 ddd
+15:00:29.745251 100-0 ddd
+15:00:29.745329 102-0 aaa
+15:00:29.745276 102-1 aaa
+15:00:29.755676 100-2 aaa
+15:00:29.765872 102-2 aaa
+15:00:29.766097 100-0 aaa
+15:00:29.768114 100-1 ddd
+15:00:29.788355 100-1 aaa
+15:00:29.797444 102-1 ddd
+15:00:29.798543 102-0 ddd
+15:00:29.811757 102-2 ddd
+15:00:29.811902 100-2 ddd
+15:00:29.818189 102-1 aaa
+15:00:29.819027 102-0 aaa
+15:00:29.826853 100-0 ddd
+15:00:29.832295 102-2 aaa
+15:00:29.832308 100-2 aaa
+15:00:29.847058 100-0 aaa
+15:00:29.865151 100-1 ddd
+15:00:29.885558 100-1 aaa
+15:00:29.886895 102-1 ddd
+15:00:29.887373 102-0 ddd
+15:00:29.896894 102-2 ddd
+15:00:29.907965 102-0 aaa
+15:00:29.907986 102-1 aaa
+15:00:29.912525 100-2 ddd
+15:00:29.917135 102-2 aaa
+15:00:29.932809 100-2 aaa
+15:00:29.934659 100-0 ddd
+15:00:29.945359 100-1 ddd
+15:00:29.954944 100-0 aaa
+15:00:29.965783 100-1 aaa
+15:00:29.966060 102-0 ddd
+15:00:29.978648 102-1 ddd
+15:00:29.978657 102-2 ddd
+15:00:29.986583 102-0 aaa
+15:00:29.988207 100-2 ddd
+15:00:29.998930 102-1 aaa
+15:00:29.999252 102-2 aaa
+15:00:30.000848 100-0 ddd
+15:00:30.008551 100-2 aaa
+15:00:30.020194 100-1 ddd
+15:00:30.020802 102-0 ddd
+15:00:30.021649 100-0 aaa
+15:00:30.030836 102-2 ddd
+15:00:30.040994 100-1 aaa
+15:00:30.041334 102-0 aaa
+15:00:30.042028 102-1 ddd
+15:00:30.042282 100-2 ddd
+15:00:30.051163 102-2 aaa
+15:00:30.062902 100-2 aaa
+15:00:30.063072 102-1 aaa
+15:00:30.065393 100-0 ddd
+15:00:30.083926 100-1 ddd
+15:00:30.084579 102-0 ddd
+15:00:30.086153 100-0 aaa
+15:00:30.100944 102-2 ddd
+15:00:30.101382 100-2 ddd
+15:00:30.101446 102-1 ddd
+15:00:30.104563 100-1 aaa
+15:00:30.104870 102-0 aaa
+15:00:30.122008 100-2 aaa
+15:00:30.122017 102-1 aaa
+15:00:30.122547 102-2 aaa
+15:00:30.139731 100-0 ddd
+15:00:30.160826 100-0 aaa
+15:00:30.181680 102-0 ddd
+15:00:30.181689 100-1 ddd
+15:00:30.201995 102-0 aaa
+15:00:30.202174 100-1 aaa
+15:00:30.202387 102-1 ddd
+15:00:30.202449 100-2 ddd
+15:00:30.215888 102-2 ddd
+15:00:30.222483 102-1 aaa
+15:00:30.222601 100-2 aaa
+15:00:30.236670 102-2 aaa
+15:00:30.246201 100-0 ddd
+15:00:30.257369 102-0 ddd
+15:00:30.266585 100-0 aaa
+15:00:30.267825 100-1 ddd
+15:00:30.267920 102-1 ddd
+15:00:30.268287 100-2 ddd
+15:00:30.277640 102-0 aaa
+15:00:30.278674 102-2 ddd
+15:00:30.288288 100-1 aaa
+15:00:30.288515 102-1 aaa
+15:00:30.288785 100-2 aaa
+15:00:30.299167 102-2 aaa
+15:00:30.336425 100-0 ddd
+15:00:30.346960 102-0 ddd
+15:00:30.356959 100-0 aaa
+15:00:30.357986 100-1 ddd
+15:00:30.367615 102-0 aaa
+15:00:30.368870 102-1 ddd
+15:00:30.368964 102-2 ddd
+15:00:30.369080 100-2 ddd
+15:00:30.378693 100-1 aaa
+15:00:30.389252 102-1 aaa
+15:00:30.389228 102-2 aaa
+15:00:30.389787 100-2 aaa
+15:00:30.390695 100-0 ddd
+15:00:30.411707 100-0 aaa
+15:00:30.419921 100-1 ddd
+15:00:30.419921 102-0 ddd
+15:00:30.431216 102-1 ddd
+15:00:30.440938 100-1 aaa
+15:00:30.440938 102-0 aaa
+15:00:30.442508 102-2 ddd
+15:00:30.442820 100-2 ddd
+15:00:30.452052 102-1 aaa
+15:00:30.462283 100-0 ddd
+15:00:30.462910 102-2 aaa
+15:00:30.462992 100-2 aaa
+15:00:30.482629 100-0 aaa
+15:00:30.492532 100-1 ddd
+15:00:30.500145 102-0 ddd
+15:00:30.513111 100-1 aaa
+15:00:30.514582 102-1 ddd
+15:00:30.514598 102-2 ddd
+15:00:30.520420 102-0 aaa
+15:00:30.525142 100-2 ddd
+15:00:30.534805 102-1 aaa
+15:00:30.535066 102-2 aaa
+15:00:30.545300 100-2 aaa
+15:00:30.564838 100-0 ddd
+15:00:30.585212 100-0 aaa
+15:00:30.599701 100-1 ddd
+15:00:30.619478 102-0 ddd
+15:00:30.620873 100-1 aaa
+15:00:30.639638 102-0 aaa
+15:00:30.640120 102-1 ddd
+15:00:30.657884 102-2 ddd
+15:00:30.660775 102-1 aaa
+15:00:30.678721 102-2 aaa
+15:00:30.679465 100-2 ddd
+15:00:30.699698 100-2 aaa
+15:00:30.699957 100-0 ddd
+15:00:30.710769 100-1 ddd
+15:00:30.720926 102-1 ddd
+15:00:30.721035 100-0 aaa
+15:00:30.721220 102-0 ddd
+15:00:30.731203 102-2 ddd
+15:00:30.731460 100-1 aaa
+15:00:30.741124 102-1 aaa
+15:00:30.741434 102-0 aaa
+15:00:30.752442 102-2 aaa
+15:00:30.776534 100-2 ddd
+15:00:30.786356 100-0 ddd
+15:00:30.786738 102-1 ddd
+15:00:30.786755 100-1 ddd
+15:00:30.796668 102-0 ddd
+15:00:30.796792 100-2 aaa
+15:00:30.806669 100-0 aaa
+15:00:30.806971 102-1 aaa
+15:00:30.807173 100-1 aaa
+15:00:30.809114 102-2 ddd
+15:00:30.817542 102-0 aaa
+15:00:30.829464 102-2 aaa
+15:00:30.873589 100-2 ddd
+15:00:30.882003 100-1 ddd
+15:00:30.882605 100-0 ddd
+15:00:30.893129 102-1 ddd
+15:00:30.894315 100-2 aaa
+15:00:30.902472 100-1 aaa
+15:00:30.902823 100-0 aaa
+15:00:30.913488 102-1 aaa
+15:00:30.932719 102-0 ddd
+15:00:30.933710 102-2 ddd
+15:00:30.953154 102-0 aaa
+15:00:30.954213 102-2 aaa
+15:00:30.974666 100-2 ddd
+15:00:30.974672 100-1 ddd
+15:00:30.974917 100-0 ddd
+15:00:30.985076 102-1 ddd
+15:00:30.995384 100-0 aaa
+15:00:30.995501 100-1 aaa
+15:00:30.995737 100-2 aaa
+15:00:30.997586 102-0 ddd
+15:00:31.005270 102-1 aaa
+15:00:31.018656 102-0 aaa
+15:00:31.042351 102-2 ddd
+15:00:31.053511 100-2 ddd
+15:00:31.054571 100-0 ddd
+15:00:31.062856 102-2 aaa
+15:00:31.063980 100-1 ddd
+15:00:31.074741 100-0 aaa
+15:00:31.074741 100-2 aaa
+15:00:31.084183 100-1 aaa
+15:00:31.106249 102-1 ddd
+15:00:31.106632 102-0 ddd
+15:00:31.106737 102-2 ddd
+15:00:31.116691 100-0 ddd
+15:00:31.126389 102-1 aaa
+15:00:31.126836 102-2 aaa
+15:00:31.126945 100-2 ddd
+15:00:31.127051 102-0 aaa
+15:00:31.137793 100-0 aaa
+15:00:31.147071 100-2 aaa
+15:00:31.171626 100-1 ddd
+15:00:31.171848 102-1 ddd
+15:00:31.182120 102-2 ddd
+15:00:31.192908 100-1 aaa
+15:00:31.192910 102-1 aaa
+15:00:31.202686 102-2 aaa
+15:00:31.233234 102-0 ddd
+15:00:31.244140 100-0 ddd
+15:00:31.254368 102-0 aaa
+15:00:31.255690 100-2 ddd
+15:00:31.263628 101-0 aaa
+15:00:31.263832 all pending request is kicked out due to leadership change
+15:00:31.263901 101-1 aaa
+15:00:31.264002 all pending request is kicked out due to leadership change
+15:00:31.264056 101-2 aaa
+15:00:31.264156 all pending request is kicked out due to leadership change
+15:00:31.265294 kvserver 100-0 received Get request 
+15:00:31.269421 kvserver 0-0 receive ApplyMsg {true {Get 0  986821164619689097} 16 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:31.269586 kvserver 100-0 reply applymsg {true {Get 0  986821164619689097} 16 false [] 0 0} with {OK uYLg1ggsFj7vmVCi-OgN}
+15:00:31.270699 100-0 aaa
+15:00:31.270950 kvserver 100-0 response Get request  with 
+15:00:31.274781 kvserver 101-0 received Get request 
+15:00:31.274903 kvserver 101-0 response wrondgroup Get request  with 
+15:00:31.275662 100-1 ddd
+15:00:31.276170 100-2 aaa
+15:00:31.277406 kvserver 101-0 received Get request 
+15:00:31.277493 kvserver 101-0 response wrondgroup Get request  with 
+15:00:31.278394 kvserver 2-2 receive ApplyMsg {true {Get 0  986821164619689097} 16 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:31.295777 100-1 aaa
+15:00:31.296662 kvserver 101-1 received Get request 
+15:00:31.296728 kvserver 101-1 response wrondgroup Get request  with 
+15:00:31.335813 102-1 ddd
+15:00:31.336298 kvserver 101-0 received Get request 
+15:00:31.336341 kvserver 101-0 response wrondgroup Get request  with 
+15:00:31.347067 102-2 ddd
+15:00:31.356482 102-1 aaa
+15:00:31.359078 kvserver 101-0 received Get request 
+15:00:31.359284 kvserver 101-0 response wrondgroup Get request  with 
+15:00:31.360361 kvserver 101-0 received Get request 
+15:00:31.360459 kvserver 101-0 response wrondgroup Get request  with 
+15:00:31.360512 102-0 ddd
+15:00:31.367285 102-2 aaa
+15:00:31.369292 100-0 ddd
+15:00:31.370146 101-1 eee
+15:00:31.370254 101-0 eee
+15:00:31.370301 101-0 aaa
+15:00:31.370226 101-1 aaa
+15:00:31.374475 kvserver 1-1 receive ApplyMsg {true {Get 0  986821164619689097} 16 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:31.378501 101-2 eee
+15:00:31.378585 101-2 aaa
+15:00:31.381153 102-0 aaa
+15:00:31.389653 100-0 aaa
+15:00:31.463203 100-2 ddd
+15:00:31.484608 100-2 aaa
+15:00:31.507202 100-1 ddd
+15:00:31.527830 100-1 aaa
+15:00:31.532198 102-2 ddd
+15:00:31.532199 102-1 ddd
+15:00:31.544933 101-1 ddd
+15:00:31.552464 102-2 aaa
+15:00:31.552636 102-1 aaa
+15:00:31.555630 101-0 ddd
+15:00:31.556155 kvserver 101-0 received Get request 
+15:00:31.556267 kvserver 101-0 response  Get request  with 
+15:00:31.556631 kvserver 101-0 received Get request 
+15:00:31.556721 kvserver 101-0 response  Get request  with 
+15:00:31.557263 kvserver 101-1 received Get request 
+15:00:31.557376 kvserver 101-1 response  Get request  with 
+15:00:31.560772 kvserver 101-2 received Get request 
+15:00:31.560900 kvserver 101-2 response wrondgroup Get request  with 
+15:00:31.562594 kvserver 101-1 received Get request 
+15:00:31.562681 kvserver 101-1 response  Get request  with 
+15:00:31.563960 kvserver 101-2 received Get request 
+15:00:31.564037 kvserver 101-2 response wrondgroup Get request  with 
+15:00:31.565303 101-1 aaa
+15:00:31.577688 101-0 aaa
+15:00:31.601902 102-0 ddd
+15:00:31.610572 all pending request is kicked out due to leadership change
+15:00:31.613019 all pending request is kicked out due to leadership change
+15:00:31.613238 all pending request is kicked out due to leadership change
+15:00:31.614953 101-2 ddd
+15:00:31.615052 100-0 ddd
+15:00:31.623089 102-0 aaa
+15:00:31.625699 kvserver 101-0 received Get request 
+15:00:31.625817 kvserver 101-0 response  Get request  with 
+15:00:31.626001 kvserver 101-0 received Get request 
+15:00:31.626079 kvserver 101-0 response  Get request  with 
+15:00:31.626945 kvserver 101-1 received Get request 
+15:00:31.627021 kvserver 101-1 response  Get request  with 
+15:00:31.627068 kvserver 101-1 received Get request 
+15:00:31.627116 kvserver 101-1 response  Get request  with 
+15:00:31.628188 kvserver 101-2 received Get request 
+15:00:31.628256 kvserver 101-2 response  Get request  with 
+15:00:31.628315 kvserver 101-2 received Get request 
+15:00:31.628355 kvserver 101-2 response  Get request  with 
+15:00:31.635522 101-2 aaa
+15:00:31.635532 100-0 aaa
+15:00:31.664110 kvserver 101-0 received Get request 
+15:00:31.664224 kvserver 101-0 response  Get request  with 
+15:00:31.664334 kvserver 101-0 received Get request 
+15:00:31.664430 kvserver 101-0 response  Get request  with 
+15:00:31.666611 kvserver 101-1 received Get request 
+15:00:31.666705 kvserver 101-1 response  Get request  with 
+15:00:31.668073 kvserver 101-2 received Get request 
+15:00:31.668165 kvserver 101-2 response  Get request  with 
+15:00:31.668316 kvserver 101-1 received Get request 
+15:00:31.668391 kvserver 101-1 response  Get request  with 
+15:00:31.669734 kvserver 101-2 received Get request 
+15:00:31.669809 kvserver 101-2 response  Get request  with 
+15:00:31.692870 100-2 ddd
+15:00:31.693342 100-1 ddd
+15:00:31.704489 102-2 ddd
+15:00:31.713627 100-1 aaa
+15:00:31.713860 100-2 aaa
+15:00:31.715557 102-1 ddd
+15:00:31.725153 102-2 aaa
+15:00:31.736213 102-1 aaa
+15:00:31.764226 101-0 ddd
+15:00:31.785312 101-1 ddd
+15:00:31.785900 102-0 ddd
+15:00:31.786015 101-0 aaa
+15:00:31.806126 101-1 aaa
+15:00:31.806159 102-0 aaa
+15:00:31.814376 101-2 ddd
+15:00:31.814811 100-0 ddd
+15:00:31.834973 101-2 aaa
+15:00:31.835226 100-0 aaa
+15:00:31.872539 100-1 ddd
+15:00:31.873130 kvserver 101-0 received Get request 
+15:00:31.873203 kvserver 101-0 response  Get request  with 
+15:00:31.873247 kvserver 101-0 received Get request 
+15:00:31.873304 kvserver 101-0 response  Get request  with 
+15:00:31.874392 kvserver 101-1 received Get request 
+15:00:31.874498 kvserver 101-1 response  Get request  with 
+15:00:31.874781 kvserver 101-1 received Get request 
+15:00:31.874823 kvserver 101-1 response  Get request  with 
+15:00:31.875860 kvserver 101-2 received Get request 
+15:00:31.875916 kvserver 101-2 response  Get request  with 
+15:00:31.876173 kvserver 101-2 received Get request 
+15:00:31.876293 kvserver 101-2 response  Get request  with 
+15:00:31.883676 100-2 ddd
+15:00:31.892813 100-1 aaa
+15:00:31.894247 102-2 ddd
+15:00:31.904103 100-2 aaa
+15:00:31.905583 kvserver 101-0 received Get request 
+15:00:31.905649 kvserver 101-0 response  Get request  with 
+15:00:31.905786 kvserver 101-0 received Get request 
+15:00:31.905850 kvserver 101-0 response  Get request  with 
+15:00:31.906851 kvserver 101-1 received Get request 
+15:00:31.906946 kvserver 101-1 response  Get request  with 
+15:00:31.907314 kvserver 101-1 received Get request 
+15:00:31.907364 kvserver 101-1 response  Get request  with 
+15:00:31.907893 kvserver 101-2 received Get request 
+15:00:31.907964 kvserver 101-2 response  Get request  with 
+15:00:31.908238 kvserver 101-2 received Get request 
+15:00:31.908310 kvserver 101-2 response  Get request  with 
+15:00:31.915336 102-2 aaa
+15:00:31.947839 102-1 ddd
+15:00:31.948538 kvserver 101-0 received Get request 
+15:00:31.948596 kvserver 101-0 response  Get request  with 
+15:00:31.948723 kvserver 101-0 received Get request 
+15:00:31.948789 kvserver 101-0 response  Get request  with 
+15:00:31.949526 kvserver 101-1 received Get request 
+15:00:31.949583 kvserver 101-1 response  Get request  with 
+15:00:31.950123 kvserver 101-1 received Get request 
+15:00:31.950203 kvserver 101-1 response  Get request  with 
+15:00:31.950540 kvserver 101-2 received Get request 
+15:00:31.950584 kvserver 101-2 response  Get request  with 
+15:00:31.951662 kvserver 101-2 received Get request 
+15:00:31.951759 kvserver 101-2 response  Get request  with 
+15:00:31.958857 102-0 ddd
+15:00:31.968061 102-1 aaa
+15:00:31.970615 101-1 ddd
+15:00:31.970800 101-0 ddd
+15:00:31.978362 all pending request is kicked out due to leadership change
+15:00:31.979137 102-0 aaa
+15:00:31.981714 all pending request is kicked out due to leadership change
+15:00:31.982987 all pending request is kicked out due to leadership change
+15:00:31.991085 101-0 aaa
+15:00:31.991528 101-1 aaa
+15:00:32.045431 100-0 ddd
+15:00:32.066195 100-0 aaa
+15:00:32.080458 101-2 ddd
+15:00:32.089976 100-2 ddd
+15:00:32.090590 100-1 ddd
+15:00:32.101395 101-2 aaa
+15:00:32.110940 100-2 aaa
+15:00:32.111124 100-1 aaa
+15:00:32.141072 102-2 ddd
+15:00:32.141983 102-1 ddd
+15:00:32.152347 kvserver 101-0 received Get request 
+15:00:32.152456 kvserver 101-0 response  Get request  with 
+15:00:32.153894 kvserver 101-1 received Get request 
+15:00:32.154088 kvserver 101-1 response  Get request  with 
+15:00:32.155272 kvserver 101-2 received Get request 
+15:00:32.155355 kvserver 101-2 response  Get request  with 
+15:00:32.161373 102-2 aaa
+15:00:32.162574 102-1 aaa
+15:00:32.163626 102-0 ddd
+15:00:32.164001 101-0 ddd
+15:00:32.164627 kvserver 101-0 received Get request 
+15:00:32.164679 kvserver 101-0 response  Get request  with 
+15:00:32.166263 kvserver 101-1 received Get request 
+15:00:32.166374 kvserver 101-1 response  Get request  with 
+15:00:32.167609 kvserver 101-2 received Get request 
+15:00:32.167715 kvserver 101-2 response  Get request  with 
+15:00:32.183734 102-0 aaa
+15:00:32.184286 101-0 aaa
+15:00:32.214033 101-1 ddd
+15:00:32.214443 kvserver 101-0 received Get request 
+15:00:32.214503 kvserver 101-0 response  Get request  with 
+15:00:32.215455 kvserver 101-1 received Get request 
+15:00:32.215541 kvserver 101-1 response  Get request  with 
+15:00:32.216457 kvserver 101-2 received Get request 
+15:00:32.216519 kvserver 101-2 response  Get request  with 
+15:00:32.226206 kvserver 101-0 received Get request 
+15:00:32.226369 kvserver 101-0 response  Get request  with 
+15:00:32.227788 kvserver 101-0 received Get request 
+15:00:32.227874 kvserver 101-0 response  Get request  with 
+15:00:32.227789 kvserver 101-1 received Get request 
+15:00:32.228120 kvserver 101-1 response  Get request  with 
+15:00:32.228155 kvserver 101-0 received Get request 
+15:00:32.228193 kvserver 101-0 response  Get request  with 
+15:00:32.229589 kvserver 101-1 received Get request 
+15:00:32.229681 kvserver 101-1 response  Get request  with 
+15:00:32.229589 kvserver 101-2 received Get request 
+15:00:32.229929 kvserver 101-2 response  Get request  with 
+15:00:32.230021 kvserver 101-1 received Get request 
+15:00:32.230072 kvserver 101-1 response  Get request  with 
+15:00:32.231157 kvserver 101-2 received Get request 
+15:00:32.231232 kvserver 101-2 response  Get request  with 
+15:00:32.232781 kvserver 101-2 received Get request 
+15:00:32.232857 kvserver 101-2 response  Get request  with 
+15:00:32.234776 101-1 aaa
+15:00:32.236625 100-0 ddd
+15:00:32.246185 101-2 ddd
+15:00:32.257234 100-0 aaa
+15:00:32.266584 101-2 aaa
+15:00:32.342242 100-1 ddd
+15:00:32.343489 100-2 ddd
+15:00:32.362635 100-1 aaa
+15:00:32.364703 100-2 aaa
+15:00:32.420244 102-1 ddd
+15:00:32.420667 101-0 ddd
+15:00:32.420746 102-0 ddd
+15:00:32.420747 102-2 ddd
+15:00:32.430193 101-1 ddd
+15:00:32.440528 102-1 aaa
+15:00:32.441096 kvserver 101-0 received Get request 
+15:00:32.441245 102-0 aaa
+15:00:32.441541 102-2 aaa
+15:00:32.442107 101-0 aaa
+15:00:32.450466 101-1 aaa
+15:00:32.450941 kvserver 0-0 receive ApplyMsg {true {Put 1 dMW4ksaaS680k79xdxA5 940794099956760264} 1 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{}}
+} 
+15:00:32.453429 kvserver 2-2 receive ApplyMsg {true {Put 1 dMW4ksaaS680k79xdxA5 940794099956760264} 1 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{}}
+} 
+15:00:32.453655 kvserver 2-2 receive ApplyMsg {true {Put 3 Dv36Gs5s5i3CAzPrfpZq 1017057615543664872} 2 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.453825 kvserver 2-2 receive ApplyMsg {true {Put 5 0-LODYYtzhPY7IgDQ6gi 1050759726297882692} 3 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.454007 kvserver 2-2 receive ApplyMsg {true {Put 7 2FchylAzluvlgBJt7yiY 1177630981951172118} 4 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.454184 kvserver 2-2 receive ApplyMsg {true {Put 9 _qqtYYFohIcRD7Lga6-9 267140556778941106} 5 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.454375 kvserver 2-2 receive ApplyMsg {true {Get 1  1172606717366762719} 6 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.454569 kvserver 2-2 receive ApplyMsg {true {Get 3  1763354181351014856} 7 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.454805 kvserver 2-2 receive ApplyMsg {true {Get 5  3261700871346332943} 8 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.455014 kvserver 2-2 receive ApplyMsg {true {Get 7  3043656039761251616} 9 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.455225 kvserver 2-2 receive ApplyMsg {true {Get 9  3072598477551219539} 10 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.455432 kvserver 2-2 receive ApplyMsg {true {Get 5  3158129058125613086} 11 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.471997 kvserver 0-0 receive ApplyMsg {true {Put 3 Dv36Gs5s5i3CAzPrfpZq 1017057615543664872} 2 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.472330 kvserver 0-0 receive ApplyMsg {true {Put 5 0-LODYYtzhPY7IgDQ6gi 1050759726297882692} 3 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.472579 kvserver 0-0 receive ApplyMsg {true {Put 7 2FchylAzluvlgBJt7yiY 1177630981951172118} 4 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.494196 kvserver 0-0 receive ApplyMsg {true {Put 9 _qqtYYFohIcRD7Lga6-9 267140556778941106} 5 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.495114 kvserver 0-0 receive ApplyMsg {true {Get 1  1172606717366762719} 6 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.495499 kvserver 0-0 receive ApplyMsg {true {Get 3  1763354181351014856} 7 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.495814 kvserver 0-0 receive ApplyMsg {true {Get 5  3261700871346332943} 8 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.496072 kvserver 0-0 receive ApplyMsg {true {Get 7  3043656039761251616} 9 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.496343 kvserver 0-0 receive ApplyMsg {true {Get 9  3072598477551219539} 10 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.496570 kvserver 0-0 receive ApplyMsg {true {Get 5  3158129058125613086} 11 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.496699 kvserver 101-0 reply applymsg {true {Get 5  3158129058125613086} 11 false [] 0 0} with {OK 0-LODYYtzhPY7IgDQ6gi}
+15:00:32.496760 kvserver 101-0 response Get request  with 
+15:00:32.515488 100-0 ddd
+15:00:32.515507 101-2 ddd
+15:00:32.516264 kvserver 101-0 received Get request 
+15:00:32.527443 kvserver 101-0 received Get request 
+15:00:32.535513 kvserver 1-1 receive ApplyMsg {true {Put 1 dMW4ksaaS680k79xdxA5 940794099956760264} 1 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{}}
+} 
+15:00:32.535841 kvserver 1-1 receive ApplyMsg {true {Put 3 Dv36Gs5s5i3CAzPrfpZq 1017057615543664872} 2 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.536180 kvserver 1-1 receive ApplyMsg {true {Put 5 0-LODYYtzhPY7IgDQ6gi 1050759726297882692} 3 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.536324 101-2 aaa
+15:00:32.536802 100-0 aaa
+15:00:32.537501 kvserver 0-0 receive ApplyMsg {true {Get 1  1751370973533055978} 12 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.537635 kvserver 101-0 reply applymsg {true {Get 1  1751370973533055978} 12 false [] 0 0} with {OK dMW4ksaaS680k79xdxA5}
+15:00:32.537684 kvserver 101-0 response Get request  with 
+15:00:32.537887 kvserver 2-2 receive ApplyMsg {true {Get 1  1751370973533055978} 12 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.538378 kvserver 101-0 received Get request 
+15:00:32.538723 kvserver 100-0 received Get request 
+15:00:32.546015 kvserver 2-2 receive ApplyMsg {true {Get 2  4569306338160997696} 17 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.547641 kvserver 101-0 received Get request 
+15:00:32.555841 kvserver 0-0 receive ApplyMsg {true {Get 2  4569306338160997696} 17 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.556244 kvserver 100-0 reply applymsg {true {Get 2  4569306338160997696} 17 false [] 0 0} with {OK dajrmhMl0exd9-35N5vU}
+15:00:32.556385 kvserver 100-0 response Get request  with 
+15:00:32.556856 kvserver 1-1 receive ApplyMsg {true {Put 7 2FchylAzluvlgBJt7yiY 1177630981951172118} 4 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.557119 kvserver 1-1 receive ApplyMsg {true {Put 9 _qqtYYFohIcRD7Lga6-9 267140556778941106} 5 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.558035 kvserver 101-0 received Get request 
+15:00:32.558221 100-1 ddd
+15:00:32.558463 kvserver 2-2 receive ApplyMsg {true {Get 9  3519032297155066593} 13 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.558697 kvserver 2-2 receive ApplyMsg {true {Get 7  1135889408190126713} 14 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.558845 kvserver 2-2 receive ApplyMsg {true {Get 3  955523537533884974} 15 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.558879 kvserver 101-0 received Get request 
+15:00:32.559822 kvserver 0-0 receive ApplyMsg {true {Get 9  3519032297155066593} 13 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.559942 kvserver 101-0 reply applymsg {true {Get 9  3519032297155066593} 13 false [] 0 0} with {OK _qqtYYFohIcRD7Lga6-9}
+15:00:32.560141 kvserver 0-0 receive ApplyMsg {true {Get 7  1135889408190126713} 14 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.560274 kvserver 101-0 reply applymsg {true {Get 7  1135889408190126713} 14 false [] 0 0} with {OK 2FchylAzluvlgBJt7yiY}
+15:00:32.560520 kvserver 0-0 receive ApplyMsg {true {Get 3  955523537533884974} 15 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.560702 kvserver 101-0 reply applymsg {true {Get 3  955523537533884974} 15 false [] 0 0} with {OK Dv36Gs5s5i3CAzPrfpZq}
+15:00:32.560810 kvserver 101-0 response Get request  with 
+15:00:32.561061 kvserver 101-0 response Get request  with 
+15:00:32.561311 kvserver 101-0 response Get request  with 
+15:00:32.577567 kvserver 1-1 receive ApplyMsg {true {Get 1  1172606717366762719} 6 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.578792 100-1 aaa
+15:00:32.579244 kvserver 2-2 receive ApplyMsg {true {Get 3  3935113528392946711} 16 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.581291 kvserver 0-0 receive ApplyMsg {true {Get 3  3935113528392946711} 16 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.581437 kvserver 101-0 reply applymsg {true {Get 3  3935113528392946711} 16 false [] 0 0} with {OK Dv36Gs5s5i3CAzPrfpZq}
+15:00:32.581686 kvserver 0-0 receive ApplyMsg {true {Get 1  767787353731000965} 17 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.581765 kvserver 101-0 response Get request  with 
+15:00:32.581924 kvserver 101-0 reply applymsg {true {Get 1  767787353731000965} 17 false [] 0 0} with {OK dMW4ksaaS680k79xdxA5}
+15:00:32.582022 kvserver 101-0 response Get request  with 
+15:00:32.583265 kvserver 100-0 received Get request 
+15:00:32.586963 kvserver 1-1 receive ApplyMsg {true {Get 2  4569306338160997696} 17 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.597572 kvserver 0-0 receive ApplyMsg {true {Get 4  2141677180628302820} 18 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.597787 kvserver 100-0 reply applymsg {true {Get 4  2141677180628302820} 18 false [] 0 0} with {OK JxINzdLyZVvvpdMzNma3}
+15:00:32.598090 kvserver 1-1 receive ApplyMsg {true {Get 3  1763354181351014856} 7 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.598203 kvserver 100-0 response Get request  with 
+15:00:32.598494 100-2 ddd
+15:00:32.598673 101-0 ddd
+15:00:32.600003 102-0 ddd
+15:00:32.601750 kvserver 101-0 received Get request 
+15:00:32.607337 kvserver 2-2 receive ApplyMsg {true {Get 4  2141677180628302820} 18 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.608867 102-2 ddd
+15:00:32.609006 102-1 ddd
+15:00:32.618552 kvserver 1-1 receive ApplyMsg {true {Get 5  3261700871346332943} 8 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.618746 100-2 aaa
+15:00:32.618798 101-0 aaa
+15:00:32.619084 kvserver 1-1 receive ApplyMsg {true {Get 7  3043656039761251616} 9 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.619272 kvserver 1-1 receive ApplyMsg {true {Get 9  3072598477551219539} 10 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.619336 101-1 ddd
+15:00:32.619386 101-2 ddd
+15:00:32.620804 102-0 aaa
+15:00:32.620955 kvserver 2-2 receive ApplyMsg {true {Get 1  767787353731000965} 17 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.621133 kvserver 2-2 receive ApplyMsg {true {Get 5  3601775670631807106} 18 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.623314 kvserver 0-0 receive ApplyMsg {true {Get 5  3601775670631807106} 18 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.623479 kvserver 101-0 reply applymsg {true {Get 5  3601775670631807106} 18 false [] 0 0} with {OK 0-LODYYtzhPY7IgDQ6gi}
+15:00:32.623554 kvserver 101-0 response Get request  with 
+15:00:32.625086 kvserver 100-0 received Get request 
+15:00:32.629210 102-1 aaa
+15:00:32.629968 100-0 ddd
+15:00:32.631313 102-2 aaa
+15:00:32.638460 kvserver 0-0 receive ApplyMsg {true {Get 6  266796170207961433} 19 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.638633 kvserver 100-0 reply applymsg {true {Get 6  266796170207961433} 19 false [] 0 0} with {OK irOSkAmbYBBBDP-cCVr-}
+15:00:32.638735 kvserver 100-0 response Get request  with 
+15:00:32.640282 kvserver 101-0 received Get request 
+15:00:32.645960 101-1 aaa
+15:00:32.646587 kvserver 1-1 receive ApplyMsg {true {Get 5  3158129058125613086} 11 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.646834 kvserver 2-2 receive ApplyMsg {true {Get 7  4054700163082702743} 19 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.647043 kvserver 0-0 receive ApplyMsg {true {Get 7  4054700163082702743} 19 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.647126 kvserver 101-0 reply applymsg {true {Get 7  4054700163082702743} 19 false [] 0 0} with {OK 2FchylAzluvlgBJt7yiY}
+15:00:32.647584 kvserver 101-0 response Get request  with 
+15:00:32.648695 101-2 aaa
+15:00:32.649477 kvserver 1-1 receive ApplyMsg {true {Get 4  2141677180628302820} 18 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.650567 100-0 aaa
+15:00:32.651915 kvserver 100-0 received Get request 
+15:00:32.652182 kvserver 2-2 receive ApplyMsg {true {Get 6  266796170207961433} 19 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.659074 kvserver 0-0 receive ApplyMsg {true {Get 8  181229014225545449} 20 false [] 0 0} with current state {me:0, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.659225 kvserver 100-0 reply applymsg {true {Get 8  181229014225545449} 20 false [] 0 0} with {OK -U6wOkX8lW56c3jrPhPU}
+15:00:32.659266 kvserver 100-0 response Get request  with 
+15:00:32.660744 kvserver 101-0 received Get request 
+15:00:32.667377 kvserver 2-2 receive ApplyMsg {true {Get 9  197895090817162604} 20 false [] 0 0} with current state {me:2, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.667378 kvserver 1-1 receive ApplyMsg {true {Get 1  1751370973533055978} 12 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.667415 kvserver 0-0 receive ApplyMsg {true {Get 9  197895090817162604} 20 false [] 0 0} with current state {me:0, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.667746 kvserver 101-0 reply applymsg {true {Get 9  197895090817162604} 20 false [] 0 0} with {OK _qqtYYFohIcRD7Lga6-9}
+15:00:32.667785 kvserver 1-1 receive ApplyMsg {true {Get 9  3519032297155066593} 13 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.667789 kvserver 101-0 response Get request  with 
+15:00:32.668029 kvserver 1-1 receive ApplyMsg {true {Get 7  1135889408190126713} 14 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.668268 kvserver 1-1 receive ApplyMsg {true {Get 3  955523537533884974} 15 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.668447 kvserver 1-1 receive ApplyMsg {true {Get 3  3935113528392946711} 16 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+  ... Passed
+15:00:32.670987 kvserver 1-1 receive ApplyMsg {true {Get 6  266796170207961433} 19 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.671224 kvserver 1-1 receive ApplyMsg {true {Get 8  181229014225545449} 20 false [] 0 0} with current state {me:1, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.673243 kvserver 2-2 receive ApplyMsg {true {Get 8  181229014225545449} 20 false [] 0 0} with current state {me:2, gid:100, config:2
+	kvMap:{"Map":{"0":{"2":"dajrmhMl0exd9-35N5vU"},"1":{},"2":{"4":"JxINzdLyZVvvpdMzNma3"},"3":{},"4":{"6":"irOSkAmbYBBBDP-cCVr-"},"5":{},"6":{"8":"-U6wOkX8lW56c3jrPhPU"},"7":{},"8":{"0":"uYLg1ggsFj7vmVCi-OgN"},"9":{}}}
+} 
+15:00:32.689227 kvserver 1-1 receive ApplyMsg {true {Get 1  767787353731000965} 17 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.689502 kvserver 1-1 receive ApplyMsg {true {Get 5  3601775670631807106} 18 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+15:00:32.689736 kvserver 1-1 receive ApplyMsg {true {Get 7  4054700163082702743} 19 false [] 0 0} with current state {me:1, gid:101, config:2
+	kvMap:{"Map":{"1":{"3":"Dv36Gs5s5i3CAzPrfpZq"},"3":{"5":"0-LODYYtzhPY7IgDQ6gi"},"5":{"7":"2FchylAzluvlgBJt7yiY"},"7":{"9":"_qqtYYFohIcRD7Lga6-9"},"9":{"1":"dMW4ksaaS680k79xdxA5"}}}
+} 
+PASS
+ok  	6.824/shardkv	5.588s

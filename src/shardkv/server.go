@@ -1,6 +1,7 @@
 package shardkv
 
 import (
+	"fmt"
 	"sync"
 
 	"6.824/labgob"
@@ -43,16 +44,24 @@ type ShardKV struct {
 	kvMap ShardMap
 	indexToNonce map[int]int64
 	term int
+	isLeader bool
 
 	ctrlClient       *shardctrler.Clerk
 	config shardctrler.Config
+	configApplied bool
 
 	
 
 	done chan struct{}
 }
 
-
+func (kv *ShardKV)String()string{
+	if DEBUG{
+		return fmt.Sprintf("{me:%d, gid:%d, config:%d"+
+			"\n\tkvMap:%s\n}",kv.me,kv.gid,kv.config.Num,kv.kvMap.String())
+	}
+	return ""
+}
 
 //
 // the tester calls Kill() when a ShardKV instance won't
@@ -132,6 +141,7 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 
 	kv.ctrlClient= shardctrler.MakeClerk(ctrlers)
 	kv.config.Num=0
+	kv.configApplied=true
 
 	kv.installSnapFromPersister()
 	go kv.pullConfiguration()

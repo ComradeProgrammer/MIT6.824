@@ -9,18 +9,18 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		Nonce: args.Nonce,
 	}
 	kv.Lock()
-	DPrintf("kvserver %d received Get request %s\n", kv.me, args)
+	DPrintf("kvserver %d-%d received Get request %s\n",kv.gid, kv.me, args)
 	//check shard
 	if kv.config.Num == 0 {
-		DPrintf("kvserver %d response wrondgroup Get request %s with %s\n", kv.me, args, reply)
+		DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 		reply.Err = ErrWrongGroup
 		kv.Unlock()
 		return
 	} else {
 		shard := key2shard(args.Key)
-		if kv.config.Shards[shard] != kv.gid {
-			DPrintf("kvserver %d response wrondgroup Get request %s with %s\n", kv.me, args, reply)
+		if kv.config.Shards[shard] != kv.gid /*|| !kv.kvMap.HasShard(shard)*/{
 			reply.Err = ErrWrongGroup
+			DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 			kv.Unlock()
 			return
 		}
@@ -36,7 +36,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 			reply.Err = OK
 			reply.Value = v
 		}
-		DPrintf("kvserver %d response duplicated Get request %s with %s\n", kv.me, args, reply)
+		DPrintf("kvserver %d-%d response duplicated Get request %s with %s\n",kv.gid, kv.me, args, reply)
 		kv.Unlock()
 		return
 	}
@@ -44,7 +44,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 	index, _, isLeader := kv.rf.Start(op)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
-		DPrintf("kvserver %d response  Get request %s with %s\n", kv.me, args, reply)
+		DPrintf("kvserver %d-%d response  Get request %s with %s\n",kv.gid, kv.me, args, reply)
 		kv.Unlock()
 		return
 	}
@@ -62,7 +62,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 	reply.Err = opResult.Err
 	reply.Value = opResult.Value
 	kv.Lock()
-	DPrintf("kvserver %d response  Get request %s with %s\n", kv.me, args, reply)
+	DPrintf("kvserver %d-%d response Get request %s with %s\n",kv.gid, kv.me, args, reply)
 	kv.Unlock()
 }
 
@@ -75,18 +75,18 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		Nonce: args.Nonce,
 	}
 	kv.Lock()
-	DPrintf("kvserver %d received Append request %s\n", kv.me, args)
+	DPrintf("kvserver %d-%d received Append request %s\n",kv.gid, kv.me, args)
 	//check shard
 	if kv.config.Num == 0 {
-		DPrintf("kvserver %d response wrondgroup Get request %s with %s\n", kv.me, args, reply)
+		DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 		reply.Err = ErrWrongGroup
 		kv.Unlock()
 		return
 	} else {
 		shard := key2shard(args.Key)
-		if kv.config.Shards[shard] != kv.gid {
-			DPrintf("kvserver %d response wrondgroup Get request %s with %s\n", kv.me, args, reply)
+		if kv.config.Shards[shard] != kv.gid/*|| !kv.kvMap.HasShard(shard)*/ {
 			reply.Err = ErrWrongGroup
+			DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 			kv.Unlock()
 			return
 		}
@@ -94,14 +94,14 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	//check duplication
 	if _, exist := kv.nonces[args.Nonce]; exist {
 		reply.Err = OK
-		DPrintf("kvserver %d response duplicated Get request %s with %s\n", kv.me, args, reply)
+		DPrintf("kvserver %d-%d response Get request %s with %s\n",kv.gid, kv.me, args, reply)
 		kv.Unlock()
 		return
 	}
 	index, _, isLeader := kv.rf.Start(op)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
-		DPrintf("kvserver %d response duplicated Append request %s with %s\n", kv.me, args, reply)
+		DPrintf("kvserver %d-%d response Append request %s with %s\n",kv.gid, kv.me, args, reply)
 		kv.Unlock()
 		return
 	}
@@ -119,6 +119,6 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	reply.Err = opResult.Err
 
 	kv.Lock()
-	DPrintf("kvserver %d response  Get request %s with %s\n", kv.me, args, reply)
+	DPrintf("kvserver %d-%d response  PutAppend request %s with %s\n",kv.gid, kv.me, args, reply)
 	kv.Unlock()
 }
