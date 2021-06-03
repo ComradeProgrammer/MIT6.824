@@ -43,7 +43,10 @@ func (kv *ShardKV) applyTicker() {
 				opResult = kv.handlePut(&applyMsg)
 			case GETSHARDS:
 				opResult = kv.handleGetShards(&applyMsg)
+			case INSTALLSHARDS:
+				opResult=kv.handleInstallShards(&applyMsg)
 			}
+			DPrintf("kvserver %d-%d apply applymsg %v with %v,\n\tcurrent state %v\n",kv.gid, kv.me, applyMsg, opResult,kv)
 			//send out request
 			chs, ok := kv.pendingChans[op.Nonce]
 			delete(kv.pendingChans, op.Nonce)
@@ -155,11 +158,26 @@ func(kv *ShardKV)handleGetShards(applyMsg *raft.ApplyMsg) OpResult {
 		Err: OK,
 	}
 	for _,shard:=range arg.Shards{
-		reply.Data[shard]=kv.kvMap.ExportShard(shard)
+		if kv.kvMap.HasShard(shard){
+			reply.Data[shard]=kv.kvMap.ExportShard(shard)
+		}
 	}
 	var res =OpResult{
 		Err: reply.Err,
 		Data: reply,
+	}
+	return res
+}
+func(kv *ShardKV)handleInstallShards(applyMsg *raft.ApplyMsg) OpResult {
+	op := applyMsg.Command.(Op)
+	arg:=op.Data.(InstallShardArgs)
+	for s,m:=range arg.Data{
+		kv.kvMap.ImportShard(s,m)
+	}
+	kv.config=arg.Config.Copy()
+	kv.configApplied=true
+	var res =OpResult{
+		Err: OK,
 	}
 	return res
 }

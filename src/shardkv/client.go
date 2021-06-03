@@ -69,9 +69,10 @@ func (ck *Clerk) Get(key string) string {
 	args := GetArgs{}
 	args.Key = key
 	args.Nonce=nrand()
-	DPrintf("client sendout get %v with config %v",args,ck.config)
+	
 
 	for {
+		DPrintf("client sendout get %v with config %v",args,ck.config)
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
 		if servers, ok := ck.config.Groups[gid]; ok {
@@ -83,9 +84,9 @@ func (ck *Clerk) Get(key string) string {
 				if ok && (reply.Err == OK || reply.Err == ErrNoKey) {
 					return reply.Value
 				}
-				if ok && (reply.Err == ErrWrongGroup) {
-					break
-				}
+				// if ok && (reply.Err == ErrWrongGroup) {
+				// 	break
+				// }
 				// ... not ok, or ErrWrongLeader
 			}
 		}
@@ -107,9 +108,10 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	args.Value = value
 	args.Op = op
 	args.Nonce=nrand()
-	DPrintf("client sendout PutAppend %v with config %v",args,ck.config)
+	
 
 	for {
+		DPrintf("client sendout PutAppend %v with config %v",args,ck.config)
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
 		if servers, ok := ck.config.Groups[gid]; ok {
@@ -120,9 +122,9 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 				if ok && reply.Err == OK {
 					return
 				}
-				if ok && reply.Err == ErrWrongGroup {
-					break
-				}
+				// if ok && reply.Err == ErrWrongGroup {
+				// 	break
+				// }
 				// ... not ok, or ErrWrongLeader
 			}
 		}
@@ -152,7 +154,33 @@ func (ck *Clerk)GetShards(args* GetShardsArgs)*GetShardsReply{
 				if ok && reply.Err == OK {
 					return &reply
 				}
+				// if ok && reply.Err == ErrWrongGroup {
+				// 	return &reply
+				// }
+				// ... not ok, or ErrWrongLeader
+			}
+		
+		time.Sleep(100 * time.Millisecond)
+	}	
+}
+func (ck *Clerk)InstallShards(args* InstallShardArgs)*InstallShardReply{
+	ck.config = ck.sm.Query(-1)
+	reply:=InstallShardReply{}
+	DPrintf("client sendout installshards %v with config %v",args,ck.config)
+
+	for{
+		//gid:=args.Gid
+		servers:=args.Servers
+			for si := 0; si < len(servers); si++ {
+				srv := ck.make_end(servers[si])
+				ok := srv.Call("ShardKV.InstallShard", args, &reply)
+				if ok && reply.Err == OK {
+					return &reply
+				}
 				if ok && reply.Err == ErrWrongGroup {
+					return &reply
+				}
+				if ok && reply.Err == ErrWrongConfigNum {
 					return &reply
 				}
 				// ... not ok, or ErrWrongLeader

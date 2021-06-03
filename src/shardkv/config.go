@@ -158,6 +158,7 @@ func (cfg *config) ShutdownServer(gi int, i int) {
 	defer cfg.mu.Unlock()
 
 	gg := cfg.groups[gi]
+	fmt.Printf("shutdown %d-%d\n",gg.gid,i)
 
 	// prevent this server from sending
 	for j := 0; j < len(gg.servers); j++ {

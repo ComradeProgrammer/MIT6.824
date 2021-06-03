@@ -1,13 +1,31 @@
 package shardkv
 
 import (
+	"fmt"
+	"hash/fnv"
 	"sync"
 	"time"
 
 	"6.824/shardctrler"
 )
+
+//
+// use ihash(key) % NReduce to choose the reduce
+// task number for each KeyValue emitted by Map.
+//
+func ihash(key string) int {
+	h := fnv.New32a()
+	h.Write([]byte(key))
+	return int(h.Sum32() & 0x7fffffff)
+}
+
 func (kv *ShardKV)pullConfiguration(){
 	for{
+		select{
+		case <-kv.done:
+			return
+		default:
+		}
 		kv.Lock()
 		//only when a config is applied will this ticker continue to fetch the new configuration
 		if !kv.configApplied{
@@ -17,7 +35,9 @@ func (kv *ShardKV)pullConfiguration(){
 		}
 		kv.Unlock()
 		newConfig:=kv.ctrlClient.Query(kv.config.Num+1)
+		//newConfig:=kv.ctrlClient.Query(-1)
 		kv.Lock()
+		kv.checkMaxSizeExceeded()
 		//switching config 1 need to be treate specially
 		if kv.config.Num==0&& newConfig.Num==1{
 			DPrintf("server %d-%d configure fetched %v\n",kv.gid,kv.me,newConfig)
@@ -44,7 +64,7 @@ func (kv *ShardKV)pullConfiguration(){
 			for i:=0;i<shardctrler.NShards;i++{
 				//shards that should transfer to us
 				if oldConfig.Shards[i]!=kv.gid && kv.config.Shards[i]==kv.gid{
-					kv.kvMap.DeleteShard(i)
+					//kv.kvMap.DeleteShard(i)
 				}
 			}
 			DPrintf("kvserver %d-%d started fetching missing Shard\n",kv.gid,kv.me)
@@ -57,7 +77,7 @@ func (kv *ShardKV)pullConfiguration(){
 }
 
 func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
-	kv.Lock()
+		kv.Lock()
 	missingShards:=make(map[int][]int)
 	for gid,_:=range oldConfig.Groups{
 		if gid==kv.gid{
@@ -73,9 +93,16 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 		}
 	}
 	DPrintf("kvserver %d-%d  missing Shard are  %v \n\t new config is %v\n\t old config is %v\n",kv.gid,kv.me,missingShards,kv.config,oldConfig)
+	if len(missingShards)==0{
+		kv.configApplied=true
+		DPrintf("kvserver %d-%d  missing Shard finish ,current state %s \n",kv.gid,kv.me,kv)
+		kv.Unlock()
+		return
+	}
 	kv.Unlock()
 
 	var wg sync.WaitGroup
+	var allShardsGot =make(map[int]map[string]string)
 	for gid1,shards1:=range missingShards{
 		wg.Add(1)
 		var servers=make([]string,len(oldConfig.Groups[gid1]))
@@ -93,12 +120,14 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 			}
 			DPrintf("kvserver %d-%d  sending getshardsargs %v\n",kv.gid,kv.me,args)
 			kv.Unlock()
+
 			reply:=client.GetShards(&args)
+
 			kv.Lock()
 			DPrintf("kvserver %d-%d get Shard  %v \n",kv.gid,kv.me,reply)
 			if reply.Err==OK{
-				for s,m:=range reply.Data{
-					kv.kvMap.ImportShard(s,m)
+				for k,v:=range reply.Data{
+					allShardsGot[k]=v
 				}
 			}
 			kv.Unlock()
@@ -107,8 +136,23 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 	}
 	wg.Wait()
 	kv.Lock()
+	
+	var us=make([]string,len(kv.config.Groups[kv.gid]))
+	copy(us,kv.config.Groups[kv.gid])
+	args2:=InstallShardArgs{
+		Data: allShardsGot,
+		Num: kv.config.Num,
+		Nonce:int64(ihash(fmt.Sprintf("gid-%d-fetch-%d",kv.gid,kv.config.Num))),
+		Servers: us,
+		Config: kv.config.Copy(),
+	}
+	client:=MakeClerk(kv.ctrlers,kv.make_end)	
+	kv.Unlock()
+
+	client.InstallShards(&args2)
+
+	kv.Lock()
 	DPrintf("kvserver %d-%d  missing Shard finish ,current state %s \n",kv.gid,kv.me,kv)
-	kv.configApplied=true
 	kv.Unlock()
 
 

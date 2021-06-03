@@ -59,8 +59,8 @@ type ShardKV struct {
 
 func (kv *ShardKV)String()string{
 	if DEBUG{
-		return fmt.Sprintf("{me:%d, gid:%d, config:%d"+
-			"\n\tkvMap:%s\n}",kv.me,kv.gid,kv.config.Num,kv.kvMap.String())
+		return fmt.Sprintf("{me:%d, gid:%d, config:%d configApplied:%v"+
+			"\n\tkvMap:%s\n}",kv.me,kv.gid,kv.config.Num,kv.configApplied,kv.kvMap.String())
 	}
 	return ""
 }
@@ -83,6 +83,7 @@ func (kv *ShardKV) Kill() {
 			ch <- OpResult{Err:ErrWrongLeader}
 		}
 	}
+	kv.done<-struct{}{}
 }
 
 
@@ -120,6 +121,8 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	labgob.Register(Op{})
 	labgob.Register(GetShardsArgs{})
 	labgob.Register(GetShardsReply{})
+	labgob.Register(InstallShardArgs{})
+	labgob.Register(InstallShardReply{})
 	kv := new(ShardKV)
 	kv.me = me
 	kv.maxraftstate = maxraftstate
@@ -139,7 +142,7 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	kv.pendingChans=make(map[int64][]chan OpResult)
 	kv.indexToNonce=make(map[int]int64)
 	kv.nonces=make(map[int64]struct{})
-	kv.done=make(chan struct{})
+	kv.done=make(chan struct{},2)
 	kv.term=0
 
 	kv.ctrlClient= shardctrler.MakeClerk(ctrlers)

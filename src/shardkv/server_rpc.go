@@ -18,7 +18,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		return
 	} else {
 		shard := key2shard(args.Key)
-		if kv.config.Shards[shard] != kv.gid || !kv.kvMap.HasShard(shard){
+		if kv.config.Shards[shard] != kv.gid || /*!kv.kvMap.HasShard(shard)*/ !kv.configApplied{
 			reply.Err = ErrWrongGroup
 			DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 			kv.Unlock()
@@ -84,7 +84,7 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		return
 	} else {
 		shard := key2shard(args.Key)
-		if kv.config.Shards[shard] != kv.gid|| !kv.kvMap.HasShard(shard) {
+		if kv.config.Shards[shard] != kv.gid||/*!kv.kvMap.HasShard(shard)*/ !kv.configApplied {
 			reply.Err = ErrWrongGroup
 			DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 			kv.Unlock()
@@ -130,7 +130,7 @@ func (kv *ShardKV)GetShards(args *GetShardsArgs, reply *GetShardsReply){
 		Nonce:args.Nonce,
 	}
 	kv.Lock()
-	DPrintf("kvserver %d-%d received Getshard request %s\n",kv.gid, kv.me, args)
+	DPrintf("kvserver %d-%d received Getshard request %s, current state %s\n",kv.gid, kv.me, args,kv)
 	//check shard
 	if args.Num>kv.config.Num{
 		reply.Err = ErrWrongConfigNum
@@ -141,14 +141,64 @@ func (kv *ShardKV)GetShards(args *GetShardsArgs, reply *GetShardsReply){
 	//check duplication
 	if _, exist := kv.nonces[args.Nonce]; exist {
 		reply.Err = OK
-		DPrintf("kvserver %d-%d response Getshard request %s with %s\n",kv.gid, kv.me, args, reply)
+		DPrintf("kvserver %d-%d response  Getshard request %s with %s\n",kv.gid, kv.me, args, reply)
 		kv.Unlock()
 		return
 	}
 	index, _, isLeader := kv.rf.Start(op)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
-		DPrintf("kvserver %d-%d response Getshard request %s with %s\n",kv.gid, kv.me, args, reply)
+		DPrintf("kvserver %d-%d response  Getshard request %s with %s\n",kv.gid, kv.me, args, reply)
+		kv.Unlock()
+		return
+	}
+	//remember this index
+	kv.indexToNonce[index] = args.Nonce
+	//wait for response
+	pendingChan := make(chan OpResult)
+	if _, ok := kv.pendingChans[args.Nonce]; !ok {
+		kv.pendingChans[args.Nonce] = make([]chan OpResult, 0)
+	}
+	kv.pendingChans[args.Nonce] = append(kv.pendingChans[args.Nonce], pendingChan)
+	DPrintf("kvserver %d-%d wait Getshard request %s for reply, current state %s\n",kv.gid, kv.me, args,kv)
+	kv.Unlock()
+
+	opResult := <-pendingChan
+	reply.Err = opResult.Err
+	res:=opResult.Data.(GetShardsReply)
+	reply.Data=res.Data
+
+	kv.Lock()
+	DPrintf("kvserver %d-%d response getshard request %s with %s\n",kv.gid, kv.me, args, reply)
+	kv.Unlock()
+}
+
+func(kv *ShardKV)InstallShard(args *InstallShardArgs, reply *InstallShardReply){
+	var op=Op{
+		Type: INSTALLSHARDS,
+		Nonce: args.Nonce,
+		Data: *args,
+	}
+	kv.Lock()
+	DPrintf("kvserver %d-%d received install shard request %s, current state %s\n",kv.gid, kv.me, args,kv)
+	//check shard
+	if args.Num<kv.config.Num{
+		reply.Err = ErrWrongConfigNum
+		DPrintf("kvserver %d-%d response InstallShard request %s with %s,current state %s\n",kv.gid, kv.me, args, reply,kv)
+		kv.Unlock()
+		return
+	}
+	//check duplication
+	if _, exist := kv.nonces[args.Nonce]; exist {
+		reply.Err = OK
+		DPrintf("kvserver %d-%d response InstallShard request %s with %s\n",kv.gid, kv.me, args, reply)
+		kv.Unlock()
+		return
+	}
+	index, _, isLeader := kv.rf.Start(op)
+	if !isLeader {
+		reply.Err = ErrWrongLeader
+		DPrintf("kvserver %d-%d response InstallShard request %s with %s\n",kv.gid, kv.me, args, reply)
 		kv.Unlock()
 		return
 	}
@@ -164,11 +214,9 @@ func (kv *ShardKV)GetShards(args *GetShardsArgs, reply *GetShardsReply){
 
 	opResult := <-pendingChan
 	reply.Err = opResult.Err
-	res:=opResult.Data.(GetShardsReply)
-	reply.Data=res.Data
 
 	kv.Lock()
-	DPrintf("kvserver %d-%d response Getshard request %s with %s\n",kv.gid, kv.me, args, reply)
+	DPrintf("kvserver %d-%d response InstallShard request %s with %s\n",kv.gid, kv.me, args, reply)
 	kv.Unlock()
 
 }

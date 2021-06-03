@@ -1,6 +1,10 @@
 package shardkv
 
-import "encoding/json"
+import (
+	"encoding/json"
+
+	"6.824/shardctrler"
+)
 
 //
 // Sharded key/value server.
@@ -23,6 +27,7 @@ const (
 	APPEND = "Append"
 	GET    = "Get"
 	GETSHARDS="GetShards"
+	INSTALLSHARDS="InstallShards"
 )
 
 type Err string
@@ -115,6 +120,36 @@ type GetShardsReply struct{
 	Data map[int]map[string]string
 }
 func (r GetShardsReply) String() string {
+	if DEBUG {
+		data, _ := json.Marshal(r)
+		return string(data)
+	} else {
+		return ""
+	}
+
+}
+
+type InstallShardArgs  struct{
+	Data map[int]map[string]string
+	Config shardctrler.Config
+	Num int
+	Nonce int64
+	Servers []string
+}
+func (r InstallShardArgs) String() string {
+	if DEBUG {
+		data, _ := json.Marshal(r)
+		return string(data)
+	} else {
+		return ""
+	}
+
+}
+
+type InstallShardReply struct{
+	Err Err
+}
+func (r InstallShardReply) String() string {
 	if DEBUG {
 		data, _ := json.Marshal(r)
 		return string(data)

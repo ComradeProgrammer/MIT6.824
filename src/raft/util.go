@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-const DEBUG bool =false
+var DEBUG bool =false
 func DPrintf(format string, a ...interface{}) {
 	log.SetFlags(log.Lmicroseconds)
 	if DEBUG {
