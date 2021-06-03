@@ -165,8 +165,11 @@ func (kv *ShardKV)GetShards(args *GetShardsArgs, reply *GetShardsReply){
 
 	opResult := <-pendingChan
 	reply.Err = opResult.Err
-	res:=opResult.Data.(GetShardsReply)
-	reply.Data=res.Data
+	if reply.Err==OK{
+		res:=opResult.Data.(GetShardsReply)
+		reply.Data=res.Data
+	}
+	
 
 	kv.Lock()
 	DPrintf("kvserver %d-%d response getshard request %s with %s\n",kv.gid, kv.me, args, reply)
