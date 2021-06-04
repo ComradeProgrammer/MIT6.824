@@ -12,6 +12,9 @@ func (kv *ShardKV) applyTicker() {
 		var applyMsg raft.ApplyMsg
 		select {
 		case <-kv.done:
+			kv.Lock()
+			DPrintf("kvserver %d-%d applyticker quited\n",kv.gid, kv.me)
+			kv.Unlock()
 			return
 		case applyMsg = <-kv.applyCh:
 		default:
@@ -192,6 +195,10 @@ func(kv *ShardKV)handleInstallShards(applyMsg *raft.ApplyMsg) OpResult {
 	}
 	kv.config=arg.Config.Copy()
 	kv.configApplied=true
+	if len(kv.config.Groups[kv.gid])!=0{
+
+		kv.us=kv.config.Groups[kv.gid]
+	}
 	var res =OpResult{
 		Err: OK,
 	}

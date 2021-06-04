@@ -53,6 +53,7 @@ type ShardKV struct {
 	config shardctrler.Config
 	newConfig shardctrler.Config
 	configApplied bool
+	us []string
 
 	
 
@@ -77,15 +78,16 @@ func (kv *ShardKV) Kill() {
 	kv.rf.Kill()
 	// Your code here, if desired.
 	kv.done<-struct{}{}
-	//kick out all hanging requests
-	kv.Lock()
-	defer kv.Unlock()
-	for _,chs:=range kv.pendingChans{
-		for _,ch:=range chs{
-			ch <- OpResult{Err:ErrWrongLeader}
-		}
-	}
 	kv.done<-struct{}{}
+	//kick out all hanging requests
+	// kv.Lock()
+	// defer kv.Unlock()
+	// for _,chs:=range kv.pendingChans{
+	// 	for _,ch:=range chs{
+	// 		ch <- OpResult{Err:ErrWrongLeader}
+	// 	}
+	// }
+	
 }
 
 

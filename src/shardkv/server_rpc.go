@@ -55,6 +55,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		kv.pendingChans[args.Nonce] = make([]chan OpResult, 0)
 	}
 	kv.pendingChans[args.Nonce] = append(kv.pendingChans[args.Nonce], pendingChan)
+	DPrintf("kvserver %d-%d wait Get request %s for reply, current state %s\n",kv.gid, kv.me, args,kv)
 	kv.Unlock()
 
 	opResult := <-pendingChan
@@ -113,8 +114,8 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		kv.pendingChans[args.Nonce] = make([]chan OpResult, 0)
 	}
 	kv.pendingChans[args.Nonce] = append(kv.pendingChans[args.Nonce], pendingChan)
+	DPrintf("kvserver %d-%d wait Putappend request %s for reply, current state %s\n",kv.gid, kv.me, args,kv)
 	kv.Unlock()
-
 	opResult := <-pendingChan
 	reply.Err = opResult.Err
 

@@ -23,6 +23,9 @@ func (kv *ShardKV)pullConfiguration(){
 	for{
 		select{
 		case <-kv.done:
+			kv.Lock()
+			DPrintf("kvserver %d-%d pullconfigure quited\n",kv.gid, kv.me)
+			kv.Unlock()
 			return
 		default:
 		}
@@ -49,6 +52,10 @@ func (kv *ShardKV)pullConfiguration(){
 			}
 			kv.configApplied=true
 			kv.config=newConfig.Copy()
+			if len(kv.config.Groups[kv.gid])!=0{
+
+				kv.us=kv.config.Groups[kv.gid]
+			}
 			kv.Unlock()
 			continue
 		}
@@ -141,9 +148,17 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 	
 	var us=make([]string,len(kv.newConfig.Groups[kv.gid]))
 	copy(us,kv.newConfig.Groups[kv.gid])
+	if len(us)==0{
+		us=make([]string, len(kv.us))
+		copy(us,kv.us)
+	}
 	if len(missingShards)==0 && len(us)==0{
 		kv.configApplied=true
 		kv.config=kv.newConfig
+		if len(kv.config.Groups[kv.gid])!=0{
+
+			kv.us=kv.config.Groups[kv.gid]
+		}
 		DPrintf("kvserver %d-%d  missing Shard finish ,current state %s \n",kv.gid,kv.me,kv)
 		kv.Unlock()
 		return

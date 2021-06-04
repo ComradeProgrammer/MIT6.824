@@ -13,6 +13,7 @@ type KVServerSnapshot struct {
 	LastIndex int
 	//OpIDSet   map[int64]struct{}
 	Config  shardctrler.Config
+	Us []string
 
 }
 func NewKVServerSnapshot()KVServerSnapshot{
@@ -23,7 +24,7 @@ func (kv *ShardKV) checkMaxSizeExceeded() {
 	if kv.maxraftstate==-1 ||!kv.configApplied{
 		return
 	}
-	if kv.persister.RaftStateSize() >= kv.maxraftstate/5*4 && kv.lastIndex != 0 {
+	if kv.persister.RaftStateSize() >= kv.maxraftstate*2 && kv.lastIndex != 0 {
 		DPrintf("kvserver %d-%d start snapshop with lastIndex %d\n", kv.gid,kv.me, kv.lastIndex)
 		//80% as the threshold, start snapshot
 		snapShot := KVServerSnapshot{
@@ -31,6 +32,7 @@ func (kv *ShardKV) checkMaxSizeExceeded() {
 			LastIndex: kv.lastIndex,
 			//OpIDSet:   kv.opIDSet,
 			Config: kv.config.Copy(),
+			Us:kv.us,
 		}
 		buffer := new(bytes.Buffer)
 		encoder := labgob.NewEncoder(buffer)
@@ -55,6 +57,7 @@ func (kv *ShardKV) handleSnapInstall(msg *raft.ApplyMsg) {
 		kv.kvMap = snapshpot.KVMap.Copy()
 		kv.config=snapshpot.Config.Copy()
 		kv.configApplied=true
+		kv.us=snapshpot.Us
 		//kv.opIDSet = snapshpot.OpIDSet
 	}else{
 		DPrintf("kvserver %d-%d receive not ok in condsnapshot %v\n",kv.gid, kv.me, msg)
@@ -68,6 +71,7 @@ func (kv *ShardKV) installSnapFromPersister() {
 	buffer := bytes.NewBuffer(data)
 	decoder := labgob.NewDecoder(buffer)
 	_ = decoder.Decode(&snapshpot)
+	kv.us=snapshpot.Us
 	if snapshpot.KVMap.Map==nil{
 		kv.kvMap=NewShardMap()
 		kv.lastIndex=0

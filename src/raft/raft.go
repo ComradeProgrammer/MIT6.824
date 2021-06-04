@@ -333,7 +333,7 @@ func (rf *Raft) leaderTicker(term int) {
 @attention will cause some changes to persistent state, thus persist() will be called
 */
 func (rf *Raft) startElection() bool {
-	for {
+	for !rf.killed(){
 		//step0 convert to candidate
 		rf.state = CANDIDATE
 		//step 1 increment current term
@@ -399,7 +399,7 @@ func (rf *Raft) startElection() bool {
 			return false
 		}
 	}
-
+	return false
 }
 
 /**
@@ -420,6 +420,7 @@ func (rf *Raft) applyLog(index int) {
 func (rf *Raft) applyTicker() {
 	for rf.killed() == false {
 		m := rf.applyMsgQueue.PopFront()
+		fmt.Printf("send to apply channel%v\n",m)
 		rf.applyCh <- m
 	}
 }
