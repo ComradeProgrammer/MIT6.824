@@ -20,6 +20,7 @@ type Op struct {
 	Key string
 	Value string
 	Nonce int64
+	ConfigNum int
 	Data interface{}
 }
 type OpResult struct{

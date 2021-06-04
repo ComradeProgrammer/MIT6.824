@@ -123,8 +123,12 @@ func (kv *ShardKV) checkRequest(applyMsg *raft.ApplyMsg) bool {
 
 func (kv *ShardKV) handleGet(applyMsg *raft.ApplyMsg) OpResult {
 	op := applyMsg.Command.(Op)
-	value, ok := kv.kvMap.Get(op.Key)
 	var res = OpResult{}
+	if op.ConfigNum<kv.config.Num{
+		res.Err=ErrWrongConfigNum
+		return res
+	}
+	value, ok := kv.kvMap.Get(op.Key)
 	if !ok {
 		res.Err = ErrNoKey
 	} else {
@@ -136,16 +140,25 @@ func (kv *ShardKV) handleGet(applyMsg *raft.ApplyMsg) OpResult {
 
 func (kv *ShardKV) handlePut(applyMsg *raft.ApplyMsg) OpResult {
 	op := applyMsg.Command.(Op)
-	kv.kvMap.Put(op.Key, op.Value)
 	var res = OpResult{}
+	if op.ConfigNum<kv.config.Num{
+		res.Err=ErrWrongConfigNum
+		return res
+	}
+	kv.kvMap.Put(op.Key, op.Value)
+	
 	res.Err = OK
 	return res
 }
 
 func (kv *ShardKV) handleAppend(applyMsg *raft.ApplyMsg) OpResult {
 	op := applyMsg.Command.(Op)
-	kv.kvMap.Append(op.Key, op.Value)
 	var res = OpResult{}
+	if op.ConfigNum<kv.config.Num{
+		res.Err=ErrWrongConfigNum
+		return res
+	}
+	kv.kvMap.Append(op.Key, op.Value)
 	res.Err = OK
 	return res
 }

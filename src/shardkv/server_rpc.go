@@ -25,7 +25,6 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 			return
 		}
 	}
-
 	//check duplication
 	if _, exist := kv.nonces[args.Nonce]; exist {
 		//duplicate just fetch the result at once
@@ -40,7 +39,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		kv.Unlock()
 		return
 	}
-
+	op.ConfigNum=kv.config.Num
 	index, _, isLeader := kv.rf.Start(op)
 	if !isLeader {
 		reply.Err = ErrWrongLeader
@@ -98,6 +97,7 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		kv.Unlock()
 		return
 	}
+	op.ConfigNum=kv.config.Num
 	index, _, isLeader := kv.rf.Start(op)
 	if !isLeader {
 		reply.Err = ErrWrongLeader

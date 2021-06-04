@@ -93,12 +93,13 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 		}
 	}
 	DPrintf("kvserver %d-%d  missing Shard are  %v \n\t new config is %v\n\t old config is %v\n",kv.gid,kv.me,missingShards,kv.config,oldConfig)
-	if len(missingShards)==0{
-		kv.configApplied=true
-		DPrintf("kvserver %d-%d  missing Shard finish ,current state %s \n",kv.gid,kv.me,kv)
-		kv.Unlock()
-		return
-	}
+	// if len(missingShards)==0{
+	// 	DPrintf("here0604\n")
+	// 	kv.configApplied=true
+	// 	DPrintf("kvserver %d-%d  missing Shard finish ,current state %s \n",kv.gid,kv.me,kv)
+	// 	kv.Unlock()
+	// 	return
+	// }
 	kv.Unlock()
 
 	var wg sync.WaitGroup
@@ -135,10 +136,17 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 		}(gid1,shards1)
 	}
 	wg.Wait()
+	
 	kv.Lock()
 	
 	var us=make([]string,len(kv.config.Groups[kv.gid]))
 	copy(us,kv.config.Groups[kv.gid])
+	if len(missingShards)==0 && len(us)==0{
+		kv.configApplied=true
+		DPrintf("kvserver %d-%d  missing Shard finish ,current state %s \n",kv.gid,kv.me,kv)
+		kv.Unlock()
+		return
+	}
 	args2:=InstallShardArgs{
 		Data: allShardsGot,
 		Num: kv.config.Num,
