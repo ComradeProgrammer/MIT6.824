@@ -51,6 +51,7 @@ type ShardKV struct {
 
 	ctrlClient       *shardctrler.Clerk
 	config shardctrler.Config
+	newConfig shardctrler.Config
 	configApplied bool
 
 	

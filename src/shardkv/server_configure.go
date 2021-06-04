@@ -57,15 +57,15 @@ func (kv *ShardKV)pullConfiguration(){
 			DPrintf("server %d-%d configure fetched %v\n",kv.gid,kv.me,newConfig)
 			//a new config
 			oldConfig:=kv.config
-			kv.config=newConfig.Copy()
+			kv.newConfig=newConfig.Copy()
 			kv.configApplied=false
 
 			//kick out all maps that need to be loaded
 			for i:=0;i<shardctrler.NShards;i++{
 				//shards that should transfer to us
-				if oldConfig.Shards[i]!=kv.gid && kv.config.Shards[i]==kv.gid{
-					//kv.kvMap.DeleteShard(i)
-				}
+				// if oldConfig.Shards[i]!=kv.gid && kv.newConfig.Shards[i]==kv.gid{
+				// 	//kv.kvMap.DeleteShard(i)
+				// }
 			}
 			DPrintf("kvserver %d-%d started fetching missing Shard\n",kv.gid,kv.me)
 			go kv.fetchMissingShard(oldConfig)
@@ -84,7 +84,7 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 			continue
 		}
 		for i:=0;i<shardctrler.NShards;i++{
-			if oldConfig.Shards[i]==gid && kv.config.Shards[i]==kv.gid{
+			if oldConfig.Shards[i]==gid && kv.newConfig.Shards[i]==kv.gid{
 				if _,exist:=missingShards[gid];!exist{
 					missingShards[gid]=make([]int, 0)
 				}
@@ -92,7 +92,7 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 			}
 		}
 	}
-	DPrintf("kvserver %d-%d  missing Shard are  %v \n\t new config is %v\n\t old config is %v\n",kv.gid,kv.me,missingShards,kv.config,oldConfig)
+	DPrintf("kvserver %d-%d  missing Shard are  %v \n\t new config is %v\n\t old config is %v\n",kv.gid,kv.me,missingShards,kv.newConfig,oldConfig)
 	// if len(missingShards)==0{
 	// 	DPrintf("here0604\n")
 	// 	kv.configApplied=true
@@ -115,7 +115,7 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 			args:=GetShardsArgs{
 				Shards: shards,
 				Gid: gid,
-				Num: kv.config.Num,
+				Num: kv.newConfig.Num,
 				Nonce: nrand(),
 				Servers: servers,
 			}
@@ -139,20 +139,21 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 	
 	kv.Lock()
 	
-	var us=make([]string,len(kv.config.Groups[kv.gid]))
-	copy(us,kv.config.Groups[kv.gid])
+	var us=make([]string,len(kv.newConfig.Groups[kv.gid]))
+	copy(us,kv.newConfig.Groups[kv.gid])
 	if len(missingShards)==0 && len(us)==0{
 		kv.configApplied=true
+		kv.config=kv.newConfig
 		DPrintf("kvserver %d-%d  missing Shard finish ,current state %s \n",kv.gid,kv.me,kv)
 		kv.Unlock()
 		return
 	}
 	args2:=InstallShardArgs{
 		Data: allShardsGot,
-		Num: kv.config.Num,
-		Nonce:int64(ihash(fmt.Sprintf("gid-%d-fetch-%d",kv.gid,kv.config.Num))),
+		Num: kv.newConfig.Num,
+		Nonce:int64(ihash(fmt.Sprintf("gid-%d-fetch-%d",kv.gid,kv.newConfig.Num))),
 		Servers: us,
-		Config: kv.config.Copy(),
+		Config: kv.newConfig.Copy(),
 	}
 	client:=MakeClerk(kv.ctrlers,kv.make_end)	
 	kv.Unlock()

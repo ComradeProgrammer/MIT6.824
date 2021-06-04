@@ -73,6 +73,7 @@ func (ck *Clerk) Get(key string) string {
 
 	for {
 		DPrintf("client sendout get %v with config %v",args,ck.config)
+		args.Num=ck.config.Num
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]
 		if servers, ok := ck.config.Groups[gid]; ok {
@@ -111,6 +112,7 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	
 
 	for {
+		args.Num=ck.config.Num
 		DPrintf("client sendout PutAppend %v with config %v",args,ck.config)
 		shard := key2shard(key)
 		gid := ck.config.Shards[shard]

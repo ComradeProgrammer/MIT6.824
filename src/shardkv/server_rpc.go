@@ -18,7 +18,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		return
 	} else {
 		shard := key2shard(args.Key)
-		if kv.config.Shards[shard] != kv.gid || /*!kv.kvMap.HasShard(shard)*/ !kv.configApplied{
+		if kv.config.Shards[shard] != kv.gid || /*!kv.kvMap.HasShard(shard)*/ !kv.configApplied||kv.config.Num!=args.Num{
 			reply.Err = ErrWrongGroup
 			DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 			kv.Unlock()
@@ -83,7 +83,7 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		return
 	} else {
 		shard := key2shard(args.Key)
-		if kv.config.Shards[shard] != kv.gid||/*!kv.kvMap.HasShard(shard)*/ !kv.configApplied {
+		if kv.config.Shards[shard] != kv.gid||/*!kv.kvMap.HasShard(shard)*/ !kv.configApplied||kv.config.Num!=args.Num {
 			reply.Err = ErrWrongGroup
 			DPrintf("kvserver %d-%d response wrondgroup Get request %s with %s\n",kv.gid, kv.me, args, reply)
 			kv.Unlock()
@@ -132,7 +132,7 @@ func (kv *ShardKV)GetShards(args *GetShardsArgs, reply *GetShardsReply){
 	kv.Lock()
 	DPrintf("kvserver %d-%d received Getshard request %s, current state %s\n",kv.gid, kv.me, args,kv)
 	//check shard
-	if args.Num>kv.config.Num{
+	if args.Num>kv.newConfig.Num{
 		reply.Err = ErrWrongConfigNum
 		DPrintf("kvserver %d-%d response Getshard request %s with %s\n",kv.gid, kv.me, args, reply)
 		kv.Unlock()
@@ -185,7 +185,7 @@ func(kv *ShardKV)InstallShard(args *InstallShardArgs, reply *InstallShardReply){
 	kv.Lock()
 	DPrintf("kvserver %d-%d received install shard request %s, current state %s\n",kv.gid, kv.me, args,kv)
 	//check shard
-	if args.Num<kv.config.Num{
+	if args.Num<kv.newConfig.Num{
 		reply.Err = ErrWrongConfigNum
 		DPrintf("kvserver %d-%d response InstallShard request %s with %s,current state %s\n",kv.gid, kv.me, args, reply,kv)
 		kv.Unlock()

@@ -126,6 +126,7 @@ func (kv *ShardKV) handleGet(applyMsg *raft.ApplyMsg) OpResult {
 	var res = OpResult{}
 	if op.ConfigNum<kv.config.Num{
 		res.Err=ErrWrongConfigNum
+		delete(kv.nonces,op.Nonce)
 		return res
 	}
 	value, ok := kv.kvMap.Get(op.Key)
@@ -143,6 +144,7 @@ func (kv *ShardKV) handlePut(applyMsg *raft.ApplyMsg) OpResult {
 	var res = OpResult{}
 	if op.ConfigNum<kv.config.Num{
 		res.Err=ErrWrongConfigNum
+		delete(kv.nonces,op.Nonce)
 		return res
 	}
 	kv.kvMap.Put(op.Key, op.Value)
@@ -156,6 +158,7 @@ func (kv *ShardKV) handleAppend(applyMsg *raft.ApplyMsg) OpResult {
 	var res = OpResult{}
 	if op.ConfigNum<kv.config.Num{
 		res.Err=ErrWrongConfigNum
+		delete(kv.nonces,op.Nonce)
 		return res
 	}
 	kv.kvMap.Append(op.Key, op.Value)

@@ -42,6 +42,7 @@ type PutAppendArgs struct {
 	// Field names must start with capital letters,
 	// otherwise RPC will break.
 	Nonce int64
+	Num int
 }
 
 func (r PutAppendArgs) String() string {
@@ -72,6 +73,7 @@ type GetArgs struct {
 	Key string
 	// You'll have to add definitions here.
 	Nonce int64
+	Num int
 }
 
 func (r GetArgs) String() string {
