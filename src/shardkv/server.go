@@ -2,6 +2,8 @@ package shardkv
 
 import (
 	"fmt"
+	//"net/http"
+	//_ "net/http/pprof"
 	"sync"
 
 	"6.824/labgob"
@@ -11,7 +13,11 @@ import (
 )
 
 
-
+// func init(){
+// 	go func() {
+// 		http.ListenAndServe("0.0.0.0:6060", nil)
+// 	}()
+// }
 type Op struct {
 	// Your definitions here.
 	// Field names must start with capital letters,
@@ -44,6 +50,7 @@ type ShardKV struct {
 	// Your definitions here.
 	pendingChans map[int64][]chan OpResult
 	nonces map[int64]struct{}
+	shardNonces map[int]map[int64]struct{}
 	kvMap ShardMap
 	indexToNonce map[int]int64
 	term int
@@ -62,8 +69,8 @@ type ShardKV struct {
 
 func (kv *ShardKV)String()string{
 	if DEBUG{
-		return fmt.Sprintf("{me:%d, gid:%d, config:%d configApplied:%v"+
-			"\n\tkvMap:%s\n}",kv.me,kv.gid,kv.config.Num,kv.configApplied,kv.kvMap.String())
+		return fmt.Sprintf("{me:%d, gid:%d, config:%d configApplied:%v,isLeader:%v,"+
+			"\n\tkvMap:%s\n\tshardnonce:\n}",kv.me,kv.gid,kv.config.Num,kv.configApplied,kv.isLeader,kv.kvMap.String()/*,kv.shardNonces*/)
 	}
 	return ""
 }
@@ -145,6 +152,7 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	kv.rf = raft.Make(servers, me, persister, kv.applyCh)
 	kv.pendingChans=make(map[int64][]chan OpResult)
 	kv.indexToNonce=make(map[int]int64)
+	kv.shardNonces=make(map[int]map[int64]struct{})
 	kv.nonces=make(map[int64]struct{})
 	kv.done=make(chan struct{},2)
 	kv.term=0

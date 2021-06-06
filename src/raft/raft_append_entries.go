@@ -228,8 +228,11 @@ func (rf *Raft) leaderAppendEntries(server int) {
 					}
 				}
 				// final assurance in case of receiving old packages
+				// if rf.nextIndex[server]<rf.matchIndex[server]+1{
+				// 	rf.nextIndex[server]=rf.matchIndex[server]+1
+				// }
 				if rf.nextIndex[server]<rf.matchIndex[server]+1{
-					rf.nextIndex[server]=rf.matchIndex[server]+1
+					rf.updateMatchIndex(server,rf.nextIndex[server]-1)
 				}
 			}
 		}

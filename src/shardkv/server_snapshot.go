@@ -13,6 +13,7 @@ type KVServerSnapshot struct {
 	LastIndex int
 	//OpIDSet   map[int64]struct{}
 	Config  shardctrler.Config
+	ShardNonce map[int]map[int64]struct{}
 	Us []string
 
 }
@@ -32,6 +33,7 @@ func (kv *ShardKV) checkMaxSizeExceeded() {
 			LastIndex: kv.lastIndex,
 			//OpIDSet:   kv.opIDSet,
 			Config: kv.config.Copy(),
+			ShardNonce: kv.copyShardNonce(),
 			Us:kv.us,
 		}
 		buffer := new(bytes.Buffer)
@@ -58,11 +60,34 @@ func (kv *ShardKV) handleSnapInstall(msg *raft.ApplyMsg) {
 		kv.config=snapshpot.Config.Copy()
 		kv.configApplied=true
 		kv.us=snapshpot.Us
+		kv.shardNonces=copyShardNonce2( snapshpot.ShardNonce)
 		//kv.opIDSet = snapshpot.OpIDSet
 	}else{
 		DPrintf("kvserver %d-%d receive not ok in condsnapshot %v\n",kv.gid, kv.me, msg)
 	}
 }
+
+func(kv *ShardKV)copyShardNonce()map[int]map[int64]struct{}{
+	var res=make(map[int]map[int64]struct{})
+	for k,v:=range kv.shardNonces{
+		res[k]=make(map[int64]struct{})
+		for k2,v2:=range v{
+			res[k][k2]=v2
+		}
+	}
+	return res
+}
+func copyShardNonce2(src map[int]map[int64]struct{})map[int]map[int64]struct{}{
+	var res=make(map[int]map[int64]struct{})
+	for k,v:=range src{
+		res[k]=make(map[int64]struct{})
+		for k2,v2:=range v{
+			res[k][k2]=v2
+		}
+	}
+	return res
+}
+
 
 func (kv *ShardKV) installSnapFromPersister() {
 	DPrintf("kvserver %d-%d installSnapFromPersister\n",kv.gid,kv.me)
@@ -80,6 +105,8 @@ func (kv *ShardKV) installSnapFromPersister() {
 		kv.lastIndex = snapshpot.LastIndex
 		kv.kvMap = snapshpot.KVMap
 		kv.config=snapshpot.Config.Copy()
+		kv.shardNonces=copyShardNonce2( snapshpot.ShardNonce)
+		kv.us=snapshpot.Us
 		kv.configApplied=true
 	}
 	

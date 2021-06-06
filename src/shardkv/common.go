@@ -120,6 +120,7 @@ func (r GetShardsArgs) String() string {
 type GetShardsReply struct{
 	Err Err
 	Data map[int]map[string]string
+	ShardNonce map[int]map[int64]struct{}
 }
 func (r GetShardsReply) String() string {
 	if DEBUG {
@@ -133,6 +134,7 @@ func (r GetShardsReply) String() string {
 
 type InstallShardArgs  struct{
 	Data map[int]map[string]string
+	ShardNonce map[int]map[int64]struct{}
 	Config shardctrler.Config
 	Num int
 	Nonce int64

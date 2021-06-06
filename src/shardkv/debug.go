@@ -2,7 +2,7 @@ package shardkv
 import (
 	"log"
 )
-const DEBUG = true
+const DEBUG = false
 
 func DPrintf(format string, a ...interface{}) (n int, err error) {
 	log.SetFlags(log.Lmicroseconds)

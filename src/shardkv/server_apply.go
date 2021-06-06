@@ -72,11 +72,11 @@ func (kv *ShardKV) applyTicker() {
 }
 func (kv *ShardKV) checkLeaderShip() {
 	term, isLeader := kv.rf.GetState()
+	kv.Lock()
+	defer kv.Unlock()
 	if kv.isLeader&& !isLeader || kv.term != term {
 		kv.term = term
 		//kick out all hanging request
-		kv.Lock()
-		defer kv.Unlock()
 		DPrintf("all pending request is kicked out due to leadership change\n")
 		delList := make([]int64, 0)
 		for k, chs := range kv.pendingChans {
@@ -132,6 +132,13 @@ func (kv *ShardKV) handleGet(applyMsg *raft.ApplyMsg) OpResult {
 		delete(kv.nonces,op.Nonce)
 		return res
 	}
+	shard:=key2shard(op.Key)
+
+
+	if _,ok:=kv.shardNonces[shard];!ok{
+		kv.shardNonces[shard]=map[int64]struct{}{}
+	}
+	kv.shardNonces[shard][op.Nonce]=struct{}{}
 	value, ok := kv.kvMap.Get(op.Key)
 	if !ok {
 		res.Err = ErrNoKey
@@ -150,6 +157,18 @@ func (kv *ShardKV) handlePut(applyMsg *raft.ApplyMsg) OpResult {
 		delete(kv.nonces,op.Nonce)
 		return res
 	}
+	shard:=key2shard(op.Key)
+	if _, exist := kv.shardNonces[shard]; exist {
+		if _, got := kv.shardNonces[shard][op.Nonce]; got {
+			//duplicate just fetch the result at once
+			res.Err = OK
+			return res
+		}
+	}
+	if _,ok:=kv.shardNonces[shard];!ok{
+		kv.shardNonces[shard]=map[int64]struct{}{}
+	}
+	kv.shardNonces[shard][op.Nonce]=struct{}{}
 	kv.kvMap.Put(op.Key, op.Value)
 	
 	res.Err = OK
@@ -164,6 +183,18 @@ func (kv *ShardKV) handleAppend(applyMsg *raft.ApplyMsg) OpResult {
 		delete(kv.nonces,op.Nonce)
 		return res
 	}
+	shard:=key2shard(op.Key)
+	if _, exist := kv.shardNonces[shard]; exist {
+		if _, got := kv.shardNonces[shard][op.Nonce]; got {
+			//duplicate just fetch the result at once
+			res.Err = OK
+			return res
+		}
+	}
+	if _,ok:=kv.shardNonces[shard];!ok{
+		kv.shardNonces[shard]=map[int64]struct{}{}
+	}
+	kv.shardNonces[shard][op.Nonce]=struct{}{}
 	kv.kvMap.Append(op.Key, op.Value)
 	res.Err = OK
 	return res
@@ -175,11 +206,14 @@ func(kv *ShardKV)handleGetShards(applyMsg *raft.ApplyMsg) OpResult {
 	reply:=GetShardsReply{
 		Data: make(map[int]map[string]string),
 		Err: OK,
+		ShardNonce: map[int]map[int64]struct{}{},
 	}
+	cp:=kv.copyShardNonce()
 	for _,shard:=range arg.Shards{
 		if kv.kvMap.HasShard(shard){
 			reply.Data[shard]=kv.kvMap.ExportShard(shard)
 		}
+		reply.ShardNonce[shard]=cp[shard]
 	}
 	var res =OpResult{
 		Err: reply.Err,
@@ -192,6 +226,9 @@ func(kv *ShardKV)handleInstallShards(applyMsg *raft.ApplyMsg) OpResult {
 	arg:=op.Data.(InstallShardArgs)
 	for s,m:=range arg.Data{
 		kv.kvMap.ImportShard(s,m)
+	}
+	for s,m:=range copyShardNonce2( arg.ShardNonce){
+		kv.shardNonces[s]=m
 	}
 	kv.config=arg.Config.Copy()
 	kv.configApplied=true

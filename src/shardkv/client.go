@@ -69,7 +69,7 @@ func (ck *Clerk) Get(key string) string {
 	args := GetArgs{}
 	args.Key = key
 	args.Nonce=nrand()
-	
+	ck.config = ck.sm.Query(-1)
 
 	for {
 		DPrintf("client sendout get %v with config %v",args,ck.config)
@@ -89,6 +89,7 @@ func (ck *Clerk) Get(key string) string {
 				// 	break
 				// }
 				// ... not ok, or ErrWrongLeader
+				time.Sleep(10 * time.Millisecond)
 			}
 		}
 		time.Sleep(100 * time.Millisecond)
@@ -109,7 +110,7 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	args.Value = value
 	args.Op = op
 	args.Nonce=nrand()
-	
+	ck.config = ck.sm.Query(-1)
 
 	for {
 		args.Num=ck.config.Num
@@ -128,6 +129,7 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 				// 	break
 				// }
 				// ... not ok, or ErrWrongLeader
+				time.Sleep(10 * time.Millisecond)
 			}
 		}
 		time.Sleep(100 * time.Millisecond)
@@ -145,6 +147,7 @@ func (ck *Clerk) Append(key string, value string) {
 
 func (ck *Clerk)GetShards(args* GetShardsArgs)*GetShardsReply{
 	reply:=GetShardsReply{}
+	ck.config = ck.sm.Query(-1)
 	DPrintf("client sendout getshards %v with config %v",args,ck.config)
 
 	for{
@@ -160,6 +163,7 @@ func (ck *Clerk)GetShards(args* GetShardsArgs)*GetShardsReply{
 				// 	return &reply
 				// }
 				// ... not ok, or ErrWrongLeader
+				time.Sleep(10 * time.Millisecond)
 			}
 		
 		time.Sleep(100 * time.Millisecond)
@@ -168,6 +172,7 @@ func (ck *Clerk)GetShards(args* GetShardsArgs)*GetShardsReply{
 func (ck *Clerk)InstallShards(args* InstallShardArgs)*InstallShardReply{
 	ck.config = ck.sm.Query(-1)
 	reply:=InstallShardReply{}
+	ck.config = ck.sm.Query(-1)
 	DPrintf("client sendout installshards %v with config %v",args,ck.config)
 
 	for{
@@ -186,6 +191,7 @@ func (ck *Clerk)InstallShards(args* InstallShardArgs)*InstallShardReply{
 					return &reply
 				}
 				// ... not ok, or ErrWrongLeader
+				time.Sleep(10 * time.Millisecond)
 			}
 		
 		time.Sleep(100 * time.Millisecond)

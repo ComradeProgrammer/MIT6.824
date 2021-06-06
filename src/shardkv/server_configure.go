@@ -111,11 +111,13 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 
 	var wg sync.WaitGroup
 	var allShardsGot =make(map[int]map[string]string)
+	var allShadNonce=make(map[int]map[int64]struct{})
 	for gid1,shards1:=range missingShards{
 		wg.Add(1)
 		var servers=make([]string,len(oldConfig.Groups[gid1]))
 		copy(servers,oldConfig.Groups[gid1])
 		go func(gid int,shards []int){
+			defer wg.Done()
 			kv.Lock()
 			client:=MakeClerk(kv.ctrlers,kv.make_end)
 			
@@ -137,9 +139,12 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 				for k,v:=range reply.Data{
 					allShardsGot[k]=v
 				}
+				for k,v:=range reply.ShardNonce{
+					allShadNonce[k]=v
+				}
 			}
 			kv.Unlock()
-			wg.Done()
+			
 		}(gid1,shards1)
 	}
 	wg.Wait()
@@ -165,11 +170,13 @@ func (kv *ShardKV)fetchMissingShard(oldConfig shardctrler.Config){
 	}
 	args2:=InstallShardArgs{
 		Data: allShardsGot,
+		ShardNonce: allShadNonce,
 		Num: kv.newConfig.Num,
-		Nonce:int64(ihash(fmt.Sprintf("gid-%d-fetch-%d",kv.gid,kv.newConfig.Num))),
+		Nonce:int64(ihash(fmt.Sprintf("gid-%d-fetch-%d",kv.gid,kv.newConfig.Num)))+int64(kv.newConfig.Num)<<32,
 		Servers: us,
 		Config: kv.newConfig.Copy(),
 	}
+	DPrintf("kvserver %d-%d  missing ALL Shard fetched,args is %v ,current state %s \n",kv.gid,kv.me,args2,kv)
 	client:=MakeClerk(kv.ctrlers,kv.make_end)	
 	kv.Unlock()
 

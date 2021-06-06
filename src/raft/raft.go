@@ -104,7 +104,7 @@ type Raft struct {
 @attention requires lock before being called
 @attention this function will EXTREMELY affect the performance due to %v invokes marshal of raft opbject,
 and if marshaling the raft object is involved with -race, it will be very time-consuming
-make sure marshaling part of this function won't be called when your performance is being tested 
+make sure marshaling part of this function won't be called when your performance is being tested
 */
 func (rf *Raft) String() string {
 	if DEBUG {
@@ -119,7 +119,7 @@ func (rf *Raft) String() string {
 		}
 		return fmt.Sprintf("{\n\tme:%d, state:%s, currentTerm:%d, votedFor:%d, timerExpired:%v, votesGoted:%d, commitIndex:%d, lastApplied:%d,currentSnapshot:%d\n"+
 			"\tlogs:%s,\n\tnextIndex:%v,\n\t matchIndex:%v\n\t}",
-			rf.me, state, rf.currentTerm, rf.votedFor, rf.timerExpired, rf.votesGoted, rf.commitIndex, rf.lastApplied,len(rf.currentSnapShot), rf.log.String(), rf.nextIndex, rf.matchIndex)
+			rf.me, state, rf.currentTerm, rf.votedFor, rf.timerExpired, rf.votesGoted, rf.commitIndex, rf.lastApplied, len(rf.currentSnapShot), rf.log.String(), rf.nextIndex, rf.matchIndex)
 	} else {
 		return ""
 	}
@@ -333,7 +333,7 @@ func (rf *Raft) leaderTicker(term int) {
 @attention will cause some changes to persistent state, thus persist() will be called
 */
 func (rf *Raft) startElection() bool {
-	for !rf.killed(){
+	for !rf.killed() {
 		//step0 convert to candidate
 		rf.state = CANDIDATE
 		//step 1 increment current term
@@ -420,7 +420,7 @@ func (rf *Raft) applyLog(index int) {
 func (rf *Raft) applyTicker() {
 	for rf.killed() == false {
 		m := rf.applyMsgQueue.PopFront()
-		fmt.Printf("send to apply channel%v\n",m)
+		//fmt.Printf("send to apply channel%v\n",m)
 		rf.applyCh <- m
 	}
 }
@@ -459,7 +459,7 @@ func Make(peers []*labrpc.ClientEnd, me int,
 	rf.applyMsgQueue = NewThreadSafeQueue()
 	// initialize from state persisted before a crash
 	rf.readPersist(persister.ReadRaftState())
-	rf.currentSnapShot=rf.persister.ReadSnapshot()
+	rf.currentSnapShot = rf.persister.ReadSnapshot()
 
 	// start ticker goroutine to start elections
 	go rf.ticker()
