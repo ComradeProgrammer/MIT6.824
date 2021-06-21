@@ -2,6 +2,7 @@
 本仓库是对2021年春季学期MIT6.824分布式系统的公开课的大作业的实现<br>
 课程网站 https://pdos.csail.mit.edu/6.824/index.html <br>
 仓库中有课程全部lab 的实现，具体内容如下：
+(lab4b有一点小小小小的BUG，大概是goroutine泄露，不过感觉问题应该不算太大)
 - LAB1 一个简易的MapReduce的实现 <br>
 lab1具体要求： https://pdos.csail.mit.edu/6.824/labs/lab-mr.html
 - LAB2A 简易RAFT协议的实现（Leader 选举部分）
