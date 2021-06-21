@@ -21,6 +21,7 @@ lab4具体要求 https://pdos.csail.mit.edu/6.824/labs/lab-shard.html<br><br>
 
 依照课程要求，仓库中全部lab由Golang语言实现
 
-对每个lab的实现的手记与心得会在下方补全
+这门课的理论部分的笔记会陆续更新到知乎上（欢迎来看）引流.jpg
+https://www.zhihu.com/people/zhuan-zhi-ge-chong-bu-fu-89
 
 但是强烈不推荐还没开始写代码的人先阅览本仓库内容。自己从头到尾完全依靠自己的力量完成这一切是会让自己收获最大的·
